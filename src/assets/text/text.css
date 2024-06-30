@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "MiSans";
+    src: url('./Mifont.woff2');
+    
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "ErrorSans";
+    src: url('./Error.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
