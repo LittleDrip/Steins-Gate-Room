@@ -37,10 +37,10 @@ const getList = async () => {
 
 const handleMusic = async () => {
   await getList();
-  findMusicUrlsByIds(ids);
+  await findMusicUrlsByIds(ids);
 };
-onMounted(() => {
-  handleMusic();
+onMounted(async () => {
+  await handleMusic();
   musicStore.setListInfo(ListInfo.value);
   musicStore.setMusicInfo(MusicURL.value);
 });
@@ -48,9 +48,9 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-button type="primaty" @click="handleMusic()"></el-button>
+    <!-- <el-button type="primaty" @click="handleMusic()"></el-button>
     {{ ListInfo }}
-    {{ MusicURL }}
+    {{ MusicURL }} -->
   </div>
 </template>
 

@@ -4,16 +4,61 @@ import RightIcon from "@/assets/img/play/RightIcon.png";
 import MidIcon2 from "@/assets/img/play/MidIcon2.png";
 import Mid2 from "@/assets/img/play/Mid2.png";
 import FakeBg from "@/assets/img/bg/FakeBg.png";
-import { ref, watch, watchEffect } from "vue";
+import { useMusicInfoStore } from "@/stores/MusicInfo";
+const musicStore = useMusicInfoStore();
+import { onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+const isPlaying = ref(false);
+const isChangePlaying = ref(false);
 
+const hasEmitted = ref(false);
+let audio: any = null;
+let currentSongIndex = 0;
 const emits = defineEmits(["FatherClick"]);
 const handleClick = () => {
   emits("FatherClick");
+  console.log(123);
+  if (isPlaying.value) {
+    audio.pause();
+  } else {
+    audio.play();
+  }
+  isPlaying.value = !isPlaying.value;
 };
+const playNextSong = () => {
+  isChangePlaying.value = true;
+  isPlaying.value = true;
+  currentSongIndex = (currentSongIndex + 1) % musicStore.MusicURL.length; // 循环播放
+  audio.src = musicStore.MusicURL[currentSongIndex].url;
+  audio.play();
+};
+const playPreviousSong = () => {
+  isChangePlaying.value = true;
+  isPlaying.value = true;
+  currentSongIndex =
+    (currentSongIndex - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
+  audio.src = musicStore.MusicURL[currentSongIndex].url;
+  audio.play();
+};
+
 const showPre = ref(false);
 
 watchEffect(() => {
+  if (isChangePlaying.value && !hasEmitted.value) {
+    emits("FatherClick");
+    hasEmitted.value = true;
+  }
   console.log(showPre);
+});
+onMounted(() => {
+  console.log(musicStore.MusicURL[currentSongIndex].url);
+  audio = new Audio(musicStore.MusicURL[currentSongIndex].url);
+  audio.addEventListener("ended", playNextSong); // 监听音频结束事件
+});
+
+onUnmounted(() => {
+  audio.pause();
+  audio.removeEventListener("ended", playNextSong); // 移除监听器
+  audio = null;
 });
 </script>
 
@@ -23,11 +68,16 @@ watchEffect(() => {
 
   <div class="play" style="text-align: center">
     <div v-if="showPre == true" class="pre">上一首</div>
-    <img :src="LeftIcon" alt="" @mouseover="showPre = true" @mouseleave="showPre = false" />
+    <img
+      @click="playPreviousSong"
+      :src="LeftIcon"
+      alt=""
+      @mouseover="showPre = true"
+      @mouseleave="showPre = false" />
 
     <img :src="MidIcon2" alt="" @click="handleClick" style="width: 100px" />
 
-    <img :src="RightIcon" alt="" />
+    <img @click="playNextSong" :src="RightIcon" alt="" />
   </div>
 </template>
 

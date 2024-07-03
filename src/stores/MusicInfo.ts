@@ -8,8 +8,8 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
     function setListInfo(newInfo: any) {
         ListInfo.value = newInfo;
     }
-    function setMusicInfo(newInfo: any) {
-        MusicURL.value = newInfo;
+    function setMusicInfo(newInfo2: any) {
+        MusicURL.value = newInfo2;
     }
     function removeAll() {
         ListInfo.value = {};
