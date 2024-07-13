@@ -6,52 +6,86 @@ import Mid2 from "@/assets/img/play/Mid2.png";
 import FakeBg from "@/assets/img/bg/FakeBg.png";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 const musicStore = useMusicInfoStore();
-import { onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 const isPlaying = ref(false);
 const isChangePlaying = ref(false);
-
 const hasEmitted = ref(false);
 let audio: any = null;
-let currentSongIndex = 0;
+let currentSongIndex = ref(0);
 const emits = defineEmits(["FatherClick"]);
+
+let currentInfo = computed(() => ({
+  name: musicStore.ListInfo[currentSongIndex.value].name,
+  picUrl: musicStore.ListInfo[currentSongIndex.value].picUrl,
+  author: musicStore.ListInfo[currentSongIndex.value].author,
+  url: musicStore.MusicURL[currentSongIndex.value].url,
+  time: musicStore.MusicURL[currentSongIndex.value].time,
+}));
 const handleClick = () => {
   emits("FatherClick");
-  console.log(123);
   if (isPlaying.value) {
     audio.pause();
   } else {
     audio.play();
   }
   isPlaying.value = !isPlaying.value;
+  if (isChangePlaying.value == true) {
+    isChangePlaying.value = false;
+  }
 };
 const playNextSong = () => {
-  isChangePlaying.value = true;
-  isPlaying.value = true;
-  currentSongIndex = (currentSongIndex + 1) % musicStore.MusicURL.length; // 循环播放
-  audio.src = musicStore.MusicURL[currentSongIndex].url;
-  audio.play();
+  if (isPlaying.value == true) {
+    currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.MusicURL.length; // 循环播放
+    audio.src = musicStore.MusicURL[currentSongIndex.value].url;
+    musicStore.setCurrentInfo(currentInfo.value);
+    // console.log(currentInfo.value);
+    audio.play();
+  } else {
+    isPlaying.value = true;
+    currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.MusicURL.length; // 循环播放
+    audio.src = musicStore.MusicURL[currentSongIndex.value].url;
+    musicStore.setCurrentInfo(currentInfo.value);
+    // console.log(currentInfo.value);
+    audio.play();
+    emits("FatherClick");
+  }
+  // isChangePlaying.value = true;
+  //
 };
 const playPreviousSong = () => {
-  isChangePlaying.value = true;
-  isPlaying.value = true;
-  currentSongIndex =
-    (currentSongIndex - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
-  audio.src = musicStore.MusicURL[currentSongIndex].url;
-  audio.play();
+  if (isPlaying.value == true) {
+    currentSongIndex.value =
+      (currentSongIndex.value - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
+    audio.src = musicStore.MusicURL[currentSongIndex.value].url;
+    musicStore.setCurrentInfo(currentInfo.value);
+    console.log(currentInfo.value);
+    audio.play();
+  } else {
+    isPlaying.value = true;
+    console.log(currentSongIndex.value);
+    currentSongIndex.value =
+      (currentSongIndex.value - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
+    audio.src = musicStore.MusicURL[currentSongIndex.value].url;
+    musicStore.setCurrentInfo(currentInfo.value);
+    console.log(currentInfo.value);
+    audio.play();
+    emits("FatherClick");
+  }
 };
 
 const showPre = ref(false);
+const showPre1 = ref(false);
+const showPre2 = ref(false);
 
-watchEffect(() => {
-  if (isChangePlaying.value && !hasEmitted.value) {
-    emits("FatherClick");
-    hasEmitted.value = true;
-  }
-  console.log(showPre);
+watch(showPre, () => {
+  console.log(showPre.value);
 });
+
 onMounted(() => {
-  console.log(musicStore.MusicURL[currentSongIndex].url);
-  audio = new Audio(musicStore.MusicURL[currentSongIndex].url);
+  // console.log(musicStore.MusicURL[currentSongIndex].url);
+  musicStore.setCurrentInfo(currentInfo.value);
+  // console.log(currentInfo.value);
+  audio = new Audio(musicStore.MusicURL[currentSongIndex.value].url);
   audio.addEventListener("ended", playNextSong); // 监听音频结束事件
 });
 
@@ -63,11 +97,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <img class="fakeBg" :src="FakeBg" alt="" />
-  <img class="fakeBg2" :src="FakeBg" alt="" />
+  <transition name="fade">
+    <div v-if="showPre == true" class="pre">上一首</div>
+  </transition>
+  <transition name="fade">
+    <div v-if="showPre1 == true" class="playing">播放</div>
+  </transition>
+  <transition name="fade">
+    <div v-if="showPre2 == true" class="next">下一首</div>
+  </transition>
+  <img class="fakeBg" :src="FakeBg" alt="" style="cursor: pointer" />
+  <img class="fakeBg2" :src="FakeBg" alt="" style="cursor: pointer" p />
 
   <div class="play" style="text-align: center">
-    <div v-if="showPre == true" class="pre">上一首</div>
     <img
       @click="playPreviousSong"
       :src="LeftIcon"
@@ -75,9 +117,20 @@ onUnmounted(() => {
       @mouseover="showPre = true"
       @mouseleave="showPre = false" />
 
-    <img :src="MidIcon2" alt="" @click="handleClick" style="width: 100px" />
+    <img
+      :src="MidIcon2"
+      alt=""
+      @click="handleClick"
+      style="width: 100px"
+      @mouseover="showPre1 = true"
+      @mouseleave="showPre1 = false" />
 
-    <img @click="playNextSong" :src="RightIcon" alt="" />
+    <img
+      @click="playNextSong"
+      :src="RightIcon"
+      alt=""
+      @mouseover="showPre2 = true"
+      @mouseleave="showPre2 = false" />
   </div>
 </template>
 
@@ -105,6 +158,7 @@ onUnmounted(() => {
 }
 
 .play {
+  cursor: pointer;
   margin-left: -5px;
   display: flex;
   justify-content: center;
@@ -118,18 +172,52 @@ onUnmounted(() => {
   transition: transform 0.05s ease; /* 过渡动画 */
 }
 .play img:hover {
-  transform: scale(1.15); /* 放大比例 */
+  transform: scale(1.15);
+  /* 放大比例 */
 }
 .pre {
-  position: absolute; /* 设置为绝对定位 */
-  top: 50%;
-  left: 50%;
-  width: 1231px;
-  transform: translate(-50%, -50%); /* 使用 transform 居中 */
-  display: none; /* 默认隐藏 */
-  background-color: rgba(0, 0, 0, 0.7); /* 设置背景颜色 */
-  color: rgb(203, 0, 0); /* 设置文字颜色 */
-  padding: 5px 10px; /* 设置内边距 */
-  border-radius: 5px; /* 设置圆角 */
+  position: absolute;
+  padding: 5px 10px;
+  color: #ffffff;
+  top: 340px;
+  left: 565px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #0e1112;
+  transform: translateY(-50%);
+}
+.playing {
+  position: absolute;
+  padding: 5px 10px;
+  color: #ffffff;
+  top: 340px;
+  left: 700px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #0e1112;
+  transform: translateY(-50%);
+}
+.next {
+  position: absolute;
+  padding: 5px 10px;
+  color: #ffffff;
+  top: 340px;
+  left: 815px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #0e1112;
+  transform: translateY(-50%);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 </style>

@@ -3,17 +3,37 @@ import bg from "@/assets/img/bg/Steins4.png";
 import dish from "@/assets/img/dish.png";
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
-
+import { useMusicInfoStore } from "@/stores/MusicInfo";
+const musicStore = useMusicInfoStore();
+let roomName = ref("未来道具研究所");
+const currentInfo = computed(() => {
+  return musicStore.getCurrentInfo();
+});
+let musicName = computed(() => {
+  return currentInfo.value.name;
+});
+let author = computed(() => {
+  return currentInfo.value.author;
+});
+let picUrl = computed(() => {
+  return currentInfo.value.picUrl;
+});
+let time = computed(() => {
+  return currentInfo.value.time;
+});
 const FatherClick = () => {
   rotateImage();
   toggleRotation();
 };
-import { onMounted, ref, watch } from "vue";
+// --------------
+
+// ------------
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 /**
  * 接受后端参数，判断是否有人播放，然后调用函数
  */
 let isPlay = ref(false);
-
+let picSrc = ref("https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png");
 const angle = ref(-10); // 旋转角度，初始为0
 const isRotating = ref(false); // 标记是否正在旋转
 const FirstClick = ref(true);
@@ -22,7 +42,6 @@ const rotateImage = () => {
     isRotating.value = true;
     angle.value += 20; // 每次点击旋转30度
     isPlay.value = true;
-
     setTimeout(() => {
       isRotating.value = true;
       FirstClick.value = false;
@@ -76,7 +95,23 @@ onMounted(() => {
   </div>
   <div class="content">
     <div class="header" style="text-align: center; margin-top: 20px">
-      <h1 style="color: #fff; font-size: 40px; text-align: center">未来道具研究所</h1>
+      <h1 style="color: #4b5969; font-size: 40px; text-align: center">
+        {{ roomName
+        }}<span
+          style="
+            display: inline-block;
+            text-align: center;
+            color: #4b5969;
+            font-size: 15px;
+            transform: translateY(-100%);
+          "
+          >(1/6)</span
+        >
+      </h1>
+      <h3 class="title2" style="color: #4b5969; font-size: 25px; text-align: center">
+        {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span
+        ><span style="color: #6c7f92; font-size: 18px">{{ author }}</span>
+      </h3>
     </div>
     <div class="middle" style="text-align: center; margin-top: 40px">
       <img
@@ -92,7 +127,7 @@ onMounted(() => {
           transform: isRotating2 ? `rotate(${rotateAngle}deg)` : `rotate(${rotateAngle}deg)`,
         }"
         :class="{ rotating: isRotating2 }"
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+        :src="picUrl" />
 
       <img :src="dish" alt="" style="width: 260px" />
       <Play style="margin-top: -40px" @FatherClick="FatherClick" />
@@ -113,10 +148,14 @@ onMounted(() => {
   overflow: hidden;
   position: absolute;
   top: 0;
+  opacity: 0.95;
   z-index: -100;
 }
 .bg img {
   width: 100%;
+}
+.content {
+  font-family: "ErrorSans";
 }
 .pole {
   position: absolute;
@@ -133,5 +172,9 @@ onMounted(() => {
   position: absolute;
   margin-top: 47px;
   margin-left: 48px;
+}
+.title2 {
+  font-weight: 2;
+  margin-top: 7px;
 }
 </style>

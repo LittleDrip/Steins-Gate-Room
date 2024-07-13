@@ -46,12 +46,6 @@ onMounted(async () => {
 });
 </script>
 
-<template>
-  <div>
-    <!-- <el-button type="primaty" @click="handleMusic()"></el-button>
-    {{ ListInfo }}
-    {{ MusicURL }} -->
-  </div>
-</template>
+<template></template>
 
 <style scoped></style>

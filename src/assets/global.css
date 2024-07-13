@@ -1,5 +1,5 @@
 /* 全局样式表 */
-
+@import "../assets/text/text.css";
 
 *,
 *:after,
@@ -91,7 +91,6 @@ mark,
 audio,
 video {
     font-size: 100% ;
-    font-family: "MiSans";
     margin: 0;
     padding: 0;
 

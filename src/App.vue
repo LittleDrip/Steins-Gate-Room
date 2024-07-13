@@ -1,18 +1,28 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import Play from "@/components/Music/Play.vue";
+import { useMusicInfoStore } from "@/stores/MusicInfo";
 import MusicList from "@/components/MusicForGet/MusicList.vue";
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
+const musicStore = useMusicInfoStore();
 const isMusicListLoaded = ref(false);
 setTimeout(() => {
-  isMusicListLoaded.value = true;
+  // console.log(1);
+  if (musicStore.MusicURL[0].id != "") {
+    isMusicListLoaded.value = true;
+    console.log(musicStore.MusicURL[0].id);
+  } else {
+    setTimeout(() => {
+      console.log("加载中");
+      isMusicListLoaded.value = true;
+    }, 500);
+  }
 }, 500); // 模拟初始化完成的时间，实际情况根据需求调整
 </script>
 
 <template>
   <MusicList />
   <RouterView v-if="isMusicListLoaded" />
-  <!-- <Play /> -->
+  <!-- <Link /> -->
 </template>
 
 <style scoped></style>

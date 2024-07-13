@@ -1,7 +1,7 @@
 import request from "@/utils/request.ts";
 
 export const getMusicList = () => {
-    return request.get("/playlist/track/all?id=327707910&limit=27&offset=2");
+    return request.get("/playlist/track/all?id=327707910&limit=25&offset=0");
 
 }
 export const getMusicDetail = (id: any) => {
@@ -12,3 +12,4 @@ export const getMoreMusicDetail = (ids: number[]) => {
     // console.log(`/song/url/v1?id=${ids}&level=higher`);
     return request.get(`/song/url/v1?id=${idParam}&level=higher`);
 }
+

@@ -10,6 +10,7 @@ declare module 'vue' {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElImage: typeof import('element-plus/es')['ElImage']
+    Link: typeof import('./src/components/Else/link.vue')['default']
     MusicList: typeof import('./src/components/MusicForGet/MusicList.vue')['default']
     Play: typeof import('./src/components/Music/Play.vue')['default']
     PlayMusic: typeof import('./src/components/MusicForGet/PlayMusic.vue')['default']
