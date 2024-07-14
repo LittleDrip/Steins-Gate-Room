@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import bg from "@/assets/img/bg/Steins4.png";
 import dish from "@/assets/img/dish.png";
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
+import { updateRoom, getAssetsFile } from '@/utils/selector';
+import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 const musicStore = useMusicInfoStore();
-let roomName = ref("未来道具研究所");
+const route = useRoute();
+let roomName = ref(updateRoom(route.query.id));
+
 const currentInfo = computed(() => {
   return musicStore.getCurrentInfo();
 });
@@ -28,12 +32,11 @@ const FatherClick = () => {
 // --------------
 
 // ------------
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+
 /**
  * 接受后端参数，判断是否有人播放，然后调用函数
  */
 let isPlay = ref(false);
-let picSrc = ref("https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png");
 const angle = ref(-10); // 旋转角度，初始为0
 const isRotating = ref(false); // 标记是否正在旋转
 const FirstClick = ref(true);
@@ -90,46 +93,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg">
+  <!-- <div class="bg">
     <img :src="bg" />
+  </div> -->
+  <div class="bg">
+    <img :src="getAssetsFile(route.query.id)" />
   </div>
   <div class="content">
     <div class="header" style="text-align: center; margin-top: 20px">
       <h1 style="color: #4b5969; font-size: 40px; text-align: center">
         {{ roomName
-        }}<span
-          style="
+        }}<span style="
             display: inline-block;
             text-align: center;
             color: #4b5969;
             font-size: 15px;
             transform: translateY(-100%);
-          "
-          >(1/6)</span
-        >
+          ">(1/6)</span>
       </h1>
       <h3 class="title2" style="color: #4b5969; font-size: 25px; text-align: center">
-        {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span
-        ><span style="color: #6c7f92; font-size: 18px">{{ author }}</span>
+        {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span><span
+          style="color: #6c7f92; font-size: 18px">{{ author }}</span>
       </h3>
     </div>
     <div class="middle" style="text-align: center; margin-top: 40px">
-      <img
-        :src="pole"
-        class="pole"
-        style="width: 140px"
-        :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }"
-        :class="{ rotate: isRotating }" />
-      <el-avatar
-        :size="165"
-        class="dish_avatar"
-        :style="{
-          transform: isRotating2 ? `rotate(${rotateAngle}deg)` : `rotate(${rotateAngle}deg)`,
-        }"
-        :class="{ rotating: isRotating2 }"
-        :src="picUrl" />
+      <img @dragstart.prevent :src="pole" class="pole" style="width: 140px"
+        :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }" :class="{ rotate: isRotating }" />
+      <el-avatar :size="165" class="dish_avatar" :style="{
+        transform: isRotating2 ? `rotate(${rotateAngle}deg)` : `rotate(${rotateAngle}deg)`,
+      }" :class="{ rotating: isRotating2 }" :src="picUrl" />
 
-      <img :src="dish" alt="" style="width: 260px" />
+      <img @dragstart.prevent :src="dish" alt="" style="width: 260px" />
       <Play style="margin-top: -40px" @FatherClick="FatherClick" />
       <!-- <button
         @click="
@@ -151,28 +145,38 @@ onMounted(() => {
   opacity: 0.95;
   z-index: -100;
 }
+
 .bg img {
   width: 100%;
 }
+
 .content {
   font-family: "ErrorSans";
+  -webkit-user-drag: none;
+
 }
+
 .pole {
   position: absolute;
   margin-top: -20px;
   margin-left: 130px;
 }
+
 .rotate {
-  transition: transform 0.5s ease-in-out; /* 添加旋转动画效果 */
+  transition: transform 0.5s ease-in-out;
+  /* 添加旋转动画效果 */
 }
+
 .rotating {
   transition: transform 0.0000000001s ease-in-out;
 }
+
 .dish_avatar {
   position: absolute;
   margin-top: 47px;
   margin-left: 48px;
 }
+
 .title2 {
   font-weight: 2;
   margin-top: 7px;

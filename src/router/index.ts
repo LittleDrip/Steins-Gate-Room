@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/',
       name: 'portal',
       component: () => import("@/views/PortalView.vue")
+    },
+    {
+      path: '/hall',
+      name: 'roomlist',
+      component: () => import("@/views/ShowRoomsView.vue")
     }
   ]
 })

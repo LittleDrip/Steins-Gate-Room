@@ -6,10 +6,9 @@ import { onMounted, onUnmounted, ref } from "vue";
 const musicStore = useMusicInfoStore();
 const isMusicListLoaded = ref(false);
 setTimeout(() => {
-  // console.log(1);
   if (musicStore.MusicURL[0].id != "") {
     isMusicListLoaded.value = true;
-    console.log(musicStore.MusicURL[0].id);
+    // console.log(musicStore.MusicURL[0].id);
   } else {
     setTimeout(() => {
       console.log("加载中");
@@ -20,8 +19,11 @@ setTimeout(() => {
 </script>
 
 <template>
-  <MusicList />
-  <RouterView v-if="isMusicListLoaded" />
+
+  <div>
+    <MusicList />
+    <router-view v-if="isMusicListLoaded" />
+  </div>
   <!-- <Link /> -->
 </template>
 

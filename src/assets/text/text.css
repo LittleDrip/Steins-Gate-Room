@@ -11,3 +11,9 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: "EvaSans";
+    src: url('./EvaSans.woff');
+    font-weight: normal;
+    font-style: normal;
+}

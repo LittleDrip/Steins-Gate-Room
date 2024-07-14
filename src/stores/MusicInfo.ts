@@ -25,5 +25,5 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
         ListInfo.value = {};
         MusicURL.value = {};
     }
-    return { ListInfo, MusicURL, setListInfo, setMusicInfo, removeAll, setCurrentInfo, getCurrentInfo }
+    return { ListInfo, MusicURL, currentInfo, setListInfo, setMusicInfo, removeAll, setCurrentInfo, getCurrentInfo }
 })

@@ -58,16 +58,16 @@ const playPreviousSong = () => {
       (currentSongIndex.value - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
     audio.src = musicStore.MusicURL[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
-    console.log(currentInfo.value);
+
     audio.play();
   } else {
     isPlaying.value = true;
-    console.log(currentSongIndex.value);
+
     currentSongIndex.value =
       (currentSongIndex.value - 1 + musicStore.MusicURL.length) % musicStore.MusicURL.length;
     audio.src = musicStore.MusicURL[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
-    console.log(currentInfo.value);
+
     audio.play();
     emits("FatherClick");
   }
@@ -77,9 +77,7 @@ const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
 
-watch(showPre, () => {
-  console.log(showPre.value);
-});
+
 
 onMounted(() => {
   // console.log(musicStore.MusicURL[currentSongIndex].url);
@@ -106,30 +104,17 @@ onUnmounted(() => {
   <transition name="fade">
     <div v-if="showPre2 == true" class="next">下一首</div>
   </transition>
-  <img class="fakeBg" :src="FakeBg" alt="" style="cursor: pointer" />
-  <img class="fakeBg2" :src="FakeBg" alt="" style="cursor: pointer" p />
+  <img @dragstart.prevent class="fakeBg" :src="FakeBg" alt="" style="cursor: pointer" />
+  <img @dragstart.prevent class="fakeBg2" :src="FakeBg" alt="" style="cursor: pointer" />
 
   <div class="play" style="text-align: center">
-    <img
-      @click="playPreviousSong"
-      :src="LeftIcon"
-      alt=""
-      @mouseover="showPre = true"
+    <img @dragstart.prevent @click="playPreviousSong" :src="LeftIcon" alt="" @mouseover="showPre = true"
       @mouseleave="showPre = false" />
 
-    <img
-      :src="MidIcon2"
-      alt=""
-      @click="handleClick"
-      style="width: 100px"
-      @mouseover="showPre1 = true"
-      @mouseleave="showPre1 = false" />
+    <img @dragstart.prevent :src="MidIcon2" alt="" @click="handleClick" style="width: 100px"
+      @mouseover="showPre1 = true" @mouseleave="showPre1 = false" />
 
-    <img
-      @click="playNextSong"
-      :src="RightIcon"
-      alt=""
-      @mouseover="showPre2 = true"
+    <img @dragstart.prevent @click="playNextSong" :src="RightIcon" alt="" @mouseover="showPre2 = true"
       @mouseleave="showPre2 = false" />
   </div>
 </template>
@@ -158,23 +143,28 @@ onUnmounted(() => {
 }
 
 .play {
-  cursor: pointer;
+
   margin-left: -5px;
   display: flex;
   justify-content: center;
 }
+
 .play img {
+  cursor: pointer;
   width: 60px;
   height: 100%;
   margin-right: 20px;
 
   margin-left: 20px;
-  transition: transform 0.05s ease; /* 过渡动画 */
+  transition: transform 0.05s ease;
+  /* 过渡动画 */
 }
+
 .play img:hover {
   transform: scale(1.15);
   /* 放大比例 */
 }
+
 .pre {
   position: absolute;
   padding: 5px 10px;
@@ -187,6 +177,7 @@ onUnmounted(() => {
   background-color: #0e1112;
   transform: translateY(-50%);
 }
+
 .playing {
   position: absolute;
   padding: 5px 10px;
@@ -199,6 +190,7 @@ onUnmounted(() => {
   background-color: #0e1112;
   transform: translateY(-50%);
 }
+
 .next {
   position: absolute;
   padding: 5px 10px;
@@ -211,10 +203,12 @@ onUnmounted(() => {
   background-color: #0e1112;
   transform: translateY(-50%);
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.4s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;

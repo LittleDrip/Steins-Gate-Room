@@ -1,27 +1,38 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import zhenyouli from "@/assets/img/people/zhenyouli.png";
-let portalName = ref("破石头门休息室");
+// import router from "@/router";
+import { useRouter } from "vue-router";
+import MusicList from "@/components/MusicForGet/MusicList.vue";
+const router = useRouter();
+const toPre = () => {
+  router.push("/hall");
+};
 </script>
 
 <template>
+  <MusicList />
   <div class="all" style="text-align: center">
     <div class="context" style="display: inline-block; font-size: 60px">
-      <p>石</p>
-      <p>头</p>
-      <p>门</p>
-      <p style="font-family: 'ErrorSans'">の</p>
-      <p>休息室</p>
+      <p>Steins</p>
+      <p>Gate</p>
+      <p>の</p>
+      <p>實驗室</p>
     </div>
-    <div><img :src="zhenyouli" alt="" width="100px" /></div>
+    <div style="font-size: 14px; margin-top: 2px">El Psy Kongroo</div>
+    <div style="margin-top: 20px"><img :src="zhenyouli" alt="" width="100px" /></div>
+    <button style="margin-top: 40px" class="button" @click="toPre()">进 入</button>
   </div>
 </template>
 
 <style scoped>
 @import "../assets/text/text.css";
+
 .all {
   font-weight: 550;
-  font-family: "MiSans";
+  /* font-family: "MiSans"; */
+  /* font-family: "ErrorSans"; */
+  font-family: "EvaSans";
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -30,10 +41,56 @@ let portalName = ref("破石头门休息室");
   z-index: -100;
   /* background: repeating-linear-gradient(25deg, #d1ac6b, #d1ac6b 20px, #d1ac6b 20px, #d1ac6b 40px); */
 }
+
 .context {
   margin-top: 80px;
 }
+
 p {
   margin-top: 20px;
+}
+
+.button {
+  width: 250px;
+  height: 60px;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 24px;
+  font-size: 22px;
+  color: white;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 34px;
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  border-radius: inherit;
+  scale: 0;
+  z-index: -1;
+  background-color: rgba(250, 222, 112, 0.66);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.button:hover::before {
+  scale: 3;
+}
+
+.button:hover {
+  color: #000000;
+  scale: 1.1;
+  /* box-shadow: 20 20px 20px rgba(0, 0, 0, 0.4); */
+}
+
+.button:active {
+  scale: 1;
 }
 </style>
