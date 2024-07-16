@@ -3,20 +3,26 @@ import Aside from '@/components/Aside/aside.vue';
 import { RouterLink, RouterView } from "vue-router";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import MusicList from "@/components/MusicForGet/MusicList.vue";
+import Test from '@/components/Else/Test.vue';
 import { onMounted, onUnmounted, ref } from "vue";
 const musicStore = useMusicInfoStore();
 const isMusicListLoaded = ref(false);
+
+const musicListLoaded = ref(false);
+
+
+
 setTimeout(() => {
-  if (musicStore.MusicURL[0].id != "") {
+  if (musicStore.ListInfo[0].id != "") {
     isMusicListLoaded.value = true;
-    // console.log(musicStore.MusicURL[0].id);
+
   } else {
     setTimeout(() => {
       console.log("加载中");
       isMusicListLoaded.value = true;
-    }, 500);
+    }, 0);
   }
-}, 500); // 模拟初始化完成的时间，实际情况根据需求调整
+}, 0); // 模拟初始化完成的时间，实际情况根据需求调整
 </script>
 
 <template>
@@ -24,7 +30,10 @@ setTimeout(() => {
   <div>
     <MusicList />
     <router-view v-if="isMusicListLoaded" />
-    <!-- <Aside /> -->
+
+
+    <!-- <Aside />-->
+    <Test />
   </div>
   <!-- <Link /> -->
 </template>

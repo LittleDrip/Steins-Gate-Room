@@ -3,8 +3,9 @@ import cola from '@/assets/img/aside/cola.png';
 import banana from '@/assets/img/aside/banana.png';
 import microwave from '@/assets/img/aside/microwave.png';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
+import { useStatusInfo } from '@/stores/StatusInfo';
 const musicInfoStore = useMusicInfoStore();
-
+const StatusInfo = useStatusInfo();
 import { ref } from 'vue';
 const drawer = ref(false)
 const showPre = ref(false);
@@ -53,14 +54,21 @@ const formatDuration = (milliseconds: any) => {
             <div v-if="showPre2 == true" class="about">关于</div>
         </transition>
     </div>
-    <div class="drawer">
-        <el-drawer v-model="drawer" :with-header="false" direction="rtl" :before-close="handleClose" style="">
 
-            <div class="music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
-                style="margin-top: 12px;">
-                <el-container style="height: 100px;">
+    <div class="drawer">
+
+        <el-drawer v-model="drawer" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
+            <button style="width: 200px;">
+                <span style="font-size: 20px;color: #666;">播放列表</span>
+            </button>
+            <button style="margin-left: 20px; width: 200px;">
+                <span style="font-size: 20px;color: #666;">添加歌曲</span>
+            </button>
+            <div class=" music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
+                style="margin-top: 12px;" :class="{ 'highlight': index === StatusInfo.currentSongIndex }">
+                <el-container style="height: 100px;width: auto;">
                     <el-aside width="110px" style="overflow: hidden;">
-                        <img :src="item.picUrl" class="coverImg"></img>
+                        <img :src="item.picUrl" class="coverImg" loading="lazy"></img>
                     </el-aside>
                     <el-main style="overflow: hidden;">
                         <div class="main">
@@ -78,6 +86,8 @@ const formatDuration = (milliseconds: any) => {
 </template>
 
 <style scoped>
+@import "../../assets//css/button.css";
+
 .all {
     width: 100px;
     position: absolute;
@@ -172,6 +182,7 @@ const formatDuration = (milliseconds: any) => {
 }
 
 .main {
+    width: 200px;
     margin-top: -16px;
     font-weight: normal;
 }
@@ -189,10 +200,15 @@ const formatDuration = (milliseconds: any) => {
 
 
 .music-item {
-    border-radius: 6px
+    border-radius: 6px;
+    /* width: 450px; */
 }
 
 .music-item:hover {
     background-color: pink;
+}
+
+.highlight {
+    background-color: #e6e6e6;
 }
 </style>

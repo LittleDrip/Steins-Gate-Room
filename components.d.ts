@@ -17,6 +17,8 @@ declare module 'vue' {
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElRow: typeof import('element-plus/es')['ElRow']
     Link: typeof import('./src/components/Else/link.vue')['default']
     MusicList: typeof import('./src/components/MusicForGet/MusicList.vue')['default']
@@ -25,5 +27,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SongDetail: typeof import('./src/components/MusicForGet/SongDetail.vue')['default']
+    Test: typeof import('./src/components/Else/Test.vue')['default']
   }
 }

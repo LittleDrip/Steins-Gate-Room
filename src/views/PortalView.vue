@@ -19,16 +19,18 @@ const toPre = () => {
       <p>の</p>
       <p>實驗室</p>
     </div>
-    <div style="font-size: 14px; margin-top: 2px">El Psy Kongroo</div>
+    <div style="font-size: 14px; margin-top: 6px">El Psy Kongroo</div>
     <div style="margin-top: 20px"><img :src="zhenyouli" alt="" width="100px" /></div>
-    <button style="margin-top: 40px" class="button" @click="toPre()">进 入</button>
+    <button style="margin-top: 40px;color: #000;" class="button" @click="toPre()">进 入</button>
   </div>
 </template>
 
 <style scoped>
 @import "../assets/text/text.css";
 
+
 .all {
+  background: url(../assets/img/bg/portalBg.jpg);
   font-weight: 550;
   /* font-family: "MiSans"; */
   /* font-family: "ErrorSans"; */
@@ -76,7 +78,7 @@ p {
   border-radius: inherit;
   scale: 0;
   z-index: -1;
-  background-color: rgba(250, 222, 112, 0.66);
+  background-color: rgba(255, 248, 220, 0.585);
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 

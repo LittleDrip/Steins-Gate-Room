@@ -3,17 +3,14 @@ import { defineStore } from 'pinia'
 
 export const useMusicInfoStore = defineStore('musicInfo', () => {
 
-    let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", time: "" }]);
-    let MusicURL: any = ref([{ id: "", url: "" }]);
+    let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", time: "", url: "" }]);
     let currentInfo: any = ref({
         name: "", picUrl: "", author: "", url: "", time: ""
     })
     function setListInfo(newInfo: any) {
         ListInfo.value = newInfo;
     }
-    function setMusicInfo(newInfo2: any) {
-        MusicURL.value = newInfo2;
-    }
+
     function setCurrentInfo(newInfo: any) {
         currentInfo.value = newInfo;
     }
@@ -23,7 +20,6 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
 
     function removeAll() {
         ListInfo.value = {};
-        MusicURL.value = {};
     }
-    return { ListInfo, MusicURL, currentInfo, setListInfo, setMusicInfo, removeAll, setCurrentInfo, getCurrentInfo }
+    return { ListInfo, currentInfo, setListInfo, removeAll, setCurrentInfo, getCurrentInfo }
 })

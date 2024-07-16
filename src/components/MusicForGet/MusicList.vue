@@ -1,26 +1,13 @@
 <script lang="ts" setup>
 import { getMusicList } from "@/api/music";
-import { getMusicDetail, getMoreMusicDetail } from "@/api/music";
-import { onMounted, reactive, ref } from "vue";
+import { getMusicDetail, } from "@/api/music";
+import { onMounted, ref } from "vue";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 const musicStore = useMusicInfoStore();
-let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "" }]);
-let MusicURL: any = ref([{ id: "", url: "" }]);
-let ids: any = null;
-const findMusicUrlsByIds = async (ids: any) => {
-  // 遍历需要查找的 id
-  try {
-    const res = await getMoreMusicDetail(ids);
-    const URLInfo = res.data.map((song: any) => ({
-      id: song.id,
-      url: song.url,
-    }));
-    MusicURL.value = URLInfo;
 
-  } catch (error) {
-    console.error("获取音乐 URL 失败:", error);
-  }
-};
+let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", url: "" }]);
+
+
 const getList = async () => {
   let res: any = await getMusicList();
   const songInfo = res.songs.map((song: any) => ({
@@ -28,21 +15,32 @@ const getList = async () => {
     name: song.name,
     picUrl: song.al.picUrl,
     author: song.ar[0].name, // 假设作者信息在 ar[0] 中
-    time: song.dt
+    time: song.dt,
+    url: "" // 初始值为空
   }));
-  ListInfo.value = songInfo; // 将处理后的数据赋值给 ref
-  ids = ListInfo.value.map((item: any) => item.id); // 使用 map 方法提取所有 idconsole.log(ids);
-  // console.log(ids);
+
+  // 使用 Promise.all 来并行获取每首歌的 URL
+  const songInfoWithUrl = await Promise.all(
+    songInfo.map(async (song: any) => {
+      const detailRes: any = await getMusicDetail(song.id);
+
+      return { ...song, url: detailRes.data[0].url };
+    })
+  );
+
+  ListInfo.value = songInfoWithUrl; // 将处理后的数据赋值给 ref
+  if (ListInfo.value.length > 0) {
+    musicStore.setCurrentInfo(ListInfo.value[0]); //第一个歌曲为当前歌曲
+  }
+
 };
 
 const handleMusic = async () => {
   await getList();
-  await findMusicUrlsByIds(ids);
 };
 onMounted(async () => {
   await handleMusic();
   musicStore.setListInfo(ListInfo.value);
-  musicStore.setMusicInfo(MusicURL.value);
 });
 </script>
 

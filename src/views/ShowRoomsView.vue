@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import hallBg from "@/assets/img/bg/HallBg.png";
 import bg1 from '@/assets/img/showBg/bg1.png';
 import bg2 from '@/assets/img/showBg/bg2.png';
 import bg3 from '@/assets/img/showBg/bg3.png';
@@ -15,9 +14,7 @@ const show = ref(true);
 
 <template>
   <div class="bg">
-    <img :src="hallBg"></img>
   </div>
-
   <div class="all">
     <div class="header">
       <img :src="logo" alt="" width="140px" style="transform:translateY(30%);" />
@@ -69,6 +66,7 @@ const show = ref(true);
 
 <style scoped>
 .bg {
+  background-color: #f1e5c6;
   width: 100%;
   height: 100%;
   overflow: hidden;
