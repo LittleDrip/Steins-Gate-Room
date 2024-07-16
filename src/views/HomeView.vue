@@ -2,6 +2,7 @@
 import dish from "@/assets/img/dish.png";
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
+import Aside from '@/components/Aside/aside.vue';
 import { updateRoom, getAssetsFile } from '@/utils/selector';
 import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
@@ -93,15 +94,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <div class="bg">
-    <img :src="bg" />
-  </div> -->
+  <Aside />
   <div class="bg">
     <img :src="getAssetsFile(route.query.id)" />
   </div>
+  <!--  -->
   <div class="content">
-    <div class="header" style="text-align: center; margin-top: 20px">
-      <h1 style="color: #4b5969; font-size: 40px; text-align: center">
+    <div class="header" style="text-align: center; margin-top: 15px">
+      <h1 style="color: #323232; font-size: 35px; text-align: center">
         {{ roomName
         }}<span style="
             display: inline-block;
@@ -109,14 +109,14 @@ onMounted(() => {
             color: #4b5969;
             font-size: 15px;
             transform: translateY(-100%);
-          ">(1/6)</span>
+          ">1</span>
       </h1>
-      <h3 class="title2" style="color: #4b5969; font-size: 25px; text-align: center">
+      <h3 class="title2" style="color: #4b5969; font-size: 24px; text-align: center">
         {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span><span
-          style="color: #6c7f92; font-size: 18px">{{ author }}</span>
+          style="color: #666; font-size: 18px">{{ author }}</span>
       </h3>
     </div>
-    <div class="middle" style="text-align: center; margin-top: 40px">
+    <div class="middle" style="text-align: center; margin-top: 20px">
       <img @dragstart.prevent :src="pole" class="pole" style="width: 140px"
         :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }" :class="{ rotate: isRotating }" />
       <el-avatar :size="165" class="dish_avatar" :style="{
@@ -124,14 +124,14 @@ onMounted(() => {
       }" :class="{ rotating: isRotating2 }" :src="picUrl" />
 
       <img @dragstart.prevent :src="dish" alt="" style="width: 260px" />
-      <Play style="margin-top: -40px" @FatherClick="FatherClick" />
-      <!-- <button
-        @click="
+      <Play @FatherClick="FatherClick" />
+
+      <!-- <button @click="
           rotateImage();
           toggleRotation();
         ">
         旋转
-      </button> -->
+        </button> -->
     </div>
   </div>
 </template>

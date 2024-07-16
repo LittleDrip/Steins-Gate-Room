@@ -17,9 +17,9 @@ export function updateRoom(id: any) {
 // 获取assets静态资源
 export const getAssetsFile = (id: any) => {
     if (id == 1) {
-        return new URL(`@/assets/img/bg/Steins4 .jpg`, import.meta.url).href
+        return new URL(`@/assets/img/bg/1_pc.jpg`, import.meta.url).href
     } else if (id == 2) {
-        return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
+        return new URL(`@/assets/img/bg/6_pc.jpg`, import.meta.url).href
     } else if (id == 3) {
         return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
     } else if (id == 4) {

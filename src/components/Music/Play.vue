@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import LeftIcon from "@/assets/img/play/LeftIcon.png";
 import RightIcon from "@/assets/img/play/RightIcon.png";
-import MidIcon2 from "@/assets/img/play/MidIcon2.png";
-import Mid2 from "@/assets/img/play/Mid2.png";
-import FakeBg from "@/assets/img/bg/FakeBg.png";
+import MidIcon from "@/assets/img/play/MidIcon2.png";
+import MidIcon2 from '@/assets/img/play/MidIcon.png';
+import FakeBg from "@/assets/img/bg/a.png";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 const musicStore = useMusicInfoStore();
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
@@ -19,7 +19,7 @@ let currentInfo = computed(() => ({
   picUrl: musicStore.ListInfo[currentSongIndex.value].picUrl,
   author: musicStore.ListInfo[currentSongIndex.value].author,
   url: musicStore.MusicURL[currentSongIndex.value].url,
-  time: musicStore.MusicURL[currentSongIndex.value].time,
+  time: musicStore.ListInfo[currentSongIndex.value].time,
 }));
 const handleClick = () => {
   emits("FatherClick");
@@ -106,7 +106,7 @@ onUnmounted(() => {
   </transition>
   <img @dragstart.prevent class="fakeBg" :src="FakeBg" alt="" style="cursor: pointer" />
   <img @dragstart.prevent class="fakeBg2" :src="FakeBg" alt="" style="cursor: pointer" />
-
+  <img @dragstart.prevent class="fakeBg3" :src="FakeBg" alt="" style="cursor: pointer" />
   <div class="play" style="text-align: center">
     <img @dragstart.prevent @click="playPreviousSong" :src="LeftIcon" alt="" @mouseover="showPre = true"
       @mouseleave="showPre = false" />
@@ -124,7 +124,7 @@ onUnmounted(() => {
   width: 90px;
   height: 60px;
   position: absolute;
-  margin-top: 270px;
+  margin-top: 240px;
   border-radius: 20px;
   margin-left: -55px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -135,15 +135,26 @@ onUnmounted(() => {
   width: 90px;
   height: 60px;
   position: absolute;
-  margin-top: 270px;
+  margin-top: 240px;
   border-radius: 20px;
   margin-left: -300px;
   background-color: rgba(255, 255, 255, 0.5);
   z-index: -1;
 }
 
-.play {
+.fakeBg3 {
+  width: 90px;
+  height: 60px;
+  position: absolute;
+  margin-top: 240px;
+  border-radius: 20px;
+  margin-left: -180px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: -1;
+}
 
+.play {
+  margin-top: -40px;
   margin-left: -5px;
   display: flex;
   justify-content: center;
@@ -154,7 +165,6 @@ onUnmounted(() => {
   width: 60px;
   height: 100%;
   margin-right: 20px;
-
   margin-left: 20px;
   transition: transform 0.05s ease;
   /* 过渡动画 */
@@ -169,7 +179,7 @@ onUnmounted(() => {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 340px;
+  top: 290px;
   left: 565px;
   border-radius: 4px;
   white-space: nowrap;
@@ -182,7 +192,7 @@ onUnmounted(() => {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 340px;
+  top: 290px;
   left: 700px;
   border-radius: 4px;
   white-space: nowrap;
@@ -195,7 +205,7 @@ onUnmounted(() => {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 340px;
+  top: 290px;
   left: 815px;
   border-radius: 4px;
   white-space: nowrap;

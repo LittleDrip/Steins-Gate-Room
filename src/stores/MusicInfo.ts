@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 
 export const useMusicInfoStore = defineStore('musicInfo', () => {
 
-    let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "" }]);
-    let MusicURL: any = ref([{ id: "", url: "", time: "" }]);
+    let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", time: "" }]);
+    let MusicURL: any = ref([{ id: "", url: "" }]);
     let currentInfo: any = ref({
         name: "", picUrl: "", author: "", url: "", time: ""
     })

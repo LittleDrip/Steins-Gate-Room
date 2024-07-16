@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Aside from '@/components/Aside/aside.vue';
 import { RouterLink, RouterView } from "vue-router";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import MusicList from "@/components/MusicForGet/MusicList.vue";
@@ -23,6 +24,7 @@ setTimeout(() => {
   <div>
     <MusicList />
     <router-view v-if="isMusicListLoaded" />
+    <!-- <Aside /> -->
   </div>
   <!-- <Link /> -->
 </template>
