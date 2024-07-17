@@ -1,20 +1,19 @@
 <script lang="ts" setup>
-import bg1 from '@/assets/img/showBg/bg1.png';
-import bg2 from '@/assets/img/showBg/bg2.png';
-import bg3 from '@/assets/img/showBg/bg3.png';
-import bg4 from '@/assets/img/showBg/bg4.png';
-import bg5 from '@/assets/img/showBg/bg5.png';
-import bg6 from '@/assets/img/showBg/bg6.png';
-
+import bg1 from '@/assets/img/showBg/bg1.jpg';
+import bg2 from '@/assets/img/showBg/bg2.jpg';
+import bg3 from '@/assets/img/showBg/bg3.jpg';
+import bg4 from '@/assets/img/showBg/bg4.jpg';
+import bg5 from '@/assets/img/showBg/bg5.jpg';
+import bg6 from '@/assets/img/showBg/bg6.jpg';
 import logo from "@/assets/img/logo/logo.png";
-import { ref } from "vue";
 import router from "@/router";
-const show = ref(true);
+
 </script>
 
 <template>
   <div class="bg">
   </div>
+
   <div class="all">
     <div class="header">
       <img :src="logo" alt="" width="140px" style="transform:translateY(30%);" />
@@ -70,7 +69,7 @@ const show = ref(true);
   width: 100%;
   height: 100%;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   top: 0;
   opacity: 0.95;
   z-index: -100;
@@ -142,6 +141,7 @@ const show = ref(true);
   color: #999;
   margin-left: -10px;
   margin-top: 10px;
+  z-index: 1;
 }
 
 .common-layout {

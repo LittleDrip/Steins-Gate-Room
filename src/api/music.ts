@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 // 石头门 327707910
 export const getMusicList = () => {
-    return request.get("/playlist/track/all?id=327707910&limit=10&offset=0");
+    return request.get("/playlist/track/all?id=2133251288&limit=50&offset=0");
 
 }
 export const getMusicDetail = (id: any) => {

@@ -20,6 +20,7 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElWatermark: typeof import('element-plus/es')['ElWatermark']
     Link: typeof import('./src/components/Else/link.vue')['default']
     MusicList: typeof import('./src/components/MusicForGet/MusicList.vue')['default']
     Play: typeof import('./src/components/Music/Play.vue')['default']

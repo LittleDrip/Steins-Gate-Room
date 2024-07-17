@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import dish from "@/assets/img/dish.png";
+import dish from "@/assets/img/dish1.png";
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
 import Aside from '@/components/Aside/aside.vue';
@@ -101,7 +101,7 @@ onMounted(() => {
   <!--  -->
   <div class="content">
     <div class="header" style="text-align: center; margin-top: 15px">
-      <h1 style="color: #323232; font-size: 35px; text-align: center">
+      <h1 style="color: #4b5969; font-size: 35px; text-align: center;font-family: '黑体'">
         {{ roomName
         }}<span style="
             display: inline-block;
@@ -113,7 +113,7 @@ onMounted(() => {
       </h1>
       <h3 class="title2" style="color: #4b5969; font-size: 24px; text-align: center">
         {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span><span
-          style="color: #666; font-size: 18px">{{ author }}</span>
+          style="color: #666; font-size: 18px;font-weight: 500;">{{ author }}</span>
       </h3>
     </div>
     <div class="middle" style="text-align: center; margin-top: 20px">

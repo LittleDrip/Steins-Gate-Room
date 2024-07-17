@@ -11,6 +11,21 @@ const drawer = ref(false)
 const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
+const showDiv1 = ref(true);
+const showDiv2 = ref(false);
+const currentTab = ref('playlist');  // 默认选中的标签
+const setActive = (tab: any) => {
+    currentTab.value = tab;
+};
+const showlist = () => {
+    showDiv1.value = true;
+    showDiv2.value = false; // 点击展示1后，隐藏展示2
+};
+
+const showadd = () => {
+    showDiv2.value = true;
+    showDiv1.value = false; // 点击展示2后，隐藏展示1
+};
 const showMusicList = () => {
 
 }
@@ -58,36 +73,44 @@ const formatDuration = (milliseconds: any) => {
     <div class="drawer">
 
         <el-drawer v-model="drawer" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
-            <button style="width: 200px;">
-                <span style="font-size: 20px;color: #666;">播放列表</span>
-            </button>
-            <button style="margin-left: 20px; width: 200px;">
-                <span style="font-size: 20px;color: #666;">添加歌曲</span>
-            </button>
-            <div class=" music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
-                style="margin-top: 12px;" :class="{ 'highlight': index === StatusInfo.currentSongIndex }">
-                <el-container style="height: 100px;width: auto;">
-                    <el-aside width="110px" style="overflow: hidden;">
-                        <img :src="item.picUrl" class="coverImg" loading="lazy"></img>
-                    </el-aside>
-                    <el-main style="overflow: hidden;">
-                        <div class="main">
-                            <div class="headTitle">{{ item.name }}</div>
-                            <div class="content">
-                                <p>{{ item.author }}</p>
-                                <p style="margin:22px 0 0 13pc">{{ formatDuration(item.time) }}</p>
-                            </div>
-                        </div>
-                    </el-main>
-                </el-container>
+            <div style="display: flex; text-align: center; font-weight: 600; font-family: 'MiSans';">
+                <div :class="{ active: currentTab === 'playlist' }" @click="showlist(); setActive('playlist')"
+                    style="width: 200px;">
+                    <span :class="{ 'active-border': currentTab === 'playlist' }"
+                        style="font-size: 20px; color: #666;">播放列表</span>
+                </div>
+                <div :class="{ active: currentTab === 'addsong' }" @click="showadd(); setActive('addsong')"
+                    style=" margin-left: 20px; width: 200px;">
+                    <span :class="{ 'active-border': currentTab === 'addsong' }"
+                        style="font-size: 20px; color: #666;">添加歌曲</span>
+                </div>
             </div>
+            <div v-if="showDiv1" style="margin-top: 24px;">
+                <div class=" music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
+                    style="margin-top: 12px;" :class="{ 'highlight': index === StatusInfo.currentSongIndex }">
+                    <el-container style="height: 100px;width: auto;">
+                        <el-aside width="110px" style="overflow: hidden;">
+                            <img :src="item.picUrl" class="coverImg" loading="lazy"></img>
+                        </el-aside>
+                        <el-main style="overflow: hidden;">
+                            <div class="main">
+                                <div class="headTitle">{{ item.name }}</div>
+                                <div class="content">
+                                    <p>{{ item.author }}</p>
+                                    <p style="margin:22px 0 0 13pc">{{ formatDuration(item.time) }}</p>
+                                </div>
+                            </div>
+                        </el-main>
+                    </el-container>
+                </div>
+            </div>
+            <div v-if="showDiv2"></div>
+
         </el-drawer>
     </div>
 </template>
 
 <style scoped>
-@import "../../assets//css/button.css";
-
 .all {
     width: 100px;
     position: absolute;
@@ -210,5 +233,9 @@ const formatDuration = (milliseconds: any) => {
 
 .highlight {
     background-color: #e6e6e6;
+}
+
+.active-border {
+    border-bottom: 2px solid red;
 }
 </style>

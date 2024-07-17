@@ -1,5 +1,6 @@
 
-- TODO:  完成ShowRooms
+- TODO:  删除多余的list.vue
+         图片压缩
 
 
 

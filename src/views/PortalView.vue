@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import zhenyouli from "@/assets/img/people/zhenyouli.png";
+import zhushou from '@/assets/img/people/zhushou.png';
 // import router from "@/router";
 import { useRouter } from "vue-router";
 import MusicList from "@/components/MusicForGet/MusicList.vue";
 const router = useRouter();
+
+
 const toPre = () => {
   router.push("/hall");
 };
@@ -20,9 +23,12 @@ const toPre = () => {
       <p>實驗室</p>
     </div>
     <div style="font-size: 14px; margin-top: 6px">El Psy Kongroo</div>
-    <div style="margin-top: 20px"><img :src="zhenyouli" alt="" width="100px" /></div>
+    <div style="margin-top: 20px"><img :src="zhushou" alt="" width="100px" /></div>
     <button style="margin-top: 40px;color: #000;" class="button" @click="toPre()">进 入</button>
   </div>
+
+
+
 </template>
 
 <style scoped>
@@ -30,7 +36,6 @@ const toPre = () => {
 
 
 .all {
-  background: url(../assets/img/bg/portalBg.jpg);
   font-weight: 550;
   /* font-family: "MiSans"; */
   /* font-family: "ErrorSans"; */
@@ -41,7 +46,6 @@ const toPre = () => {
   opacity: 1;
   background-color: #d1ac6b;
   z-index: -100;
-  /* background: repeating-linear-gradient(25deg, #d1ac6b, #d1ac6b 20px, #d1ac6b 20px, #d1ac6b 40px); */
 }
 
 .context {

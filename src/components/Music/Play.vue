@@ -83,13 +83,23 @@ const playPreviousSong = () => {
 const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
-
+watch(
+  () => musicStore.ListInfo, // 监听 musicStore.ListInfo 的变化
+  (newList) => {
+    if (newList.length > 0) { // 确保列表不为空
+      // 现在可以安全地访问 ListInfo 的 URL
+      audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
+      audio.addEventListener("ended", playNextSong);
+    }
+  },
+  { immediate: true } // 立即执行一次，确保首次加载时也能够监听
+);
 
 
 onMounted(() => {
   musicStore.setCurrentInfo(currentInfo.value);
   // console.log(currentInfo.value);
-  // console.log(musicStore.ListInfo[currentSongIndex.value].url);
+  console.log(musicStore.ListInfo[currentSongIndex.value].url);
   audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
   audio.addEventListener("ended", playNextSong); // 监听音频结束事件
 });

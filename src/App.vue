@@ -30,12 +30,9 @@ setTimeout(() => {
   <div>
     <MusicList />
     <router-view v-if="isMusicListLoaded" />
-
-
     <!-- <Aside />-->
-    <Test />
+    <!-- <Test /> -->
   </div>
-  <!-- <Link /> -->
 </template>
 
 <style scoped></style>
