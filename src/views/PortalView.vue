@@ -16,15 +16,15 @@ const toPre = () => {
 <template>
   <MusicList />
   <div class="all" style="text-align: center">
-    <div class="context" style="display: inline-block; font-size: 60px">
+    <div class="context" style="display: inline-block; font-size: 4em">
       <p>Steins</p>
       <p>Gate</p>
       <p>の</p>
       <p>實驗室</p>
     </div>
-    <div style="font-size: 14px; margin-top: 6px">El Psy Kongroo</div>
-    <div style="margin-top: 20px"><img :src="zhushou" alt="" width="100px" /></div>
-    <button style="margin-top: 40px;color: #000;" class="button" @click="toPre()">进 入</button>
+    <div style="font-size: 1em; margin-top: .7em">El Psy Kongroo</div>
+    <div style="margin-top: 1em"><img :src="zhushou" alt="" /></div>
+    <button style="margin-top: 2em;color: #000;" class="button" @click="toPre()">进 入</button>
   </div>
 
 
@@ -34,6 +34,9 @@ const toPre = () => {
 <style scoped>
 @import "../assets/text/text.css";
 
+img {
+  width: 6em;
+}
 
 .all {
   font-weight: 550;
@@ -49,16 +52,16 @@ const toPre = () => {
 }
 
 .context {
-  margin-top: 80px;
+  margin-top: 1em;
 }
 
 p {
-  margin-top: 20px;
+  margin-top: .3em;
 }
 
 .button {
-  width: 250px;
-  height: 60px;
+  width: 11em;
+  height: 3em;
   cursor: pointer;
   position: relative;
   padding: 10px 24px;

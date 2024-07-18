@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import LeftIcon from "@/assets/img/play/LeftIcon.png";
 import RightIcon from "@/assets/img/play/RightIcon.png";
-import MidIcon from "@/assets/img/play/MidIcon2.png";
-
-import MidIcon2 from '@/assets/img/play/MidIcon.png';
+import MidIcon from '@/assets/img/play/MidIcon.png';
 import FakeBg from "@/assets/img/bg/a.png";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useStatusInfo } from '@/stores/StatusInfo';
@@ -128,8 +126,8 @@ onUnmounted(() => {
     <img @dragstart.prevent @click="playPreviousSong" :src="LeftIcon" alt="" @mouseover="showPre = true"
       @mouseleave="showPre = false" />
 
-    <img @dragstart.prevent :src="MidIcon2" alt="" @click="handleClick" style="width: 100px"
-      @mouseover="showPre1 = true" @mouseleave="showPre1 = false" />
+    <img @dragstart.prevent :src="MidIcon" alt="" @click="handleClick" style="width: 7em" @mouseover="showPre1 = true"
+      @mouseleave="showPre1 = false" />
 
     <img @dragstart.prevent @click="playNextSong" :src="RightIcon" alt="" @mouseover="showPre2 = true"
       @mouseleave="showPre2 = false" />
@@ -138,33 +136,33 @@ onUnmounted(() => {
 
 <style scoped>
 .fakeBg {
-  width: 90px;
-  height: 60px;
+  width: 6.0em;
+  height: 4.2em;
   position: absolute;
-  margin-top: 240px;
-  border-radius: 20px;
+  top: 43%;
+  border-radius: 1.2em;
   margin-left: -55px;
   background-color: rgba(255, 255, 255, 0.5);
   z-index: -1;
 }
 
 .fakeBg2 {
-  width: 90px;
-  height: 60px;
+  width: 5.8em;
+  height: 4.2em;
   position: absolute;
-  margin-top: 240px;
-  border-radius: 20px;
+  top: 43%;
+  border-radius: 1.2em;
   margin-left: -300px;
   background-color: rgba(255, 255, 255, 0.5);
   z-index: -1;
 }
 
 .fakeBg3 {
-  width: 90px;
-  height: 60px;
+  width: 6.0em;
+  height: 4.2em;
   position: absolute;
-  margin-top: 240px;
-  border-radius: 20px;
+  top: 43%;
+  border-radius: 1.2em;
   margin-left: -180px;
   background-color: rgba(255, 255, 255, 0.5);
   z-index: -1;
@@ -172,17 +170,17 @@ onUnmounted(() => {
 
 .play {
   margin-top: -40px;
-  margin-left: -5px;
+  margin-left: 1em;
   display: flex;
   justify-content: center;
 }
 
 .play img {
   cursor: pointer;
-  width: 60px;
+  width: 3.8em;
   height: 100%;
-  margin-right: 20px;
-  margin-left: 20px;
+  margin-right: 1.0em;
+  /* margin-left: 2em; */
   transition: transform 0.05s ease;
   /* 过渡动画 */
 }

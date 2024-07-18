@@ -38,7 +38,7 @@ const FatherClick = () => {
  * 接受后端参数，判断是否有人播放，然后调用函数
  */
 let isPlay = ref(false);
-const angle = ref(-10); // 旋转角度，初始为0
+const angle = ref(-16); // 旋转角度，初始为0
 const isRotating = ref(false); // 标记是否正在旋转
 const FirstClick = ref(true);
 const rotateImage = () => {
@@ -100,30 +100,30 @@ onMounted(() => {
   </div>
   <!--  -->
   <div class="content">
-    <div class="header" style="text-align: center; margin-top: 15px">
-      <h1 style="color: #4b5969; font-size: 35px; text-align: center;font-family: '黑体'">
+    <div class="header" style="text-align: center; margin-top: 0.5em">
+      <h1 style="color: #4b5969; font-size: 2em; text-align: center;">
         {{ roomName
         }}<span style="
             display: inline-block;
             text-align: center;
             color: #4b5969;
-            font-size: 15px;
+            font-size: .5em;
             transform: translateY(-100%);
           ">1</span>
       </h1>
-      <h3 class="title2" style="color: #4b5969; font-size: 24px; text-align: center">
-        {{ musicName }}<span style="color: #6c7f92; font-size: 18px"> - </span><span
-          style="color: #666; font-size: 18px;font-weight: 500;">{{ author }}</span>
+      <h3 class="title2" style="color: #4b5969; font-size: 1.5em; text-align: center;font-weight: 500;">
+        {{ musicName }}<span style="color: #6c7f92; font-size: 0.5em"> - </span><span
+          style="color: #666; font-size: 0.7em;font-weight: 500;">{{ author }}</span>
       </h3>
     </div>
-    <div class="middle" style="text-align: center; margin-top: 20px">
-      <img @dragstart.prevent :src="pole" class="pole" style="width: 140px"
+    <div class="middle" style="text-align: center; margin-top: 1em">
+      <img @dragstart.prevent :src="pole" class="pole" style="width: 9%"
         :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }" :class="{ rotate: isRotating }" />
-      <el-avatar :size="165" class="dish_avatar" :style="{
+      <img class="dish_avatar" :style="{
         transform: isRotating2 ? `rotate(${rotateAngle}deg)` : `rotate(${rotateAngle}deg)`,
       }" :class="{ rotating: isRotating2 }" :src="picUrl" />
 
-      <img @dragstart.prevent :src="dish" alt="" style="width: 260px" />
+      <img @dragstart.prevent :src="dish" alt="" style="width: 15em" />
       <Play @FatherClick="FatherClick" />
 
       <!-- <button @click="
@@ -150,6 +150,7 @@ onMounted(() => {
   width: 100%;
 }
 
+
 .content {
   font-family: "ErrorSans";
   -webkit-user-drag: none;
@@ -157,9 +158,14 @@ onMounted(() => {
 }
 
 .pole {
-  position: absolute;
-  margin-top: -20px;
-  margin-left: 130px;
+  position: fixed;
+  /* width: 8.0em;
+  height: 8.0em; */
+  height: auto;
+  object-fit: cover;
+  top: 10%;
+  right: 42.5%;
+  z-index: 100;
 }
 
 .rotate {
@@ -172,13 +178,18 @@ onMounted(() => {
 }
 
 .dish_avatar {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
   position: absolute;
-  margin-top: 47px;
-  margin-left: 48px;
+  margin-top: 4%;
+  /* margin-left: 25%; */
+  /* top: 17.5%; */
+  right: 50%;
+  /* left: 5em; */
 }
 
 .title2 {
-  font-weight: 2;
-  margin-top: 7px;
+  margin-top: 0.05em;
 }
 </style>

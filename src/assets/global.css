@@ -89,7 +89,8 @@ time,
 mark,
 audio,
 video {
-    font-size: 100% ;
+    /* font-size: 100% ; */
+    /* font-size: 2vh; */
     margin: 0;
     padding: 0;
     vertical-align: baseline;
@@ -111,10 +112,23 @@ section {
     display: block;
 }
 
-body {
+/* body {
     line-height: 1;
+    font-size: 2vh;
+        
+} */
+/* global.css */
+@media (orientation: portrait) {
+    body {
+        font-size: 3vw;
+    }
 }
 
+@media (orientation: landscape) {
+    body {
+        font-size: 2vh;
+    }
+}
 ol,
 ul {
     list-style: none;

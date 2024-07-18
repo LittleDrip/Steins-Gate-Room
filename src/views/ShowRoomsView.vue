@@ -16,20 +16,20 @@ import router from "@/router";
 
   <div class="all">
     <div class="header">
-      <img :src="logo" alt="" width="140px" style="transform:translateY(30%);" />
+      <img :src="logo" alt="" width="10%" style="transform:translateY(30%);" />
     </div>
     <div class="list">
-      <!-- ------------------------------- -->
-      <el-row :gutter="50">
-        <el-col :span="10" :offset="1">
+      <!-- ------------------------------------------- -->
+      <el-row>
+        <el-col :span="11" :offset="1" style="margin-right: 2em;">
           <div class="common-layout" @click="router.push('/room?id=1')">
-            <el-container style="height: 140px;">
-              <el-aside width="170px"><img :src="bg1" class="coverImg"></img></el-aside>
+            <el-container>
+              <el-aside><img :src="bg1" class="coverImg"></img></el-aside>
               <el-main>
                 <div class="main">
                   <div class="headTitle">未来道具研究所</div>
                   <div class="content">
-                    <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择！</p>
+                    <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择</p>
                   </div>
                 </div>
               </el-main>
@@ -37,10 +37,10 @@ import router from "@/router";
           </div>
         </el-col>
 
-        <el-col :span="10" :offset="1">
-          <div class="common-layout">
-            <el-container style="height: 140px;">
-              <el-aside width="170px"><img :src="bg2" class="coverImg"></img></el-aside>
+        <el-col :span="11" :offset="0">
+          <div class="common-layout" @click="router.push('/room?id=2')">
+            <el-container>
+              <el-aside><img :src="bg2" class="coverImg"></img></el-aside>
               <el-main>
                 <div class="main">
                   <div class="headTitle">SERN研究所</div>
@@ -55,7 +55,150 @@ import router from "@/router";
       </el-row>
 
       <!-- -------------------------------------------- -->
+      <!-- -------------------------------------------- -->
+      <el-row>
+        <el-col :span="11" :offset="1" style="margin-right: 2em;">
+          <div class="common-layout" @click="router.push('/room?id=3')">
+            <el-container>
+              <el-aside><img :src="bg3" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">电器街</div>
+                  <div class="content">
+                    <p>不管在哪条世界线，你都不是一个人</p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
 
+        <el-col :span="11" :offset="0">
+          <div class="common-layout" @click="router.push('/room?id=4')">
+            <el-container>
+              <el-aside><img :src="bg4" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">女仆咖啡厅</div>
+                  <div class="content" style="font-family: 'ErrorSans';">
+                    <p>嘟 ~ 嘟 噜 ~ </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+      </el-row>
+
+      <!-- -------------------------------------------- -->
+      <!-- -------------------------------------------- -->
+      <el-row>
+        <el-col :span="11" :offset="1" style="margin-right: 2em;">
+          <div class="common-layout" @click="router.push('/room?id=5')">
+            <el-container>
+              <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">β世界线</div>
+                  <div class="content">
+                    <p>不管在哪条世界线，你都不是一个人</p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+
+        <el-col :span="11" :offset="0">
+          <div class="common-layout" @click="router.push('/room?id=6')">
+            <el-container>
+              <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">显像管工房</div>
+                  <div class="content" style="font-family: 'ErrorSans';">
+                    <p>Okey dokey! </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+      </el-row>
+
+      <!-- -------------------------------------------- -->
+      <!-- -------------------------------------------- -->
+      <el-row>
+        <el-col :span="11" :offset="1" style="margin-right: 2em;">
+          <div class="common-layout" @click="router.push('/room?id=7')">
+            <el-container>
+              <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">轻音乐专区</div>
+                  <div class="content">
+                    <p>赶走一切坏心情 ~ </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+
+        <el-col :span="11" :offset="0">
+          <div class="common-layout" @click="router.push('/room?id=8')">
+            <el-container>
+              <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">流行歌分享</div>
+                  <div class="content" style="font-family: 'ErrorSans';">
+                    <p>Okey dokey! </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+      </el-row>
+
+      <!-- -------------------------------------------- -->
+      <!-- -------------------------------------------- -->
+      <el-row>
+        <el-col :span="11" :offset="1" style="margin-right: 2em;">
+          <div class="common-layout" @click="router.push('/room?id=9')">
+            <el-container>
+              <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">轻音乐专区</div>
+                  <div class="content">
+                    <p>赶走一切坏心情 ~ </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+
+        <el-col :span="11" :offset="0">
+          <div class="common-layout" @click="router.push('/room?id=10')">
+            <el-container>
+              <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+              <el-main>
+                <div class="main">
+                  <div class="headTitle">流行歌分享</div>
+                  <div class="content" style="font-family: 'ErrorSans';">
+                    <p>Okey dokey! </p>
+                  </div>
+                </div>
+              </el-main>
+            </el-container>
+          </div>
+        </el-col>
+      </el-row>
+
+      <!-- -------------------------------------------- -->
 
 
     </div>
@@ -83,9 +226,12 @@ import router from "@/router";
   pointer-events: none;
 }
 
+.el-main {
+  padding: 0 !important;
+}
 
 .header {
-  line-height: 50px;
+  line-height: 3.2em;
   width: 100vw;
   background-color: #dab395;
   position: fixed;
@@ -93,8 +239,14 @@ import router from "@/router";
   z-index: -10;
 }
 
+.main {
+  overflow: hidden;
+
+}
+
 .list {
-  margin-top: 60px;
+  margin-top: 3.2em;
+  margin-left: -1%;
   overflow-x: hidden;
   /* 阻止横向滚动 */
 }
@@ -106,41 +258,48 @@ import router from "@/router";
 
 .common-layout {
   font-family: "MiSans";
-  margin-top: 25px;
+  margin-top: 1.6em;
   border: 3px solid #b79581;
   background-color: #fff;
-  width: 650px;
-  /* 高度设置为500px，也可以根据需要调整 */
+  /* width: 41em; */
   overflow: hidden;
   /* height: inherit; */
-  border-radius: 10px;
+  border-radius: .6em;
+}
 
+.el-container {
+  height: 8.5em;
 }
 
 .coverImg {
   width: 100%;
+  width: 9.0em;
+  height: 9.5em;
   height: 100%;
   object-fit: cover;
 }
 
 .el-aside {
   line-height: 0;
+  width: 9.5em;
 }
 
-.headTitle {
 
+
+.headTitle {
   font-weight: 500;
-  font-size: 25px;
+  /* font-size: 25px; */
+  font-size: 1.5em;
   padding: 0%;
-  margin-left: -10px;
-  margin-top: -10px;
+  margin-top: 0.1em;
 }
 
 .content {
   padding: 0%;
-  color: #999;
-  margin-left: -10px;
-  margin-top: 10px;
+  color: #6e8194;
+  font-size: .9em;
+  margin-left: 0.1em;
+  margin-top: 0.8em;
   z-index: 1;
 }
 
@@ -150,7 +309,8 @@ import router from "@/router";
 }
 
 .common-layout:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
+  transform: translateY(-.3em);
   cursor: pointer;
   /* 悬浮时上移 */
   box-shadow: -5px 2px 10px 1px #b79581;
