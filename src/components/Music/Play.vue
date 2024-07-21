@@ -110,67 +110,76 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <transition name="fade">
-    <div v-if="showPre == true" class="pre">上一首</div>
-  </transition>
-  <transition name="fade">
-    <div v-if="showPre1 == true" class="playing">播放</div>
-  </transition>
-  <transition name="fade">
-    <div v-if="showPre2 == true" class="next">下一首</div>
-  </transition>
-  <img @dragstart.prevent class="fakeBg" :src="FakeBg" alt="" style="cursor: pointer" />
-  <img @dragstart.prevent class="fakeBg2" :src="FakeBg" alt="" style="cursor: pointer" />
-  <img @dragstart.prevent class="fakeBg3" :src="FakeBg" alt="" style="cursor: pointer" />
+
+
+
+
   <div class="play" style="text-align: center">
+    <transition name="fade">
+      <div v-if="showPre == true" class="pre">上一首</div>
+    </transition>
+    <el-image @dragstart.prevent class="fakeBg" :src="FakeBg" alt="" />
     <img @dragstart.prevent @click="playPreviousSong" :src="LeftIcon" alt="" @mouseover="showPre = true"
       @mouseleave="showPre = false" />
+    <transition name="fade">
+      <div v-if="showPre1 == true" class="playing">播放</div>
+    </transition>
+    <el-image @dragstart.prevent class="fakeBg2" :src="FakeBg" alt="" />
 
-    <img @dragstart.prevent :src="MidIcon" alt="" @click="handleClick" style="width: 7em" @mouseover="showPre1 = true"
-      @mouseleave="showPre1 = false" />
+    <img @dragstart.prevent :src="MidIcon" alt="" @click="handleClick" style="width: 7em;margin-top: -0.6em;"
+      @mouseover="showPre1 = true" @mouseleave="showPre1 = false" />
+    <transition name="fade">
+      <div v-if="showPre2 == true" class="next">下一首</div>
+    </transition>
+    <el-image @dragstart.prevent class="fakeBg3" :src="FakeBg" alt="" />
 
     <img @dragstart.prevent @click="playNextSong" :src="RightIcon" alt="" @mouseover="showPre2 = true"
       @mouseleave="showPre2 = false" />
   </div>
+
 </template>
 
 <style scoped>
 .fakeBg {
-  width: 6.0em;
+  width: 5.4em;
   height: 4.2em;
   position: absolute;
-  top: 43%;
-  border-radius: 1.2em;
-  margin-left: -55px;
+  border-radius: 1em;
+  margin-left: -14em;
+  margin-top: 0.5em;
   background-color: rgba(255, 255, 255, 0.5);
+  /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
 }
 
 .fakeBg2 {
-  width: 5.8em;
+  width: 5.4em;
   height: 4.2em;
   position: absolute;
-  top: 43%;
-  border-radius: 1.2em;
-  margin-left: -300px;
-  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1em;
+  margin-left: -1.1em;
+  margin-top: 0.5em;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  background-color: rgba(240, 211, 211, 0.5);
   z-index: -1;
 }
 
 .fakeBg3 {
-  width: 6.0em;
+  width: 5.4em;
   height: 4.2em;
   position: absolute;
-  top: 43%;
-  border-radius: 1.2em;
-  margin-left: -180px;
+  border-radius: 1em;
+  margin-left: 12em;
+  margin-top: 0.5em;
   background-color: rgba(255, 255, 255, 0.5);
+  /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
 }
 
 .play {
-  margin-top: -40px;
+  position: relative;
   margin-left: 1em;
+  margin-top: 20em;
   display: flex;
   justify-content: center;
 }
@@ -194,21 +203,21 @@ onUnmounted(() => {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 290px;
-  left: 565px;
+  margin-top: -2.5em;
+  margin-left: -14em;
   border-radius: 4px;
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   background-color: #0e1112;
-  transform: translateY(-50%);
+  /* transform: translateY(-50%); */
 }
 
 .playing {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 290px;
-  left: 700px;
+  margin-top: -2em;
+  margin-left: -2em;
   border-radius: 4px;
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -220,8 +229,8 @@ onUnmounted(() => {
   position: absolute;
   padding: 5px 10px;
   color: #ffffff;
-  top: 290px;
-  left: 815px;
+  margin-top: -2em;
+  margin-left: 12em;
   border-radius: 4px;
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

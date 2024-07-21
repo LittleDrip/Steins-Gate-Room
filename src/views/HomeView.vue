@@ -44,14 +44,14 @@ const FirstClick = ref(true);
 const rotateImage = () => {
   if (FirstClick.value) {
     isRotating.value = true;
-    angle.value += 20; // 每次点击旋转30度
+    angle.value += 15; // 每次点击旋转15度
     isPlay.value = true;
     setTimeout(() => {
       isRotating.value = true;
       FirstClick.value = false;
     }, 10); // 旋转动画结束后，将isRotating设为false
   } else {
-    angle.value -= 20; // 每次点击旋转30度
+    angle.value -= 15; // 每次点击旋转15度
     isPlay.value = false;
     setTimeout(() => {
       isRotating.value = true;
@@ -116,22 +116,17 @@ onMounted(() => {
           style="color: #666; font-size: 0.7em;font-weight: 500;">{{ author }}</span>
       </h3>
     </div>
-    <div class="middle" style="text-align: center; margin-top: 1em">
-      <img @dragstart.prevent :src="pole" class="pole" style="width: 9%"
+    <div class="middle">
+      <img @dragstart.prevent :src="pole" class="pole" style="width: 8.2em;"
         :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }" :class="{ rotate: isRotating }" />
-      <img class="dish_avatar" :style="{
+      <img loading="lazy" class="avatar" :style="{
         transform: isRotating2 ? `rotate(${rotateAngle}deg)` : `rotate(${rotateAngle}deg)`,
       }" :class="{ rotating: isRotating2 }" :src="picUrl" />
 
-      <img @dragstart.prevent :src="dish" alt="" style="width: 15em" />
+      <img @dragstart.prevent :src="dish" alt="" style="width: 15.5em;margin-top: 3.5em;" />
+    </div>
+    <div style="margin-top: -6.5em">
       <Play @FatherClick="FatherClick" />
-
-      <!-- <button @click="
-          rotateImage();
-          toggleRotation();
-        ">
-        旋转
-        </button> -->
     </div>
   </div>
 </template>
@@ -148,6 +143,8 @@ onMounted(() => {
 
 .bg img {
   width: 100%;
+  height: inherit;
+  object-fit: cover;
 }
 
 
@@ -157,15 +154,34 @@ onMounted(() => {
 
 }
 
+.middle {
+  position: relative;
+  margin-top: 5em;
+  /* 父容器样式 */
+}
+
+.middle img {
+
+  position: absolute;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  /* 绝对定位元素样式 */
+
+}
+
 .pole {
-  position: fixed;
-  /* width: 8.0em;
-  height: 8.0em; */
-  height: auto;
-  object-fit: cover;
-  top: 10%;
-  right: 42.5%;
-  z-index: 100;
+  margin-top: -5.2em;
+  margin-left: -1.6em;
+  z-index: 10;
+}
+
+.avatar {
+  width: 10em;
+  height: 10em;
+  margin-left: -5em;
+  margin-top: -1.5em;
+  border-radius: 50%;
 }
 
 .rotate {
@@ -177,17 +193,6 @@ onMounted(() => {
   transition: transform 0.0000000001s ease-in-out;
 }
 
-.dish_avatar {
-  border-radius: 50%;
-  width: 10em;
-  height: 10em;
-  position: absolute;
-  margin-top: 4%;
-  /* margin-left: 25%; */
-  /* top: 17.5%; */
-  right: 50%;
-  /* left: 5em; */
-}
 
 .title2 {
   margin-top: 0.05em;

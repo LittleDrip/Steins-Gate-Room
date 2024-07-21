@@ -60,15 +60,15 @@ p {
 }
 
 .button {
-  width: 11em;
+  width: 10em;
   height: 3em;
   cursor: pointer;
   position: relative;
   padding: 10px 24px;
-  font-size: 22px;
+  font-size: 1.4em;
   color: white;
   border: 2px solid rgb(0, 0, 0);
-  border-radius: 34px;
+  border-radius: 1.88em;
   background-color: transparent;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
@@ -80,7 +80,7 @@ p {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 100px;
+  width: 4em;
   height: 100px;
   border-radius: inherit;
   scale: 0;
