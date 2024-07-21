@@ -5,7 +5,6 @@ import { useMusicInfoStore } from "@/stores/MusicInfo";
 import MusicList from "@/components/MusicForGet/MusicList.vue";
 import Test from '@/components/Else/Test.vue';
 import Play from '@/components/Music/Play.vue';
-import Dialog from '@/components/Dialog/dialog.vue';
 import { onMounted, onUnmounted, ref } from "vue";
 const musicStore = useMusicInfoStore();
 const isMusicListLoaded = ref(false);
@@ -36,7 +35,6 @@ setTimeout(() => {
     <!-- <Aside /> -->
     <!-- <Test /> -->
     <!-- <Play /> -->
-    <!-- <Dialog /> -->
   </div>
 </template>
 

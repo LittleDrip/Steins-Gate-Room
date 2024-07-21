@@ -4,7 +4,6 @@ import zhenyouli from "@/assets/img/people/zhenyouli.png";
 import zhushou from '@/assets/img/people/zhushou.png';
 // import router from "@/router";
 import { useRouter } from "vue-router";
-import MusicList from "@/components/MusicForGet/MusicList.vue";
 const router = useRouter();
 
 
@@ -14,7 +13,6 @@ const toPre = () => {
 </script>
 
 <template>
-  <MusicList />
   <div class="all" style="text-align: center">
     <div class="context" style="display: inline-block; font-size: 4em">
       <p>Steins</p>

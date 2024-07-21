@@ -5,15 +5,42 @@ import MidIcon from '@/assets/img/play/MidIcon.png';
 import FakeBg from "@/assets/img/bg/a.png";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useStatusInfo } from '@/stores/StatusInfo';
+import { useVolumeStore } from '@/stores/volume';
+const volumeStore = useVolumeStore();
 const musicStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 const isPlaying = ref(false);
 const isChangePlaying = ref(false);
-const hasEmitted = ref(false);
 let audio: any = null;
 let currentSongIndex = ref(0);
+watch(() => StatusInfo.getSongIndex(), () => {
+  const currentSongIndexRef = StatusInfo.getSongIndex();
+  currentSongIndex.value = currentSongIndexRef;
+  audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+  musicStore.setCurrentInfo(currentInfo.value);
+  console.log(currentSongIndex.value);
+  // ----------------
+  if (isPlaying.value == true) {
+    audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+    audio.play();
+  } else {
+    isPlaying.value = true;
+    audio.play();
+    emits("FatherClick");
+  }
+  // -----------
+})
+
 const emits = defineEmits(["FatherClick"]);
+watch(
+  () => volumeStore.volume,
+  (newVolume) => {
+    if (audio) {
+      audio.volume = newVolume / 100;
+    }
+  }
+);
 
 let currentInfo = computed(() => ({
   name: musicStore.ListInfo[currentSongIndex.value].name,
@@ -23,9 +50,6 @@ let currentInfo = computed(() => ({
   time: musicStore.ListInfo[currentSongIndex.value].time,
 }));
 
-watch(currentSongIndex, () => {
-  StatusInfo.setSongIndex(currentSongIndex.value);
-}, { immediate: true })
 const handleClick = () => {
   emits("FatherClick");
   if (isPlaying.value) {
@@ -67,7 +91,6 @@ const playPreviousSong = () => {
     audio.play();
   } else {
     isPlaying.value = true;
-
     currentSongIndex.value =
       (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
@@ -99,13 +122,21 @@ onMounted(() => {
   // console.log(currentInfo.value);
   console.log(musicStore.ListInfo[currentSongIndex.value].url);
   audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
+  audio.volume = 0.5;
   audio.addEventListener("ended", playNextSong); // 监听音频结束事件
 });
 
 onUnmounted(() => {
   audio.pause();
   audio.removeEventListener("ended", playNextSong); // 移除监听器
+  audio.src = ''; // 清理音频源
   audio = null;
+  /* 
+  const isPlaying = ref(false);
+  const isChangePlaying = ref(false);
+   */
+  isPlaying.value = false;
+  isChangePlaying.value = false;
 });
 </script>
 

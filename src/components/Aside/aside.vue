@@ -3,6 +3,7 @@ import cola from '@/assets/img/aside/cola.png';
 import banana from '@/assets/img/aside/banana.png';
 import microwave from '@/assets/img/aside/microwave.png';
 import back from '@/assets/img/aside/back.png';
+import Setting from '@/components/Aside/setting.vue';
 import backyes from '@/assets/img/aside/backyes.png';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
 import { useStatusInfo } from '@/stores/StatusInfo';
@@ -10,7 +11,8 @@ const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { ref } from 'vue';
 import router from '@/router';
-const drawer = ref(false)
+const drawer = ref(false);
+const drawer2 = ref(false);
 const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
@@ -54,8 +56,8 @@ const formatDuration = (milliseconds: any) => {
 
 <template>
     <div style="position: fixed;">
-        <img @click="centerDialogVisible = true" :src="back"
-            style="width: 6.5em;margin-top: 0.5em;margin-left: 0.2em;cursor: pointer;">
+        <img class="backImg" @click="centerDialogVisible = true" :src="back"
+            style="width: 6.5em;margin-top: 0.5em;margin-left: 0.2em;cursor: pointer; ">
     </div>
     <div>
         <el-dialog style="margin-top: 15em; width: 25em;;--color: rgba(114, 114, 114, 0.3);
@@ -78,10 +80,9 @@ const formatDuration = (milliseconds: any) => {
 
     <div class="all">
         <el-image class="cola" @dragstart.prevent :src="cola" fit="cover" style="width: 3.125em; cursor: pointer;"
-            @mouseover="showPre = true" @mouseleave="showPre = false"
-            @click="showMusicList(); drawer = true"></el-image>
+            @mouseover="showPre = true" @mouseleave="showPre = false" @click=" drawer = true"></el-image>
         <el-image @dragstart.prevent :src="banana" fit="cover" style="margin-top: 1.25em; cursor: pointer;"
-            @mouseover="showPre1 = true" @mouseleave="showPre1 = false" @click="setting()"></el-image>
+            @mouseover="showPre1 = true" @mouseleave="showPre1 = false" @click="drawer2 = true"></el-image>
         <el-image @dragstart.prevent :src="microwave" fit="cover" style="margin-top: 1.25em;  cursor: pointer;"
             @mouseover="showPre2 = true" @mouseleave="showPre2 = false" @click="AboutMe()"></el-image>
     </div>
@@ -115,7 +116,8 @@ const formatDuration = (milliseconds: any) => {
             <div v-if="showDiv1" style="margin-top: 1.5em;">
                 <div class=" music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
                     style="margin-top: 0.75em;" :class="{ 'highlight': index === StatusInfo.currentSongIndex }">
-                    <el-container style="height: 6.25em;width: auto;">
+                    <el-container @click="StatusInfo.setSongIndex(index);"
+                        style="height: 6.25em;width: auto;cursor: pointer;">
                         <el-aside width="6.875em" style="overflow: hidden;">
                             <img :src="item.picUrl" class="coverImg" loading="lazy"></img>
                         </el-aside>
@@ -131,7 +133,13 @@ const formatDuration = (milliseconds: any) => {
                     </el-container>
                 </div>
             </div>
-            <div v-if="showDiv2"></div>
+            <div v-if="showDiv2">2</div>
+
+        </el-drawer>
+
+        <!-- ---------------------------drawer2---------------- -->
+        <el-drawer v-model="drawer2" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
+            <Setting />
 
         </el-drawer>
     </div>
@@ -204,6 +212,15 @@ const formatDuration = (milliseconds: any) => {
     transform: scale(1.10);
 }
 
+.backImg {
+    transition: transform 0.1s ease;
+    /* 平滑过渡效果 */
+}
+
+.backImg:hover {
+    transform: scale(1.1);
+    /* 鼠标悬浮时放大 */
+}
 
 .fade-enter-active,
 .fade-leave-active {

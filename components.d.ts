@@ -16,6 +16,7 @@ declare module 'vue' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElMain: typeof import('element-plus/es')['ElMain']
@@ -23,6 +24,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSlider: typeof import('element-plus/es')['ElSlider']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     Link: typeof import('./src/components/Else/link.vue')['default']
     Middle: typeof import('./src/components/Music/Middle.vue')['default']
@@ -31,6 +33,7 @@ declare module 'vue' {
     PlayMusic: typeof import('./src/components/MusicForGet/PlayMusic.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Setting: typeof import('./src/components/Aside/setting.vue')['default']
     SongDetail: typeof import('./src/components/MusicForGet/SongDetail.vue')['default']
     Test: typeof import('./src/components/Else/Test.vue')['default']
   }

@@ -7,7 +7,10 @@ import bg5 from '@/assets/img/showBg/bg5.jpg';
 import bg6 from '@/assets/img/showBg/bg6.jpg';
 import logo from "@/assets/img/logo/logo.png";
 import router from "@/router";
-import { ref, watch, watchEffect } from 'vue';
+const font = reactive({
+  color: 'rgba(0, 0, 0, .15)',
+})
+import { reactive, ref, watch, watchEffect } from 'vue';
 const changesizeSpan = ref(11);
 const changesizeSpanOffset = ref(0);
 const screenWidth = window.screen.width;
@@ -32,203 +35,206 @@ handleMobileScreen();
   <div class="bg">
   </div>
 
-  <div class="all">
-    <div class="header">
-      <img :src="logo" alt="" width="10%" style="transform:translateY(30%);" />
-    </div>
-    <el-scrollbar always max-height="50em">
-      <div class="list">
-        <!-- ------------------------------------------- -->
+  <el-watermark gap="2" zIndex="-100" font="font" :content="['Steins;Gate']">
 
-        <el-row>
-          <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-            <div class="common-layout" @click="router.push('/room?id=1')">
-              <el-container>
-                <el-aside><img :src="bg1" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">未来道具研究所</div>
-                    <div class="content">
-                      <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择</p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-
-          <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-            <div class="common-layout" @click="router.push('/room?id=2')">
-              <el-container>
-                <el-aside><img :src="bg2" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">SERN研究所</div>
-                    <div class="content" style="font-family: 'ErrorSans';">
-                      <p>先一起喊：El Psy Kongroo!</p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-        </el-row>
-
-        <!-- -------------------------------------------- -->
-        <!-- -------------------------------------------- -->
-        <el-row>
-          <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-            <div class="common-layout" @click="router.push('/room?id=3')">
-              <el-container>
-                <el-aside><img :src="bg3" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">电器街</div>
-                    <div class="content">
-                      <p>不管在哪条世界线，你都不是一个人</p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-
-          <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-            <div class="common-layout" @click="router.push('/room?id=4')">
-              <el-container>
-                <el-aside><img :src="bg4" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">女仆咖啡厅</div>
-                    <div class="content" style="font-family: 'ErrorSans';">
-                      <p>嘟 ~ 嘟 噜 ~ </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-        </el-row>
-
-        <!-- -------------------------------------------- -->
-        <!-- -------------------------------------------- -->
-        <el-row>
-          <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-            <div class="common-layout" @click="router.push('/room?id=5')">
-              <el-container>
-                <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">β世界线</div>
-                    <div class="content">
-                      <p>不管在哪条世界线，你都不是一个人</p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-
-          <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-            <div class="common-layout" @click="router.push('/room?id=6')">
-              <el-container>
-                <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">显像管工房</div>
-                    <div class="content" style="font-family: 'ErrorSans';">
-                      <p>Okey dokey! </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-        </el-row>
-
-        <!-- -------------------------------------------- -->
-        <!-- -------------------------------------------- -->
-        <el-row>
-          <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-            <div class="common-layout" @click="router.push('/room?id=7')">
-              <el-container>
-                <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">轻音乐专区</div>
-                    <div class="content">
-                      <p>赶走一切坏心情 ~ </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-
-          <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-            <div class="common-layout" @click="router.push('/room?id=8')">
-              <el-container>
-                <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">流行歌分享</div>
-                    <div class="content" style="font-family: 'ErrorSans';">
-                      <p>Okey dokey! </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-        </el-row>
-
-        <!-- -------------------------------------------- -->
-        <!-- -------------------------------------------- -->
-        <el-row>
-          <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-            <div class="common-layout" @click="router.push('/room?id=9')">
-              <el-container>
-                <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">轻音乐专区</div>
-                    <div class="content">
-                      <p>赶走一切坏心情 ~ </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-
-          <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-            <div class="common-layout" @click="router.push('/room?id=10')">
-              <el-container>
-                <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
-                <el-main>
-                  <div class="main">
-                    <div class="headTitle">流行歌分享</div>
-                    <div class="content" style="font-family: 'ErrorSans';">
-                      <p>Okey dokey! </p>
-                    </div>
-                  </div>
-                </el-main>
-              </el-container>
-            </div>
-          </el-col>
-        </el-row>
-
-        <!-- -------------------------------------------- -->
-
-
+    <div class="all">
+      <div class="header">
+        <img :src="logo" alt="" width="10%" style="transform:translateY(30%);" />
       </div>
-    </el-scrollbar>
-  </div>
+      <el-scrollbar always max-height="50em">
+        <div class="list">
+          <!-- ------------------------------------------- -->
+
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=1')">
+                <el-container>
+                  <el-aside><img :src="bg1" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">未来道具研究所</div>
+                      <div class="content">
+                        <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=2')">
+                <el-container>
+                  <el-aside><img :src="bg2" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">SERN研究所</div>
+                      <div class="content" style="font-family: 'ErrorSans';">
+                        <p>先一起喊：El Psy Kongroo!</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=3')">
+                <el-container>
+                  <el-aside><img :src="bg3" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">电器街</div>
+                      <div class="content">
+                        <p>不管在哪条世界线，你都不是一个人</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=4')">
+                <el-container>
+                  <el-aside><img :src="bg4" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">女仆咖啡厅</div>
+                      <div class="content" style="font-family: 'ErrorSans';">
+                        <p>嘟 ~ 嘟 噜 ~ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=5')">
+                <el-container>
+                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">β世界线</div>
+                      <div class="content">
+                        <p>不管在哪条世界线，你都不是一个人</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=6')">
+                <el-container>
+                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">显像管工房</div>
+                      <div class="content" style="font-family: 'ErrorSans';">
+                        <p>Okey dokey! </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=7')">
+                <el-container>
+                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">轻音乐专区</div>
+                      <div class="content">
+                        <p>赶走一切坏心情 ~ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=8')">
+                <el-container>
+                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">流行歌分享</div>
+                      <div class="content" style="font-family: 'ErrorSans';">
+                        <p>Okey dokey! </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=9')">
+                <el-container>
+                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">轻音乐专区</div>
+                      <div class="content">
+                        <p>赶走一切坏心情 ~ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=10')">
+                <el-container>
+                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">流行歌分享</div>
+                      <div class="content" style="font-family: 'ErrorSans';">
+                        <p>Okey dokey! </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+
+
+        </div>
+      </el-scrollbar>
+    </div>
+  </el-watermark>
 </template>
 
 <style scoped>
 .bg {
-  background-color: #f1e5c6;
+  background-color: #f5e9c9;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -302,6 +308,7 @@ handleMobileScreen();
   height: 9.5em;
   height: 100%;
   object-fit: cover;
+  opacity: 0.9;
 }
 
 .el-aside {
