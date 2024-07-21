@@ -3,13 +3,15 @@ import { getMusicList } from "@/api/music";
 import { getMusicDetail, } from "@/api/music";
 import { onMounted, ref } from "vue";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
+import { useRoute } from "vue-router";
 const musicStore = useMusicInfoStore();
+const route = useRoute();
 
 let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", url: "" }]);
 
 
 const getList = async () => {
-  let res: any = await getMusicList();
+  let res: any = await getMusicList(route.query.id);
   const songInfo = res.songs.map((song: any) => ({
     id: song.id,
     name: song.name,

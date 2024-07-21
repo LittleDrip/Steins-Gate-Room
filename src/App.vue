@@ -13,24 +13,24 @@ const musicListLoaded = ref(false);
 
 
 
-setTimeout(() => {
-  if (musicStore.ListInfo[0].id != "") {
-    isMusicListLoaded.value = true;
+// setTimeout(() => {
+//   if (musicStore.ListInfo[0].id != "") {
+//     isMusicListLoaded.value = true;
 
-  } else {
-    setTimeout(() => {
-      console.log("加载中");
-      isMusicListLoaded.value = true;
-    }, 0);
-  }
-}, 0); // 模拟初始化完成的时间，实际情况根据需求调整
+//   } else {
+//     setTimeout(() => {
+//       console.log("加载中");
+//       isMusicListLoaded.value = true;
+//     }, 0);
+//   }
+// }, 0); // 模拟初始化完成的时间，实际情况根据需求调整
 </script>
 
 <template>
 
   <div>
-    <MusicList />
-    <router-view v-if="isMusicListLoaded" />
+    <!-- <MusicList /> -->
+    <router-view />
 
     <!-- <Aside /> -->
     <!-- <Test /> -->

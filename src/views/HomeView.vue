@@ -3,6 +3,8 @@ import dish from "@/assets/img/dish1.png";
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
 import Aside from '@/components/Aside/aside.vue';
+import MusicList from "@/components/MusicForGet/MusicList.vue";
+
 import { updateRoom, getAssetsFile } from '@/utils/selector';
 import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
@@ -10,7 +12,6 @@ import { computed, onMounted, ref, watch, watchEffect } from "vue";
 const musicStore = useMusicInfoStore();
 const route = useRoute();
 let roomName = ref(updateRoom(route.query.id));
-
 const currentInfo = computed(() => {
   return musicStore.getCurrentInfo();
 });
@@ -94,6 +95,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <MusicList />
   <Aside />
   <div class="bg">
     <img :src="getAssetsFile(route.query.id)" />
