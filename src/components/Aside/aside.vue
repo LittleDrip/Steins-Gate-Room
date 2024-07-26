@@ -9,8 +9,9 @@ import { useMusicInfoStore } from '@/stores/MusicInfo';
 import { useStatusInfo } from '@/stores/StatusInfo';
 const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
-import { ref } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import router from '@/router';
+
 const drawer = ref(false);
 const drawer2 = ref(false);
 const showPre = ref(false);
@@ -18,9 +19,12 @@ const showPre1 = ref(false);
 const showPre2 = ref(false);
 const showDiv1 = ref(true);
 const showDiv2 = ref(false);
+const isLeaving = ref(false);
+const centerDialogVisible = ref(false)
+
+
 const currentTab = ref('playlist');  // 默认选中的标签
 
-const centerDialogVisible = ref(false)
 
 const setActive = (tab: any) => {
     currentTab.value = tab;
@@ -34,12 +38,7 @@ const showadd = () => {
     showDiv2.value = true;
     showDiv1.value = false; // 点击展示2后，隐藏展示1
 };
-const showMusicList = () => {
 
-}
-const setting = () => {
-
-}
 const AboutMe = () => {
 
 }
@@ -71,8 +70,9 @@ const formatDuration = (milliseconds: any) => {
             </template>
             <template #footer>
                 <div class="dialog-footer">
-                    <button @click="centerDialogVisible = false; router.push('/hall')">确认</button>
-                    <button style="background: #93cefa;" @click="centerDialogVisible = false">算了</button>
+                    <button @click="centerDialogVisible = false; isLeaving = true; router.push('/hall')">确认</button>
+                    <button style="background: #93cefa;"
+                        @click=" isLeaving = false; centerDialogVisible = false">算了</button>
                 </div>
             </template>
         </el-dialog>
@@ -101,7 +101,7 @@ const formatDuration = (milliseconds: any) => {
     <div class="drawer">
 
         <el-drawer v-model="drawer" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
-            <div style="display: flex; text-align: center; font-weight: 600; font-family: 'MiSans';">
+            <div style="display: flex; text-align: center; font-weight: 600;">
                 <div :class="{ active: currentTab === 'playlist' }" @click="showlist(); setActive('playlist')"
                     style="width: 12.5em;">
                     <span :class="{ 'active-border': currentTab === 'playlist' }"
@@ -282,7 +282,6 @@ const formatDuration = (milliseconds: any) => {
 
 button {
     background: #fbca1f;
-    font-family: inherit;
     padding: 0.6em 1.3em;
     font-weight: 900;
     font-size: 1em;

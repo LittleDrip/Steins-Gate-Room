@@ -7,7 +7,7 @@ button {
     user-select: none;
     white-space: nowrap;
     transition: all .05s linear;
-    font-family: inherit;
+    
 }
 
 button:before,

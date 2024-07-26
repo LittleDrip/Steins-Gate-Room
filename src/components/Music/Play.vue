@@ -6,6 +6,11 @@ import FakeBg from "@/assets/img/bg/a.png";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useStatusInfo } from '@/stores/StatusInfo';
 import { useVolumeStore } from '@/stores/volume';
+// ----------------------------
+import Test from '@/components/Else/Test.vue';
+const currentTime = ref(0);
+// ----------------------------
+
 const volumeStore = useVolumeStore();
 const musicStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
@@ -37,12 +42,15 @@ watch(
   () => volumeStore.volume,
   (newVolume) => {
     if (audio) {
-      audio.volume = newVolume / 100;
+      audio.volume = newVolume / 500;
+      //  0.1   0.5
+      //  50/500
     }
   }
 );
 
 let currentInfo = computed(() => ({
+  id: musicStore.ListInfo[currentSongIndex.value].id,
   name: musicStore.ListInfo[currentSongIndex.value].name,
   picUrl: musicStore.ListInfo[currentSongIndex.value].picUrl,
   author: musicStore.ListInfo[currentSongIndex.value].author,
@@ -67,6 +75,7 @@ const playNextSong = () => {
     currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
+    StatusInfo.setSongIndex(currentSongIndex.value)
     // console.log(currentInfo.value);
     audio.play();
   } else {
@@ -74,6 +83,8 @@ const playNextSong = () => {
     currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
+    StatusInfo.setSongIndex(currentSongIndex.value)
+
     // console.log(currentInfo.value);
     audio.play();
     emits("FatherClick");
@@ -87,6 +98,7 @@ const playPreviousSong = () => {
       (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
+    StatusInfo.setSongIndex(currentSongIndex.value)
 
     audio.play();
   } else {
@@ -95,6 +107,7 @@ const playPreviousSong = () => {
       (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
     musicStore.setCurrentInfo(currentInfo.value);
+    StatusInfo.setSongIndex(currentSongIndex.value)
 
     audio.play();
     emits("FatherClick");
@@ -109,8 +122,16 @@ watch(
   (newList) => {
     if (newList.length > 0) { // 确保列表不为空
       // 现在可以安全地访问 ListInfo 的 URL
+
       audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
+      audio.volume = 0.1;
+
       audio.addEventListener("ended", playNextSong);
+      // ----------------------
+      audio.addEventListener("timeupdate", () => {
+        currentTime.value = audio.currentTime;
+      });
+      // ---------------------
     }
   },
   { immediate: true } // 立即执行一次，确保首次加载时也能够监听
@@ -118,17 +139,28 @@ watch(
 
 
 onMounted(() => {
+  // ------------------
+
+  // ------------------
   musicStore.setCurrentInfo(currentInfo.value);
   // console.log(currentInfo.value);
   console.log(musicStore.ListInfo[currentSongIndex.value].url);
   audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
-  audio.volume = 0.5;
+  console.log(audio.volume);
   audio.addEventListener("ended", playNextSong); // 监听音频结束事件
+  // ----------------------
+  audio.addEventListener("timeupdate", () => {
+    currentTime.value = audio.currentTime;
+  });
+  // ---------------------
 });
 
 onUnmounted(() => {
   audio.pause();
   audio.removeEventListener("ended", playNextSong); // 移除监听器
+  audio.removeEventListener("timeupdate", () => {
+    currentTime.value = audio.currentTime;
+  });
   audio.src = ''; // 清理音频源
   audio = null;
   /* 
@@ -137,12 +169,12 @@ onUnmounted(() => {
    */
   isPlaying.value = false;
   isChangePlaying.value = false;
+  StatusInfo.setSongIndex(0);  //将高亮设置为第1个，之后可能会废除
+
 });
 </script>
 
 <template>
-
-
 
 
   <div class="play" style="text-align: center">
@@ -167,7 +199,8 @@ onUnmounted(() => {
     <img @dragstart.prevent @click="playNextSong" :src="RightIcon" alt="" @mouseover="showPre2 = true"
       @mouseleave="showPre2 = false" />
   </div>
-
+  <!-- 其他代码 -->
+  <Test :currentTime="currentTime" style="margin-top: 1em;" />
 </template>
 
 <style scoped>

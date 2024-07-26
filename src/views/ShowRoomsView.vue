@@ -6,11 +6,13 @@ import bg4 from '@/assets/img/showBg/bg4.jpg';
 import bg5 from '@/assets/img/showBg/bg5.jpg';
 import bg6 from '@/assets/img/showBg/bg6.jpg';
 import logo from "@/assets/img/logo/logo.png";
+import { useMusicInfoStore } from '@/stores/MusicInfo';
+const musicInfoStore = useMusicInfoStore();
 import router from "@/router";
 const font = reactive({
   color: 'rgba(0, 0, 0, .15)',
 })
-import { reactive, ref, watch, watchEffect } from 'vue';
+import { onMounted, reactive, ref, watch, watchEffect } from 'vue';
 const changesizeSpan = ref(11);
 const changesizeSpanOffset = ref(0);
 const screenWidth = window.screen.width;
@@ -28,6 +30,10 @@ function handleMobileScreen() {
   }
 }
 handleMobileScreen();
+onMounted(() => {
+  musicInfoStore.removeAll();
+
+})
 </script>
 
 <template>
@@ -69,7 +75,7 @@ handleMobileScreen();
                   <el-main>
                     <div class="main">
                       <div class="headTitle">SERN研究所</div>
-                      <div class="content" style="font-family: 'ErrorSans';">
+                      <div class="content">
                         <p>先一起喊：El Psy Kongroo!</p>
                       </div>
                     </div>
@@ -105,7 +111,7 @@ handleMobileScreen();
                   <el-main>
                     <div class="main">
                       <div class="headTitle">女仆咖啡厅</div>
-                      <div class="content" style="font-family: 'ErrorSans';">
+                      <div class="content">
                         <p>嘟 ~ 嘟 噜 ~ </p>
                       </div>
                     </div>
@@ -141,7 +147,7 @@ handleMobileScreen();
                   <el-main>
                     <div class="main">
                       <div class="headTitle">显像管工房</div>
-                      <div class="content" style="font-family: 'ErrorSans';">
+                      <div class="content">
                         <p>Okey dokey! </p>
                       </div>
                     </div>
@@ -157,7 +163,7 @@ handleMobileScreen();
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=7')">
                 <el-container>
-                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bg5" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">轻音乐专区</div>
@@ -173,11 +179,11 @@ handleMobileScreen();
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=8')">
                 <el-container>
-                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bg6" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">流行歌分享</div>
-                      <div class="content" style="font-family: 'ErrorSans';">
+                      <div class="content">
                         <p>Okey dokey! </p>
                       </div>
                     </div>
@@ -193,7 +199,7 @@ handleMobileScreen();
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=9')">
                 <el-container>
-                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bg5" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">轻音乐专区</div>
@@ -209,11 +215,11 @@ handleMobileScreen();
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=10')">
                 <el-container>
-                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bg6" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">流行歌分享</div>
-                      <div class="content" style="font-family: 'ErrorSans';">
+                      <div class="content">
                         <p>Okey dokey! </p>
                       </div>
                     </div>
@@ -288,7 +294,6 @@ handleMobileScreen();
 }
 
 .common-layout {
-  font-family: "MiSans";
   margin-top: 1.6em;
   border: 3px solid #b79581;
   background-color: #fff;
@@ -319,7 +324,6 @@ handleMobileScreen();
 
 
 .headTitle {
-  font-weight: 500;
   /* font-size: 25px; */
   font-size: 1.5em;
   padding: 0%;
@@ -331,12 +335,12 @@ handleMobileScreen();
   color: #6e8194;
   font-size: .9em;
   margin-left: 0.1em;
-  margin-top: 0.8em;
+  margin-top: 0.6em;
   z-index: 1;
 }
 
 .common-layout {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   /* 平滑过渡效果 */
 }
 

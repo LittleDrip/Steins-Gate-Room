@@ -151,7 +151,7 @@ onMounted(() => {
 
 
 .content {
-  font-family: "ErrorSans";
+  /* font-family: "ErrorSans"; */
   -webkit-user-drag: none;
 
 }

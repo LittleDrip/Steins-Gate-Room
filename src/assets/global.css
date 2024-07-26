@@ -1,6 +1,5 @@
 /* 全局样式表 */
 @import "../assets/text/text.css";
-
 *,
 *:after,
 *:before {
@@ -107,15 +106,16 @@ footer,
 header,
 hgroup,
 menu,
-nav,
+nav,    
 section {
     display: block;
 }
 
 body {
-    line-height: 1;
+    /* line-height: 1; */
     font-size: 2vh;
-        
+    font-family: Arial;
+    
 }
 /* global.css */
 @media (orientation: portrait) {
@@ -171,7 +171,7 @@ table {
 input,
 textarea,
 button {
-    font-family: inhert;
+    /* font-family: inhert; */
     font-size: inherit;
 
     color: inherit;
@@ -195,6 +195,5 @@ select::-ms-expand {
 
 code,
 pre {
-    font-family: monospace, monospace;
     font-size: 1em;
 }

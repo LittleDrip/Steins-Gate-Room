@@ -30,17 +30,14 @@ const toPre = () => {
 </template>
 
 <style scoped>
-@import "../assets/text/text.css";
-
 img {
   width: 6em;
 }
 
 .all {
   font-weight: 550;
-  /* font-family: "MiSans"; */
-  /* font-family: "ErrorSans"; */
   font-family: "EvaSans";
+  line-height: 1;
   position: absolute;
   width: 100vw;
   height: 100vh;

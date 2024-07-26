@@ -23,9 +23,9 @@ export const getAssetsFile = (id: any) => {
     } else if (id == 3) {
         return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
     } else if (id == 4) {
-        return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
+        return new URL(`@/assets/img/bg/Steins5.jpg`, import.meta.url).href
     } else if (id == 5) {
-        return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
+        return new URL(`@/assets/img/bg/Steins6.jpg`, import.meta.url).href
     } else if (id == 6) {
         return new URL(`@/assets/img/bg/Steins1.jpg`, import.meta.url).href
     }
