@@ -1,4 +1,6 @@
 import request from "@/utils/request";
+import { getCookie } from '@/utils/login';
+let cookie = getCookie();
 
 // 石头门 327707910
 export const getMusicList = (id: any) => {
@@ -21,8 +23,8 @@ export const getMusicLyrics = (id: any) => {
 }
 export const getMoreMusicDetail = (ids: number[]) => {
     const idParam = ids.join(',');
-    // console.log(`/song/url/v1?id=${ids}&level=higher`);
-    return request.get(`/song/url/v1?id=${idParam}&level=higher`);
+    return request.get(`/song/url/?id=${idParam}&br=120000&cookie=${cookie}`)
+    // http://localhost:3000/song/url/?id=33894312,405998841,2025337662,139764,1973046704&br=120000
 }
 
 

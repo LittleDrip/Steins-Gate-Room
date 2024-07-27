@@ -27,6 +27,7 @@ declare module 'vue' {
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     Link: typeof import('./src/components/Else/link.vue')['default']
+    Lyrics: typeof import('./src/components/Music/Lyrics.vue')['default']
     Middle: typeof import('./src/components/Music/Middle.vue')['default']
     MusicList: typeof import('./src/components/MusicForGet/MusicList.vue')['default']
     Play: typeof import('./src/components/Music/Play.vue')['default']

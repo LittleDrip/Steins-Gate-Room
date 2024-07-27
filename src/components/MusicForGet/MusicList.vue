@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getMusicList } from "@/api/music";
-import { getMusicDetail, } from "@/api/music";
+import { getMoreMusicDetail, getMusicList } from "@/api/music";
+import { getMusicDetail } from "@/api/music";
 import { onMounted, ref } from "vue";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useRoute } from "vue-router";
@@ -8,6 +8,7 @@ const musicStore = useMusicInfoStore();
 const route = useRoute();
 
 let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", url: "" }]);
+let ids: any = null;
 
 
 const getList = async () => {
@@ -20,13 +21,14 @@ const getList = async () => {
     time: song.dt,
     url: "" // 初始值为空
   }));
+  ids = songInfo.map((item: any) => item.id); // 使用 map 方法提取所有 idconsole.log(ids);
+  console.log(ids);
+  const res2 = await getMoreMusicDetail(ids);
 
   // 使用 Promise.all 来并行获取每首歌的 URL
   const songInfoWithUrl = await Promise.all(
-    songInfo.map(async (song: any) => {
-      const detailRes: any = await getMusicDetail(song.id);
-
-      return { ...song, url: detailRes.data[0].url };
+    songInfo.map(async (song: any, index: number) => {
+      return { ...song, url: res2.data[index].url };
     })
   );
 

@@ -7,7 +7,7 @@ import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useStatusInfo } from '@/stores/StatusInfo';
 import { useVolumeStore } from '@/stores/volume';
 // ----------------------------
-import Test from '@/components/Else/Test.vue';
+import Lyrics from '@/components/Music/Lyrics.vue';
 const currentTime = ref(0);
 // ----------------------------
 
@@ -42,9 +42,7 @@ watch(
   () => volumeStore.volume,
   (newVolume) => {
     if (audio) {
-      audio.volume = newVolume / 500;
-      //  0.1   0.5
-      //  50/500
+      audio.volume = newVolume / 100;
     }
   }
 );
@@ -74,6 +72,7 @@ const playNextSong = () => {
   if (isPlaying.value == true) {
     currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+
     musicStore.setCurrentInfo(currentInfo.value);
     StatusInfo.setSongIndex(currentSongIndex.value)
     // console.log(currentInfo.value);
@@ -142,11 +141,12 @@ onMounted(() => {
   // ------------------
 
   // ------------------
-  musicStore.setCurrentInfo(currentInfo.value);
+  // musicStore.setCurrentInfo(currentInfo.value);
   // console.log(currentInfo.value);
-  console.log(musicStore.ListInfo[currentSongIndex.value].url);
-  audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
-  console.log(audio.volume);
+  // console.log(musicStore.ListInfo[currentSongIndex.value].url);
+  // audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
+  // console.log(audio.volume);
+  // console.log(audio);
   audio.addEventListener("ended", playNextSong); // 监听音频结束事件
   // ----------------------
   audio.addEventListener("timeupdate", () => {
@@ -200,7 +200,7 @@ onUnmounted(() => {
       @mouseleave="showPre2 = false" />
   </div>
   <!-- 其他代码 -->
-  <Test :currentTime="currentTime" style="margin-top: 1em;" />
+  <Lyrics :currentTime="currentTime" style="margin-top: 1em;" />
 </template>
 
 <style scoped>
