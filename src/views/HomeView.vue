@@ -144,15 +144,19 @@ onMounted(() => {
 }
 
 .bg img {
+  backdrop-filter: blur(1px);
+  background-color: aliceblue;
   width: 100%;
   height: inherit;
   object-fit: cover;
-}
 
+}
 
 .content {
   /* font-family: "ErrorSans"; */
   -webkit-user-drag: none;
+  -webkit-transition: .2s;
+  transition: .2s;
 
 }
 

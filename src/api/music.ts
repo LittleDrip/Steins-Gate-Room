@@ -23,7 +23,7 @@ export const getMusicLyrics = (id: any) => {
 }
 export const getMoreMusicDetail = (ids: number[]) => {
     const idParam = ids.join(',');
-    return request.get(`/song/url/?id=${idParam}&br=120000&cookie=${cookie}`)
+    return request.get(`/song/url/?id=${idParam}&br=120000`, { params: { cookie: cookie } })
     // http://localhost:3000/song/url/?id=33894312,405998841,2025337662,139764,1973046704&br=120000
 }
 

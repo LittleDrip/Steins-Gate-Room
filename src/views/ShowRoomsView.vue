@@ -7,6 +7,16 @@ import bg5 from '@/assets/img/showBg/bg5.jpg';
 import bg6 from '@/assets/img/showBg/bg6.jpg';
 import logo from "@/assets/img/logo/logo.png";
 import { useMusicInfoStore } from '@/stores/MusicInfo';
+// ------------------------
+import Login from '@/components/Login/login.vue';
+import { useAuthStore } from '@/stores/authStore';
+const authStore = useAuthStore();
+const showLogin = ref(true);
+const onLoginSuccess = () => {
+  authStore.login();
+};
+// ------------------------
+
 const musicInfoStore = useMusicInfoStore();
 import router from "@/router";
 const font = reactive({
@@ -40,10 +50,14 @@ onMounted(() => {
 
   <div class="bg">
   </div>
+  <div class="mengban"></div>
 
   <el-watermark gap="2" zIndex="-100" font="font" :content="['Steins;Gate']">
 
     <div class="all">
+      <Transition name="fade" appear>
+        <Login style="position: absolute;" v-if="!authStore.isLoggedIn" @loginSuccess="onLoginSuccess" />
+      </Transition>
       <div class="header">
         <img :src="logo" alt="" width="10%" style="transform:translateY(30%);" />
       </div>
@@ -239,6 +253,19 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.mengban {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0.95;
+  z-index: -100;
+  overflow: hidden;
+  backdrop-filter: blur(0.6px);
+  background-color: hsla(0, 0%, 100%, .09);
+  z-index: -99;
+}
+
 .bg {
   background-color: #f5e9c9;
   width: 100%;
@@ -256,6 +283,11 @@ onMounted(() => {
   -webkit-user-drag: none;
   cursor: default;
   pointer-events: none;
+}
+
+.all {
+  -webkit-transition: .2s;
+  transition: .2s;
 }
 
 .el-main {
@@ -351,5 +383,17 @@ onMounted(() => {
   /* 悬浮时上移 */
   box-shadow: -5px 2px 10px 1px #b79581;
   /* 添加阴影 */
+}
+
+/* 应用于嵌套元素的规则 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
 }
 </style>

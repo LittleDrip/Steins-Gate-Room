@@ -35,6 +35,7 @@ img {
 }
 
 .all {
+
   font-weight: 550;
   font-family: "EvaSans";
   line-height: 1;

@@ -5,17 +5,17 @@ import MusicList from "@/components/MusicForGet/MusicList.vue";
 import Test from '@/components/Else/Test.vue';
 import Play from '@/components/Music/Play.vue';
 import { onMounted, onUnmounted, ref } from "vue";
-
-
+import BottomChat from '@/components/Bottom/BottomChat.vue';
 </script>
 
 <template>
 
   <div>
-    <router-view />
+    <!-- <router-view /> -->
     <!-- <Aside /> -->
     <!-- <Test /> -->
     <!-- <Play /> -->
+    <BottomChat />
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 // components/VolumeControl.vue
 <template>
+    <div class="mengban"></div>
     <div class="allcontent">
         <p style="text-align: center;margin-bottom: 0em;font-size: 1.5em;">设 置</p>
         <el-divider direction="horizontal" content-position="center"></el-divider>
@@ -28,6 +29,20 @@ const updateVolume = (value) => {
 </script>
 
 <style setup>
+/* 显示歌词的时候开启 */
+/* .mengban {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0.95;
+    z-index: -100;
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+    background-color: hsla(0, 0%, 100%, .09);
+    z-index: -99;
+} */
+
 .allcontent {
     width: 22em;
 
