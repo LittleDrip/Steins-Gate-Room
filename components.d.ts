@@ -39,5 +39,6 @@ declare module 'vue' {
     Setting: typeof import('./src/components/Aside/setting.vue')['default']
     SongDetail: typeof import('./src/components/MusicForGet/SongDetail.vue')['default']
     Test: typeof import('./src/components/Else/Test.vue')['default']
+    Usertemplate: typeof import('./src/components/Usertemplate/Usertemplate.vue')['default']
   }
 }

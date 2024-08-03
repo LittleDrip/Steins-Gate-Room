@@ -1,8 +1,8 @@
 <template>
     <div class="lyrics-container">
         <div class="lyrics" ref="lyrics">
-            <div v-for="(line, index) in parsedLyrics" :key="index" :class="{ 'highlighted': currentIndex === index }"
-                ref="lyricLines">
+            <div class="lyrics-line" v-for="(line, index) in parsedLyrics" :key="index"
+                :class="{ 'highlighted': currentIndex === index }" ref="lyricLines">
                 {{ line.text }}
             </div>
         </div>
@@ -81,10 +81,7 @@ watch(
 </script>
 <style scoped>
 .lyrics-container {
-
     font-size: 1.3em;
-    font-weight: bolder;
-    line-height: 2em;
     text-align: center;
     height: 40vh;
     width: 50vh;
@@ -99,19 +96,36 @@ watch(
 
 .lyrics {
     position: absolute;
+    display: flex;
+
     width: 100%;
+    margin-top: 6em;
     transition: transform 0.5s ease;
+    flex-direction: column;
+    align-items: center;
+    /* color: #283f4d; */
+    color: #000;
 }
 
-.lyrics div {
-    padding: 5px;
-    opacity: 0.5;
+.lyrics-line {
+    opacity: .8;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    background-color: hsla(0, 0%, 100%, .09);
     transition: opacity 0.5s ease;
+    padding: .5em 1em;
+    border-radius: .6em;
+    /* 让背景颜色只占据文本的长度 */
+    margin: 6px 0;
 }
 
 .lyrics div.highlighted {
     opacity: 1;
-    font-weight: bold;
+    font-weight: 700;
+    color: pink;
+    font-size: 1.2em;
+    text-shadow: 2px 2px 5px #71738b;
+    /* font-weight: bold; */
 
 }
 </style>

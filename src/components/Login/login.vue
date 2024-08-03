@@ -17,22 +17,29 @@ const handleLogin = () => {
 };
 
 const avatars = [
-    'https://s21.ax1x.com/2024/08/02/pkjeXo8.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjexJg.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjevFS.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjeLeP.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjebLt.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjeOdf.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjezWQ.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjmSzj.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMmAx.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMZH1.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMEu9.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMnN6.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMi3F.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMu4K.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMM9O.jpg',
-    'https://s21.ax1x.com/2024/08/02/pkjMlge.jpg',
+    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbd2.jpg',
+    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cb70.jpg',
+    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbb0.jpg',
+    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbb7.jpg',
+    'https://pic.imgdb.cn/item/66ae245ad9c307b7e9e246de.jpg',
+    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e489aa.jpg',
+    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e2036f.jpg',
+    'https://pic.imgdb.cn/item/66ae245ad9c307b7e9e246d4.jpg',
+    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e48997.jpg',
+    'https://pic.imgdb.cn/item/66ae261fd9c307b7e9e48985.jpg',
+    'https://pic.imgdb.cn/item/66ae261fd9c307b7e9e4896d.jpg',
+    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e628cd.jpg',
+    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e6283f.jpg',
+    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e6285c.jpg',
+    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e62869.jpg',
+    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e20379.jpg',
+    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e2038e.jpg',
+    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e203a4.jpg',
+    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e203b6.jpg',
+    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e4899d.jpg',
+
+
+
 ]
 
 const nickname: any = ref(localStorage.getItem('nickName') != null ? localStorage.getItem('nickName') : '');
@@ -66,7 +73,7 @@ watch(nickname, (newVal) => {
             </div>
             <div class="roleAvatar ScrollDiv">
                 <div v-for="(avatar, index) in avatars" :key="index" class="item1" @click="selectAvatar(avatar)">
-                    <img :src="avatar" :class="{ 'highlighted': avatar === selectedAvatar }" alt="Avatar" />
+                    <img :src="avatar" :class="{ 'highlighted': avatar === selectedAvatar }" alt="加载中..." />
                 </div>
             </div>
             <div class="JoinRoom">

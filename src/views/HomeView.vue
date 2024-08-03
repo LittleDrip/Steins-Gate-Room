@@ -4,11 +4,14 @@ import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
 import Aside from '@/components/Aside/aside.vue';
 import MusicList from "@/components/MusicForGet/MusicList.vue";
+import Usertemplate from '@/components/Usertemplate/Usertemplate.vue';
 
 import { updateRoom, getAssetsFile } from '@/utils/selector';
 import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
+
+
 const musicStore = useMusicInfoStore();
 const route = useRoute();
 let roomName = ref(updateRoom(route.query.id));
@@ -97,6 +100,7 @@ onMounted(() => {
 <template>
   <MusicList />
   <Aside />
+  <Usertemplate />
   <div class="bg">
     <img :src="getAssetsFile(route.query.id)" />
   </div>
@@ -118,7 +122,9 @@ onMounted(() => {
           style="color: #666; font-size: 0.7em;font-weight: 500;">{{ author }}</span>
       </h3>
     </div>
+
     <div class="middle">
+
       <img @dragstart.prevent :src="pole" class="pole" style="width: 8.2em;"
         :style="{ transformOrigin: '50% 0% ', transform: `rotate(${angle}deg)` }" :class="{ rotate: isRotating }" />
       <img loading="lazy" class="avatar" :style="{
@@ -154,6 +160,7 @@ onMounted(() => {
 
 .content {
   /* font-family: "ErrorSans"; */
+
   -webkit-user-drag: none;
   -webkit-transition: .2s;
   transition: .2s;
@@ -161,6 +168,7 @@ onMounted(() => {
 }
 
 .middle {
+
   position: relative;
   margin-top: 5em;
   /* 父容器样式 */
@@ -170,7 +178,7 @@ onMounted(() => {
 
   position: absolute;
   left: 50%;
-
+  -webkit-user-select: none;
   transform: translate(-50%, -50%);
   /* 绝对定位元素样式 */
 

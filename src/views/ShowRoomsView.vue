@@ -1,11 +1,19 @@
 <script lang="ts" setup>
-import bg1 from '@/assets/img/showBg/bg1.jpg';
-import bg2 from '@/assets/img/showBg/bg2.jpg';
-import bg3 from '@/assets/img/showBg/bg3.jpg';
-import bg4 from '@/assets/img/showBg/bg4.jpg';
-import bg5 from '@/assets/img/showBg/bg5.jpg';
-import bg6 from '@/assets/img/showBg/bg6.jpg';
 import logo from "@/assets/img/logo/logo.png";
+const bgImgs = [
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c094.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c0de.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c10c.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c158.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c195.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c1f2.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf30.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf67.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf90.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bfa6.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c008.jpg',
+  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c033.jpg'
+]
 import { useMusicInfoStore } from '@/stores/MusicInfo';
 // ------------------------
 import Login from '@/components/Login/login.vue';
@@ -69,7 +77,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=1')">
                 <el-container>
-                  <el-aside><img :src="bg1" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[0]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">未来道具研究所</div>
@@ -85,7 +93,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=2')">
                 <el-container>
-                  <el-aside><img :src="bg2" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[1]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">SERN研究所</div>
@@ -105,7 +113,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=3')">
                 <el-container>
-                  <el-aside><img :src="bg3" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[2]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">电器街</div>
@@ -121,7 +129,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=4')">
                 <el-container>
-                  <el-aside><img :src="bg4" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[3]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">女仆咖啡厅</div>
@@ -141,7 +149,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=5')">
                 <el-container>
-                  <el-aside><img :src="bg5" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[4]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">β世界线</div>
@@ -157,7 +165,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=6')">
                 <el-container>
-                  <el-aside><img :src="bg6" class="coverImg"></img></el-aside>
+                  <el-aside><img :src="bgImgs[5]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">显像管工房</div>
@@ -177,7 +185,7 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=7')">
                 <el-container>
-                  <el-aside><img :src="bg5" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-aside><img :src="bgImgs[6]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">轻音乐专区</div>
@@ -193,12 +201,12 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=8')">
                 <el-container>
-                  <el-aside><img :src="bg6" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-aside><img :src="bgImgs[7]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">流行歌分享</div>
                       <div class="content">
-                        <p>Okey dokey! </p>
+                        <p>“人在城乡结合部 心在巴黎时装周 ” </p>
                       </div>
                     </div>
                   </el-main>
@@ -213,12 +221,12 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=9')">
                 <el-container>
-                  <el-aside><img :src="bg5" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-aside><img :src="bgImgs[8]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
-                      <div class="headTitle">轻音乐专区</div>
+                      <div class="headTitle">欧美专区</div>
                       <div class="content">
-                        <p>赶走一切坏心情 ~ </p>
+                        <p>奔跑在日落和浪漫里 </p>
                       </div>
                     </div>
                   </el-main>
@@ -229,12 +237,48 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=10')">
                 <el-container>
-                  <el-aside><img :src="bg6" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-aside><img :src="bgImgs[9]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
-                      <div class="headTitle">流行歌分享</div>
+                      <div class="headTitle">粤语经典</div>
                       <div class="content">
-                        <p>Okey dokey! </p>
+                        <p>安静下来 用心听…</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=9')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[10]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">国风民谣</div>
+                      <div class="content">
+                        <p>一曲惊鸿，千里醉人间 </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=10')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[11]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">Jay</div>
+                      <div class="content">
+                        <p>周杰伦歌单专场！ </p>
                       </div>
                     </div>
                   </el-main>
@@ -357,7 +401,7 @@ onMounted(() => {
 
 .headTitle {
   /* font-size: 25px; */
-  font-size: 1.5em;
+  font-size: 1.4em;
   padding: 0%;
   margin-top: 0.2em;
 }
@@ -365,7 +409,7 @@ onMounted(() => {
 .content {
   padding: 0%;
   color: #6e8194;
-  font-size: .9em;
+  font-size: .8em;
   margin-left: 0.1em;
   margin-top: 0.6em;
   z-index: 1;

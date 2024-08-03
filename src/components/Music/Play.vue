@@ -176,6 +176,7 @@ onUnmounted(() => {
 
 <template>
 
+  <div class="mengban"></div>
 
   <div class="play" style="text-align: center">
     <transition name="fade">
@@ -204,6 +205,20 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* 显示歌词的时候开启 */
+.mengban {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0.95;
+  z-index: -100;
+  overflow: hidden;
+  backdrop-filter: blur(3px);
+  background-color: hsla(0, 0%, 100%, .09);
+  z-index: -99;
+}
+
 .fakeBg {
   width: 5.4em;
   height: 4.2em;

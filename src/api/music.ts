@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import { getCookie } from '@/utils/login';
 let cookie = getCookie();
-
+// 一人一首成名曲 9141068399
 // 石头门 327707910
 export const getMusicList = (id: any) => {
     if (id == 1) {
