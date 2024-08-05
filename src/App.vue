@@ -7,6 +7,7 @@ import Play from '@/components/Music/Play.vue';
 import { onMounted, onUnmounted, ref } from "vue";
 import BottomChat from '@/components/Bottom/BottomChat.vue';
 import Usertemplate from '@/components/Usertemplate/Usertemplate.vue';
+import PortalUsers from '@/components/Head/PortalUsers.vue';
 </script>
 
 <template>
@@ -18,6 +19,7 @@ import Usertemplate from '@/components/Usertemplate/Usertemplate.vue';
     <!-- <Play /> -->
     <!-- <BottomChat /> -->
     <!-- <Usertemplate /> -->
+    <!-- <PortalUsers /> -->
   </div>
 </template>
 

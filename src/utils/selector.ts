@@ -4,7 +4,7 @@ const roomBgs = [
     'https://pic.imgdb.cn/item/66ae2a3ad9c307b7e9ea3564.jpg',
     'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea3694.jpg',
     'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea37ac.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea381f.jpg',
+    'https://pic.imgdb.cn/item/66af04d1d9c307b7e90d751b.png',
     'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea3898.png',
     'https://pic.imgdb.cn/item/66ae2a39d9c307b7e9ea3300.jpg',
     'https://pic.imgdb.cn/item/66ae2a3ad9c307b7e9ea33be.png',
@@ -40,8 +40,8 @@ export const getAssetsFile = (id: any) => {
     } else if (id == 4) {
         return roomBgs[3]
     } else if (id == 5) {
-        return new URL(`@/assets/img/bg/t2.jpg`, import.meta.url).href
+        return roomBgs[4]
     } else if (id == 6) {
-        return new URL(`@/assets/img/bg/t3.jpg`, import.meta.url).href
+        return roomBgs[5]
     }
 }

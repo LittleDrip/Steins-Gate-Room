@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import dish from "@/assets/img/dish1.png";
+// import dish from "@/assets/img/dish1.png";
+// import dish from 'https://s21.ax1x.com/2024/08/04/pkjx1AI.png';
+const dish = 'https://s21.ax1x.com/2024/08/04/pkjx1AI.png';
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
 import Aside from '@/components/Aside/aside.vue';
 import MusicList from "@/components/MusicForGet/MusicList.vue";
 import Usertemplate from '@/components/Usertemplate/Usertemplate.vue';
-
+import BottomChat from '@/components/Bottom/BottomChat.vue';
 import { updateRoom, getAssetsFile } from '@/utils/selector';
 import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
@@ -105,7 +107,7 @@ onMounted(() => {
     <img :src="getAssetsFile(route.query.id)" />
   </div>
   <!--  -->
-  <div class="content">
+  <div class="content" style="max-width: 100vw;">
     <div class="header" style="text-align: center; margin-top: 0.5em">
       <h1 style="color: #4b5969; font-size: 2em; text-align: center;">
         {{ roomName
@@ -135,6 +137,12 @@ onMounted(() => {
     </div>
     <div style="margin-top: -6.5em">
       <Play @FatherClick="FatherClick" />
+    </div>
+    <div style="position: absolute;bottom: 0;width: 100%;">
+      <keep-alive>
+        <BottomChat />
+      </keep-alive>
+
     </div>
   </div>
 </template>

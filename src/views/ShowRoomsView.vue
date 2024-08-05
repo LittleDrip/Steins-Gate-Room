@@ -1,23 +1,15 @@
 <script lang="ts" setup>
 import logo from "@/assets/img/logo/logo.png";
-const bgImgs = [
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c094.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c0de.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c10c.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c158.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c195.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d5d9c307b7e9e7c1f2.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf30.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf67.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bf90.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7bfa6.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c008.jpg',
-  ' https://pic.imgdb.cn/item/66ae28d4d9c307b7e9e7c033.jpg'
-]
+import { bgImgs } from '@/utils/bgUtils';
+import { getAvatarUrlById } from '@/utils/avatarUtils';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
+import { useUserStore } from '@/stores/roomUsers';
+const userStore = useUserStore();
 // ------------------------
 import Login from '@/components/Login/login.vue';
+import PortalUsers from '@/components/Head/PortalUsers.vue';
 import { useAuthStore } from '@/stores/authStore';
+
 const authStore = useAuthStore();
 const showLogin = ref(true);
 const onLoginSuccess = () => {
@@ -30,28 +22,42 @@ import router from "@/router";
 const font = reactive({
   color: 'rgba(0, 0, 0, .15)',
 })
-import { onMounted, reactive, ref, watch, watchEffect } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch, watchEffect } from 'vue';
 const changesizeSpan = ref(11);
 const changesizeSpanOffset = ref(0);
 const screenWidth = window.screen.width;
 const screenHeight = window.screen.height;
-function handleMobileScreen() {
-  // 获取屏幕宽度和高度
 
-  // 判断是否为手机屏幕
-  if (screenWidth < screenHeight) {
+function handleMobileScreen() {
+  const body = document.body;
+  if (!body) {
+    return;
+  }
+  const { clientWidth, clientHeight } = body;
+  if (clientWidth < clientHeight) {
+    body.style.fontSize = '3vw';
     changesizeSpan.value = 22;
     changesizeSpanOffset.value = 1;
+
   } else {
+    body.style.fontSize = '2vh';
     changesizeSpan.value = 11;
     changesizeSpanOffset.value = 0;
   }
 }
-handleMobileScreen();
+
 onMounted(() => {
+  handleMobileScreen()
+  window.addEventListener('resize', handleMobileScreen);
+
   musicInfoStore.removeAll();
+  // window.addEventListener('resize', handleMobileScreen);
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', handleMobileScreen);
 
 })
+
 </script>
 
 <template>
@@ -66,10 +72,12 @@ onMounted(() => {
       <Transition name="fade" appear>
         <Login style="position: absolute;" v-if="!authStore.isLoggedIn" @loginSuccess="onLoginSuccess" />
       </Transition>
+      <PortalUsers style="position: absolute;" />
       <div class="header">
-        <img :src="logo" alt="" width="10%" style="transform:translateY(30%);" />
+        <img :src="logo" alt="" style=" width: 10em;;transform:translateY(30%);" />
       </div>
-      <el-scrollbar always max-height="50em">
+
+      <el-scrollbar always max-height="100vh">
         <div class="list">
           <!-- ------------------------------------------- -->
 
@@ -83,6 +91,11 @@ onMounted(() => {
                       <div class="headTitle">未来道具研究所</div>
                       <div class="content">
                         <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择</p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['1']">
+                            <img loading="lazy" :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -93,12 +106,17 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=2')">
                 <el-container>
-                  <el-aside><img :src="bgImgs[1]" class="coverImg"></img></el-aside>
+                  <el-aside><img loading="lazy" :src="bgImgs[1]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">SERN研究所</div>
                       <div class="content">
                         <p>先一起喊：El Psy Kongroo!</p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['2']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -113,12 +131,17 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=3')">
                 <el-container>
-                  <el-aside><img :src="bgImgs[2]" class="coverImg"></img></el-aside>
+                  <el-aside><img loading="lazy" :src="bgImgs[2]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">电器街</div>
                       <div class="content">
                         <p>不管在哪条世界线，你都不是一个人</p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['3']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -129,12 +152,17 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=4')">
                 <el-container>
-                  <el-aside><img :src="bgImgs[3]" class="coverImg"></img></el-aside>
+                  <el-aside><img loading="lazy" :src="bgImgs[3]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">女仆咖啡厅</div>
                       <div class="content">
                         <p>嘟 ~ 嘟 噜 ~ </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['4']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -149,12 +177,17 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
               <div class="common-layout" @click="router.push('/room?id=5')">
                 <el-container>
-                  <el-aside><img :src="bgImgs[4]" class="coverImg"></img></el-aside>
+                  <el-aside><img loading="lazy" :src="bgImgs[4]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">β世界线</div>
                       <div class="content">
                         <p>不管在哪条世界线，你都不是一个人</p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['5']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -165,12 +198,17 @@ onMounted(() => {
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
               <div class="common-layout" @click="router.push('/room?id=6')">
                 <el-container>
-                  <el-aside><img :src="bgImgs[5]" class="coverImg"></img></el-aside>
+                  <el-aside><img loading="lazy" :src="bgImgs[5]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">显像管工房</div>
                       <div class="content">
                         <p>Okey dokey! </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['6']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -191,6 +229,11 @@ onMounted(() => {
                       <div class="headTitle">轻音乐专区</div>
                       <div class="content">
                         <p>赶走一切坏心情 ~ </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['7']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -207,6 +250,11 @@ onMounted(() => {
                       <div class="headTitle">流行歌分享</div>
                       <div class="content">
                         <p>“人在城乡结合部 心在巴黎时装周 ” </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['8']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -227,6 +275,11 @@ onMounted(() => {
                       <div class="headTitle">欧美专区</div>
                       <div class="content">
                         <p>奔跑在日落和浪漫里 </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['9']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -243,6 +296,11 @@ onMounted(() => {
                       <div class="headTitle">粤语经典</div>
                       <div class="content">
                         <p>安静下来 用心听…</p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['10']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -255,7 +313,7 @@ onMounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=9')">
+              <div class="common-layout" @click="router.push('/room?id=11')">
                 <el-container>
                   <el-aside><img :src="bgImgs[10]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -263,6 +321,11 @@ onMounted(() => {
                       <div class="headTitle">国风民谣</div>
                       <div class="content">
                         <p>一曲惊鸿，千里醉人间 </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['11']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -271,7 +334,7 @@ onMounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=10')">
+              <div class="common-layout" @click="router.push('/room?id=12')">
                 <el-container>
                   <el-aside><img :src="bgImgs[11]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -279,6 +342,11 @@ onMounted(() => {
                       <div class="headTitle">Jay</div>
                       <div class="content">
                         <p>周杰伦歌单专场！ </p>
+                        <div class="avatarContainer">
+                          <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['12']">
+                            <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </el-main>
@@ -329,9 +397,28 @@ onMounted(() => {
   pointer-events: none;
 }
 
+.avatarContainer {
+  display: flex;
+}
+
+.avatarInCard {
+  margin-top: 2em;
+  margin-left: .3em;
+}
+
+.avatarInCard img {
+
+  width: 3.2em;
+  height: 3.2em;
+  border-radius: 50%;
+  border: .2em solid rgba(229, 131, 147, 0.4);
+
+}
+
 .all {
   -webkit-transition: .2s;
   transition: .2s;
+  /* height: 100vh; */
 }
 
 .el-main {
@@ -341,11 +428,13 @@ onMounted(() => {
 .header {
   line-height: 3.2em;
   width: 100vw;
+  height: 3.2em;
   background-color: #dab395;
-  position: fixed;
+  position: absolute;
   top: 0;
   z-index: 100;
 }
+
 
 .main {
   overflow: hidden;
@@ -356,6 +445,7 @@ onMounted(() => {
   margin-top: 3.2em;
   margin-left: -1%;
   overflow-x: hidden;
+
   /* 阻止横向滚动 */
 }
 

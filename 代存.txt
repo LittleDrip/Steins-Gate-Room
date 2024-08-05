@@ -1,0 +1,223 @@
+ <el-scrollbar always max-height="50em">
+        <div class="list">
+          <!-- ------------------------------------------- -->
+
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=1')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[0]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">未来道具研究所</div>
+                      <div class="content">
+                        <p>呼哈哈哈哈哈！能在这里相遇一定是命运石之门的选择</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=2')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[1]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">SERN研究所</div>
+                      <div class="content">
+                        <p>先一起喊：El Psy Kongroo!</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=3')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[2]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">电器街</div>
+                      <div class="content">
+                        <p>不管在哪条世界线，你都不是一个人</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=4')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[3]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">女仆咖啡厅</div>
+                      <div class="content">
+                        <p>嘟 ~ 嘟 噜 ~ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=5')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[4]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">β世界线</div>
+                      <div class="content">
+                        <p>不管在哪条世界线，你都不是一个人</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=6')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[5]" class="coverImg"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">显像管工房</div>
+                      <div class="content">
+                        <p>Okey dokey! </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=7')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[6]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">轻音乐专区</div>
+                      <div class="content">
+                        <p>赶走一切坏心情 ~ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=8')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[7]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">流行歌分享</div>
+                      <div class="content">
+                        <p>“人在城乡结合部 心在巴黎时装周 ” </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=9')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[8]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">欧美专区</div>
+                      <div class="content">
+                        <p>奔跑在日落和浪漫里 </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=10')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[9]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">粤语经典</div>
+                      <div class="content">
+                        <p>安静下来 用心听…</p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+          <!-- -------------------------------------------- -->
+          <el-row>
+            <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
+              <div class="common-layout" @click="router.push('/room?id=9')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[10]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">国风民谣</div>
+                      <div class="content">
+                        <p>一曲惊鸿，千里醉人间 </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+
+            <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
+              <div class="common-layout" @click="router.push('/room?id=10')">
+                <el-container>
+                  <el-aside><img :src="bgImgs[11]" class="coverImg" loading="lazy"></img></el-aside>
+                  <el-main>
+                    <div class="main">
+                      <div class="headTitle">Jay</div>
+                      <div class="content">
+                        <p>周杰伦歌单专场！ </p>
+                      </div>
+                    </div>
+                  </el-main>
+                </el-container>
+              </div>
+            </el-col>
+          </el-row>
+
+          <!-- -------------------------------------------- -->
+
+
+        </div>
+      </el-scrollbar>

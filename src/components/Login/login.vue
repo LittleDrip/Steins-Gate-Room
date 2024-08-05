@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { defineEmits } from 'vue';
-import { useAuthStore } from '@/stores/authStore';
-const authStore = useAuthStore();
+// import { useAuthStore } from '@/stores/authStore';
+import { useUserStore } from '@/stores/roomUsers';
+import { avatars, getAvatarUrlById } from '@/utils/avatarUtils';
+const userStore = useUserStore();
+// const authStore = useAuthStore();
 const emit = defineEmits(['loginSuccess']);
 const handleLogin = () => {
     if (nickname.value.trim() === '') {
@@ -10,46 +13,23 @@ const handleLogin = () => {
         return;
     }
     localStorage.setItem('nickName', nickname.value)
-    localStorage.setItem("avatar", selectedAvatar.value)
+    localStorage.setItem('avatarId', selectedAvatarId.value.toString());
     isNicknameEmpty.value = false;
 
     emit('loginSuccess');
 };
 
-const avatars = [
-    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbd2.jpg',
-    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cb70.jpg',
-    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbb0.jpg',
-    'https://pic.imgdb.cn/item/66ae2665d9c307b7e9e4cbb7.jpg',
-    'https://pic.imgdb.cn/item/66ae245ad9c307b7e9e246de.jpg',
-    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e489aa.jpg',
-    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e2036f.jpg',
-    'https://pic.imgdb.cn/item/66ae245ad9c307b7e9e246d4.jpg',
-    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e48997.jpg',
-    'https://pic.imgdb.cn/item/66ae261fd9c307b7e9e48985.jpg',
-    'https://pic.imgdb.cn/item/66ae261fd9c307b7e9e4896d.jpg',
-    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e628cd.jpg',
-    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e6283f.jpg',
-    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e6285c.jpg',
-    'https://pic.imgdb.cn/item/66ae2776d9c307b7e9e62869.jpg',
-    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e20379.jpg',
-    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e2038e.jpg',
-    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e203a4.jpg',
-    'https://pic.imgdb.cn/item/66ae2416d9c307b7e9e203b6.jpg',
-    'https://pic.imgdb.cn/item/66ae2620d9c307b7e9e4899d.jpg',
-
-
-
-]
 
 const nickname: any = ref(localStorage.getItem('nickName') != null ? localStorage.getItem('nickName') : '');
-const selectedAvatar: any = ref(localStorage.getItem('avatar') != null ? localStorage.getItem('avatar') : avatars[0]);
+const selectedAvatarId = ref(parseInt(localStorage.getItem('avatarId') || '0'));
+const selectedAvatar = ref(getAvatarUrlById(selectedAvatarId.value));
 
 const isNicknameEmpty = ref(false);
 
 
-const selectAvatar = (avatar: any) => {
-    selectedAvatar.value = avatar;
+const selectAvatar = (avatarId: number) => {
+    selectedAvatarId.value = avatarId;
+    selectedAvatar.value = getAvatarUrlById(avatarId);
 };
 watch(nickname, (newVal) => {
     isNicknameEmpty.value = !newVal;
@@ -72,13 +52,15 @@ watch(nickname, (newVal) => {
                 </div>
             </div>
             <div class="roleAvatar ScrollDiv">
-                <div v-for="(avatar, index) in avatars" :key="index" class="item1" @click="selectAvatar(avatar)">
-                    <img :src="avatar" :class="{ 'highlighted': avatar === selectedAvatar }" alt="加载中..." />
+                <div v-for="(avatar, index) in avatars" :key="index" class="item1" @click="selectAvatar(index)">
+                    <img loading="lazy" :src="avatar" :class="{ 'highlighted': index === selectedAvatarId }"
+                        alt="加载中..." />
                 </div>
             </div>
             <div class="JoinRoom">
                 <button class="comic-button" @click="handleLogin">进入大厅</button>
             </div>
+            <p class="currentPeople">当前在线人数：{{ userStore.totalCount }}</p>
         </div>
     </div>
 </template>
@@ -103,14 +85,15 @@ watch(nickname, (newVal) => {
     border-radius: 1em;
     /* background: pink; */
     width: 28em;
-    height: 38em;
+    height: 39em;
     /* background: antiquewhite; */
     -webkit-transition: .2s;
     transition: .2s;
 }
 
 .headPortal {
-    padding: 0.2em;
+
+    padding-top: 0.3em;
     text-align: center;
     font-size: 1.5em;
 }
@@ -221,6 +204,10 @@ watch(nickname, (newVal) => {
     border: 2px solid pink;
     box-shadow: 0 0 1em pink;
     transform: scale(1.2);
+}
+
+.currentPeople {
+    text-align: center;
 }
 
 /*  -webkit-transition: .2s;

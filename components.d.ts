@@ -34,6 +34,7 @@ declare module 'vue' {
     MusicList: typeof import('./src/components/MusicForGet/MusicList.vue')['default']
     Play: typeof import('./src/components/Music/Play.vue')['default']
     PlayMusic: typeof import('./src/components/MusicForGet/PlayMusic.vue')['default']
+    PortalUsers: typeof import('./src/components/Head/PortalUsers.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Setting: typeof import('./src/components/Aside/setting.vue')['default']

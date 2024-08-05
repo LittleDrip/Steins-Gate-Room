@@ -190,7 +190,7 @@ onUnmounted(() => {
     </transition>
     <el-image @dragstart.prevent class="fakeBg2" :src="FakeBg" alt="" />
 
-    <img @dragstart.prevent :src="MidIcon" alt="" @click="handleClick" style="width: 7em;margin-top: -0.6em;"
+    <img @dragstart.prevent :src="MidIcon" alt="" @click="handleClick" style="width: 6em;margin-top: -0.6em;"
       @mouseover="showPre1 = true" @mouseleave="showPre1 = false" />
     <transition name="fade">
       <div v-if="showPre2 == true" class="next">下一首</div>
@@ -220,20 +220,21 @@ onUnmounted(() => {
 }
 
 .fakeBg {
-  width: 5.4em;
-  height: 4.2em;
+  width: 4em;
+  height: 3.2em;
   position: absolute;
   border-radius: 1em;
   margin-left: -14em;
   margin-top: 0.5em;
   background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
   /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
 }
 
 .fakeBg2 {
   width: 5.4em;
-  height: 4.2em;
+  height: 3.8em;
   position: absolute;
   border-radius: 1em;
   margin-left: -1.1em;
@@ -244,12 +245,13 @@ onUnmounted(() => {
 }
 
 .fakeBg3 {
-  width: 5.4em;
-  height: 4.2em;
+  width: 4em;
+  height: 3.2em;
   position: absolute;
   border-radius: 1em;
   margin-left: 12em;
   margin-top: 0.5em;
+  backdrop-filter: blur(3px);
   background-color: rgba(255, 255, 255, 0.5);
   /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
@@ -265,9 +267,10 @@ onUnmounted(() => {
 
 .play img {
   cursor: pointer;
-  width: 3.8em;
+  width: 4.5em;
   height: 100%;
-  margin-right: 1.0em;
+  margin-top: 1em;
+  margin-right: 1.2em;
   /* margin-left: 2em; */
   transition: transform 0.05s ease;
   /* 过渡动画 */

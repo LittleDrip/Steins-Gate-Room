@@ -22,4 +22,14 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach(async (to, from, next) => {
+  const { useAuthStore } = await import('@/stores/authStore');
+  const authStore = useAuthStore();
+  if (to.path === '/room' && !authStore.isLoggedIn) {
+    next('/hall'); // 重定向到 /a
+  } else {
+    next(); // 允许导航
+  }
+});
+
 export default router

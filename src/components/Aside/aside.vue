@@ -3,6 +3,7 @@ import cola from '@/assets/img/aside/cola.png';
 import banana from '@/assets/img/aside/banana.png';
 import microwave from '@/assets/img/aside/microwave.png';
 import back from '@/assets/img/aside/back.png';
+import Wupa from '@/assets/img/aside/Wupa.png';
 import Setting from '@/components/Aside/setting.vue';
 import backyes from '@/assets/img/aside/backyes.png';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
@@ -14,9 +15,12 @@ import router from '@/router';
 
 const drawer = ref(false);
 const drawer2 = ref(false);
+const drawer3 = ref(false);
 const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
+const showPre3 = ref(false);
+
 const showDiv1 = ref(true);
 const showDiv2 = ref(false);
 const isLeaving = ref(false);
@@ -79,12 +83,19 @@ const formatDuration = (milliseconds: any) => {
     </div>
 
     <div class="all">
-        <el-image class="cola" @dragstart.prevent :src="cola" fit="cover" style="width: 3.125em; cursor: pointer;"
+
+        <el-image class="cola" @dragstart.prevent :src="cola" fit="cover" style="width: 2.6em; cursor: pointer;"
             @mouseover="showPre = true" @mouseleave="showPre = false" @click=" drawer = true"></el-image>
-        <el-image @dragstart.prevent :src="banana" fit="cover" style="margin-top: 1.25em; cursor: pointer;"
+
+        <el-image @dragstart.prevent :src="banana" fit="cover" style="width: 5em; margin-top: 1em; cursor: pointer;"
             @mouseover="showPre1 = true" @mouseleave="showPre1 = false" @click="drawer2 = true"></el-image>
-        <el-image @dragstart.prevent :src="microwave" fit="cover" style="margin-top: 1.25em;  cursor: pointer;"
-            @mouseover="showPre2 = true" @mouseleave="showPre2 = false" @click="AboutMe()"></el-image>
+
+        <el-image @dragstart.prevent :src="Wupa" fit="cover" style="width: 3em; margin-top: 1em; cursor: pointer;"
+            @mouseover="showPre2 = true" @mouseleave="showPre2 = false" @click="drawer3 = true"></el-image>
+
+        <el-image @dragstart.prevent :src="microwave" fit="cover" style="width: 6em;;margin-top: 1em;  cursor: pointer;"
+            @mouseover="showPre3 = true" @mouseleave=" showPre3 = false" @click="AboutMe()"></el-image>
+
     </div>
     <div class="showTag">
         <transition name="fade">
@@ -94,7 +105,10 @@ const formatDuration = (milliseconds: any) => {
             <div v-if="showPre1 == true" class="setting">设置</div>
         </transition>
         <transition name="fade">
-            <div v-if="showPre2 == true" class="about">关于</div>
+            <div v-if="showPre2 == true" class="chathistory">聊天记录</div>
+        </transition>
+        <transition name="fade">
+            <div v-if="showPre3 == true" class="about">关于</div>
         </transition>
     </div>
 
@@ -140,72 +154,83 @@ const formatDuration = (milliseconds: any) => {
         <!-- ---------------------------drawer2---------------- -->
         <el-drawer v-model="drawer2" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
             <Setting />
-
+        </el-drawer>
+        <!-- ---------------------------drawer2---------------- -->
+        <el-drawer v-model="drawer3" :with-header="false" direction="ltr" :before-close="handleClose" :size="0">
+            <!-- <Setting /> -->
+            1
         </el-drawer>
     </div>
 </template>
 
 <style scoped>
-.all {
-    width: 6.25em;
-    position: absolute;
-    right: 0.5%;
-    bottom: 10%;
-    user-select: none
+@media (max-width: 768px) {
+    .showTag {
+        display: none;
+    }
 }
 
+.all {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    right: 0;
+    bottom: 15%;
+    user-select: none;
+    align-items: center;
+    overflow: hidden;
+    z-index: 200;
+}
 
-.list {
+.showTag {
+    justify-content: center
+}
+
+.showTag div {
+    z-index: 201;
     position: absolute;
     padding: 0.3125em 0.625em;
-    color: #ffffff;
-    bottom: 20em;
-    right: 1.25em;
     border-radius: 0.25em;
     white-space: nowrap;
-    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
-    background-color: #0e1112;
+    /* box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2); */
+    background-color: rgba(43, 40, 40, 0.7);
+    text-align: center;
     transform: translateY(-50%);
+}
+
+.list {
+    color: #ffffff;
+    bottom: 24.5em;
+    right: .6em;
+
+    /* transform: translateY(-50%); */
 }
 
 .setting {
-    position: absolute;
-    padding: 0.3125em 0.625em;
     color: #ffffff;
-    bottom: 13.75em;
-    right: 2.1875em;
-    border-radius: 0.25em;
-    white-space: nowrap;
-    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
-    background-color: #0e1112;
-    transform: translateY(-50%);
+    bottom: 19.5em;
+    right: 1.25em;
+
+}
+
+.chathistory {
+    color: #ffffff;
+    bottom: 15.5em;
+    right: .6em;
+
 }
 
 .about {
-    position: absolute;
-    padding: 0.3125em 0.625em;
     color: #ffffff;
-    bottom: 8.75em;
-    right: 1.875em;
-    border-radius: 0.25em;
-    white-space: nowrap;
-    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
-    background-color: #0e1112;
-    transform: translateY(-50%);
+    bottom: 10.2em;
+    right: 1.25em;
+
 }
 
 
 .all .el-image {
+    width: 4em;
     transition: transform 0.05s ease;
-}
-
-.cola {
-    right: -1.5em;
-    transition: transform 0.05s ease;
-}
-
-.cola:hover {
-    transform: scale(6);
 }
 
 .all .el-image:hover {
@@ -233,9 +258,6 @@ const formatDuration = (milliseconds: any) => {
     transform: translateY(0.625em);
 }
 
-.showTag {
-    z-index: 100px;
-}
 
 .coverImg {
     width: 100%;
