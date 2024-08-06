@@ -23,6 +23,7 @@ const getRoomsUser = async () => {
 }
 watch(roomUsers, () => {
     userStore.setRoomUsers(roomUsers.value);
+    userStore.setTotalUsers(totalUsers.value)
     userStore.setTotalCount(totalUsers.value.length)
 }, { immediate: true })
 const updateTotalUsers = () => {

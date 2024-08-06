@@ -1,0 +1,17 @@
+.msgInfo{
+    /* position: absolute !important; */
+    /* top: 1em !important; */
+    background-color: rgb(255, 255, 255) !important;
+    border-color: red !important;
+    box-shadow: 0 0 3px 1px #ff5f5f !important;
+    height: 3em;
+    padding: 1em !important;
+}
+.msgInfo p{
+    
+    font-size: 1.3em;
+    color: black !important;
+}
+.msgInfo i{
+    display: none;
+}

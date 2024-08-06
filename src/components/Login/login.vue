@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import '@/assets/css/msg.css'
 import { ref, watch } from 'vue';
 import { defineEmits } from 'vue';
 // import { useAuthStore } from '@/stores/authStore';
@@ -12,13 +13,24 @@ const handleLogin = () => {
         isNicknameEmpty.value = true;
         return;
     }
+    const isNicknameTaken = userStore.totalUsers.some(user => user.username === nickname.value.trim());
+
+    if (isNicknameTaken) {
+        isNicknameEmpty.value = true;
+
+        ElMessage({
+            type: 'info',
+            plain: true,
+            message: '昵称已被占用~',
+            customClass: 'msgInfo',
+        })
+        return;
+    }
     localStorage.setItem('nickName', nickname.value)
     localStorage.setItem('avatarId', selectedAvatarId.value.toString());
     isNicknameEmpty.value = false;
-
     emit('loginSuccess');
 };
-
 
 const nickname: any = ref(localStorage.getItem('nickName') != null ? localStorage.getItem('nickName') : '');
 const selectedAvatarId = ref(parseInt(localStorage.getItem('avatarId') || '0'));
@@ -209,6 +221,8 @@ watch(nickname, (newVal) => {
 .currentPeople {
     text-align: center;
 }
+
+
 
 /*  -webkit-transition: .2s;
  transition: .2s; */

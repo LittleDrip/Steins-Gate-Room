@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// import dish from "@/assets/img/dish1.png";
-// import dish from 'https://s21.ax1x.com/2024/08/04/pkjx1AI.png';
-const dish = 'https://s21.ax1x.com/2024/08/04/pkjx1AI.png';
+import dish from "@/assets/img/dish1.png";
+// const dish = 'https://s21.ax1x.com/2024/08/04/pkjx1AI.png';
 import pole from "@/assets/img/pole.png";
 import Play from "@/components/Music/Play.vue";
 import Aside from '@/components/Aside/aside.vue';

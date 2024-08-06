@@ -83,15 +83,18 @@ const formatDuration = (milliseconds: any) => {
     </div>
 
     <div class="all">
-
+        <div class="fakeCircle"></div>
         <el-image class="cola" @dragstart.prevent :src="cola" fit="cover" style="width: 2.6em; cursor: pointer;"
             @mouseover="showPre = true" @mouseleave="showPre = false" @click=" drawer = true"></el-image>
+        <div class="fakeCircle1"></div>
 
         <el-image @dragstart.prevent :src="banana" fit="cover" style="width: 5em; margin-top: 1em; cursor: pointer;"
             @mouseover="showPre1 = true" @mouseleave="showPre1 = false" @click="drawer2 = true"></el-image>
+        <div class="fakeCircle2"></div>
 
         <el-image @dragstart.prevent :src="Wupa" fit="cover" style="width: 3em; margin-top: 1em; cursor: pointer;"
             @mouseover="showPre2 = true" @mouseleave="showPre2 = false" @click="drawer3 = true"></el-image>
+        <div class="fakeCircle3"></div>
 
         <el-image @dragstart.prevent :src="microwave" fit="cover" style="width: 6em;;margin-top: 1em;  cursor: pointer;"
             @mouseover="showPre3 = true" @mouseleave=" showPre3 = false" @click="AboutMe()"></el-image>
@@ -164,6 +167,42 @@ const formatDuration = (milliseconds: any) => {
 </template>
 
 <style scoped>
+.fakeCircle {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: .2em;
+    border-radius: 50%;
+    background-color: rgba(240, 248, 255, .32);
+    position: absolute;
+}
+
+.fakeCircle1 {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: 5em;
+    border-radius: 50%;
+    background-color: rgba(240, 248, 255, .32);
+    position: absolute;
+}
+
+.fakeCircle2 {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: 9.6em;
+    border-radius: 50%;
+    background-color: rgba(240, 248, 255, .32);
+    position: absolute;
+}
+
+.fakeCircle3 {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: 14.2em;
+    border-radius: 50%;
+    background-color: rgba(240, 248, 255, .32);
+    position: absolute;
+}
+
 @media (max-width: 768px) {
     .showTag {
         display: none;
@@ -198,6 +237,9 @@ const formatDuration = (milliseconds: any) => {
     transform: translateY(-50%);
 }
 
+
+
+
 .list {
     color: #ffffff;
     bottom: 24.5em;
@@ -219,6 +261,8 @@ const formatDuration = (milliseconds: any) => {
     right: .6em;
 
 }
+
+
 
 .about {
     color: #ffffff;

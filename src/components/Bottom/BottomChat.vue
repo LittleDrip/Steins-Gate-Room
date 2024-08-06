@@ -1,5 +1,11 @@
 <script lang="ts" setup>
 import sendImg from '@/assets/img/play/Mid2.png';
+import { useChatUsersStore } from '@/stores/ChatUsers';
+import { useMessageStore } from '@/stores/MessageStore';
+import { useCurrentMessageStore } from "@/stores/CurrentMessageStore";
+const CurrentMessageStore = useCurrentMessageStore();
+const MessageStore = useMessageStore();
+const chatUsersStore = useChatUsersStore();
 import router from "@/router";
 import { onActivated, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
@@ -83,6 +89,8 @@ onActivated(() => {
             // 接收用户列表消息
             userList.value = data.userlist;
             userCount.value = data.userlist.length;
+            chatUsersStore.setUserList(userList.value);
+            chatUsersStore.setUserCount(userCount.value);
             console.log(userList.value);
         } else if (data.type === 'musicInfo') {
             // 接收音乐信息
@@ -100,7 +108,8 @@ onActivated(() => {
         } else {
             // 接收消息
             messages.value.push(data);
-
+            CurrentMessageStore.setCurrentMessage(data.name, data.time, data.msg)
+            MessageStore.setMessages(messages.value);
             // // 获取节点
             // let chatHistory = document.getElementsByClassName("chat-message")[0];
             // if (chatHistory.scrollHeight >= chatHistory.clientHeight) {

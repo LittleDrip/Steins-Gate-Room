@@ -57,6 +57,15 @@ let currentInfo = computed(() => ({
 }));
 
 const handleClick = () => {
+  if (!debounceClick()) {
+    ElMessage({
+      type: 'info',
+      plain: true,
+      message: '操作过于频繁，请稍后~',
+      customClass: 'msgInfo',
+    })
+    return;
+  }
   emits("FatherClick");
   if (isPlaying.value) {
     audio.pause();
@@ -69,6 +78,15 @@ const handleClick = () => {
   }
 };
 const playNextSong = () => {
+  if (!debounceClick()) {
+    ElMessage({
+      type: 'info',
+      plain: true,
+      message: '操作过于频繁，请稍后~',
+      customClass: 'msgInfo',
+    })
+    return;
+  }
   if (isPlaying.value == true) {
     currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
@@ -92,6 +110,15 @@ const playNextSong = () => {
   //
 };
 const playPreviousSong = () => {
+  if (!debounceClick()) {
+    ElMessage({
+      type: 'info',
+      plain: true,
+      message: '操作过于频繁，请稍后~',
+      customClass: 'msgInfo',
+    })
+    return;
+  }
   if (isPlaying.value == true) {
     currentSongIndex.value =
       (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
@@ -123,7 +150,7 @@ watch(
       // 现在可以安全地访问 ListInfo 的 URL
 
       audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
-      audio.volume = 0.1;
+      audio.volume = 0.4;
 
       audio.addEventListener("ended", playNextSong);
       // ----------------------
@@ -172,6 +199,33 @@ onUnmounted(() => {
   StatusInfo.setSongIndex(0);  //将高亮设置为第1个，之后可能会废除
 
 });
+const lastClickTime = ref(0);
+const clickCount = ref(0);
+const clickLimit = 10;
+const timeLimit = 5000; // 5 seconds
+const isBlocked = ref(false);
+const debounceClick = () => {
+  if (isBlocked.value) {
+    return false;
+  }
+
+  const now = Date.now();
+  if (now - lastClickTime.value < timeLimit) {
+    clickCount.value++;
+    if (clickCount.value > clickLimit) {
+      isBlocked.value = true;
+      setTimeout(() => {
+        isBlocked.value = false;
+        clickCount.value = 0;
+      }, 10000); // 10 seconds
+      return false;
+    }
+  } else {
+    clickCount.value = 1;
+  }
+  lastClickTime.value = now;
+  return true;
+};
 </script>
 
 <template>
@@ -226,7 +280,7 @@ onUnmounted(() => {
   border-radius: 1em;
   margin-left: -14em;
   margin-top: 0.5em;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(3px);
   /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
@@ -239,7 +293,7 @@ onUnmounted(() => {
   border-radius: 1em;
   margin-left: -1.1em;
   margin-top: 0.5em;
-  /* background-color: rgba(255, 255, 255, 0.5); */
+  /* background-color: rgba(255, 255, 255, 0.4); */
   background-color: rgba(240, 211, 211, 0.5);
   z-index: -1;
 }
@@ -252,7 +306,7 @@ onUnmounted(() => {
   margin-left: 12em;
   margin-top: 0.5em;
   backdrop-filter: blur(3px);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.4);
   /* background-color: rgba(240, 211, 211, 0.5); */
   z-index: -1;
 }
