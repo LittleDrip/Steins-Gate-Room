@@ -13,6 +13,7 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import { getMusicLyrics } from '@/api/music';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
+
 const musicInfoStore = useMusicInfoStore();
 // Props
 const props = defineProps<{
@@ -97,14 +98,13 @@ watch(
 .lyrics {
     position: absolute;
     display: flex;
-
     width: 100%;
     margin-top: 6em;
     transition: transform 0.5s ease;
     flex-direction: column;
     align-items: center;
-    /* color: #283f4d; */
-    color: #000;
+    color: #4c4d5a
+        /* color: #000; */
 }
 
 .lyrics-line {

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Aside: typeof import('./src/components/Aside/aside.vue')['default']
     BottomChat: typeof import('./src/components/Bottom/BottomChat.vue')['default']
+    ChatHistory: typeof import('./src/components/Aside/chatHistory.vue')['default']
     Dialog: typeof import('./src/components/Dialog/dialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -26,6 +27,7 @@ declare module 'vue' {
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSlider: typeof import('element-plus/es')['ElSlider']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     Link: typeof import('./src/components/Else/link.vue')['default']
     Login: typeof import('./src/components/Login/login.vue')['default']

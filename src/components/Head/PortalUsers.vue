@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getUserListService } from '@/api/userlist';
 import { getAvatarUrlById } from '@/utils/avatarUtils';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useUserStore } from '@/stores/roomUsers';
 const userStore = useUserStore();
 const roomUsers = ref<{ [key: string]: any[] }>({});
@@ -15,6 +15,8 @@ const totalUsers = ref<{ username: string; avatar: string }[]>([]);
 //     '7': [{ username: '游客226', avatar: '3', room: '2' }],
 //     '10': [{ username: 'phone', avatar: '5', room: '4' }]
 // });
+let intervalId: any = null;
+
 const getRoomsUser = async () => {
     let res = await getUserListService();
     roomUsers.value = res;
@@ -35,7 +37,13 @@ const updateTotalUsers = () => {
 };
 onMounted(() => {
     getRoomsUser();
+    intervalId = setInterval(getRoomsUser, 3000); // 每隔三秒执行一次 getRoomsUser
 })
+onUnmounted(() => {
+    if (intervalId) {
+        clearInterval(intervalId); // 清除定时任务
+    }
+});
 </script>
 
 <template>

@@ -29,6 +29,7 @@ let text = ref("");
 let messages = ref([]);
 
 const message = {
+    avatar: "",
     name: "",
     time: "",
     msg: "",
@@ -39,22 +40,61 @@ let room = ref();
 watch(() => route.query.id, (newValue) => {
     room.value = newValue;
 }, { immediate: true })
+
+
+const lastExecuted = ref(0);
+const messageCount = ref(0);
+const isBlocked = ref(false); // 标志位，指示是否处于禁止状态
+const debounceTime = 5000; // 5秒
+const throttleTime = 10000; // 10秒
+
 const sendMessage = () => {
-    // if (text.value.trim() !== '') {
-    //     console.log('Message sent:', text.value);
-    //     text.value = '';
-    // }
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - lastExecuted.value;
+
+    if (isBlocked.value) {
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 发送频繁，请稍后再试~',
+        });
+        return;
+    }
+
+    if (timeElapsed < debounceTime) {
+        messageCount.value += 1;
+    } else {
+        messageCount.value = 1; // Reset count
+    }
+
+    lastExecuted.value = currentTime;
+
+    if (messageCount.value > 5) {
+        // 超过限制次数，禁用操作并弹窗
+        isBlocked.value = true;
+        setTimeout(() => {
+            isBlocked.value = false; // 解锁状态
+        }, throttleTime); // 禁用时间
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 发送频繁，请稍后~',
+        });
+        return;
+    }
+
     if (text.value != null && text.value !== "" && nickname.value != null) {
         message.name = nickname.value;
         message.time = formatTime(new Date());
+        message.avatar = localStorage.getItem("avatarId") || '0';
         message.msg = text.value;
         socket.send(JSON.stringify(message));
         message.msg = "";
         text.value = "";
     }
-};
-
-
+}
 onActivated(() => {
     console.log(room.value);
     nickname.value = localStorage.getItem("nickName")
@@ -108,8 +148,9 @@ onActivated(() => {
         } else {
             // 接收消息
             messages.value.push(data);
-            CurrentMessageStore.setCurrentMessage(data.name, data.time, data.msg)
-            MessageStore.setMessages(messages.value);
+            CurrentMessageStore.setCurrentMessage(room.value, data.name, data.time, data.msg)
+            MessageStore.addMessage(room.value, data);
+            // MessageStore.setMessages(messages.value);
             // // 获取节点
             // let chatHistory = document.getElementsByClassName("chat-message")[0];
             // if (chatHistory.scrollHeight >= chatHistory.clientHeight) {
@@ -163,6 +204,13 @@ const handleKeyUp = (event: KeyboardEvent) => {
         sendMessage();
     }
 };
+// 监听 portalMsges 的变化
+watch(portalMsges, () => {
+    const container = document.querySelector('.portalMsgesContainer') as HTMLElement;
+    if (container && container.scrollHeight > container.clientHeight) {
+        container.scrollTop = container.scrollHeight;
+    }
+}, { deep: true });
 </script>
 
 <template>
@@ -170,9 +218,10 @@ const handleKeyUp = (event: KeyboardEvent) => {
         {{ message.name }} <span>{{ message.time }}</span>
         {{ message.msg }}
     </div> -->
-
-    <div v-for="message in portalMsges" :key="message">
-        {{ message.msg }}
+    <div class="portalMsgesContainer">
+        <div class="portalMsges" v-for="message in portalMsges" :key="message">
+            {{ message.msg }}
+        </div>
     </div>
     <div class="footerDiv">
         <div class="footerBar">
@@ -187,6 +236,21 @@ const handleKeyUp = (event: KeyboardEvent) => {
 </template>
 
 <style scoped>
+.portalMsgesContainer {
+    max-height: 16em;
+    /* 定义最大高度 */
+    overflow-y: auto;
+    /* 超出内容自动滚动 */
+    line-height: 1.45em;
+    overflow: hidden;
+}
+
+.portalMsges {
+    font-size: .95em;
+    position: relative;
+    color: #f2f3f2;
+}
+
 .footerDiv {
     position: relative;
     width: 100%;

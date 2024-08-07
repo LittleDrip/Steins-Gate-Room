@@ -1,15 +1,16 @@
 const roomBgs = [
-    'https://s21.ax1x.com/2024/05/03/pkkhOCd.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3ad9c307b7e9ea34bd.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3ad9c307b7e9ea3564.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea3694.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea37ac.jpg',
-    'https://pic.imgdb.cn/item/66af04d1d9c307b7e90d751b.png',
-    'https://pic.imgdb.cn/item/66ae2a3bd9c307b7e9ea3898.png',
-    'https://pic.imgdb.cn/item/66ae2a39d9c307b7e9ea3300.jpg',
-    'https://pic.imgdb.cn/item/66ae2a3ad9c307b7e9ea33be.png',
-    'https://pic.imgdb.cn/item/66ae2ac3d9c307b7e9ebe11d.jpg',
-    'https://pic.imgdb.cn/item/66ae2ac3d9c307b7e9ebe186.jpg',
+    'https://pic.imgdb.cn/item/66b39447d9c307b7e99b1f15.jpg',
+    'https://pic.imgdb.cn/item/66b3903ad9c307b7e9930421.jpg',
+    'https://pic.imgdb.cn/item/66b3903ad9c307b7e993046b.jpg',
+    'https://pic.imgdb.cn/item/66b3aae3d9c307b7e9d471a8.jpg',
+    'https://pic.imgdb.cn/item/66b3903ad9c307b7e99304b6.jpg',
+    'https://pic.imgdb.cn/item/66b397f6d9c307b7e9a29370.jpg',
+    'https://pic.imgdb.cn/item/66b39087d9c307b7e9939498.jpg',
+    'https://pic.imgdb.cn/item/66b3a9d5d9c307b7e9d11da7.jpg',
+    'https://pic.imgdb.cn/item/66b39084d9c307b7e99391bc.jpg',
+    'https://pic.imgdb.cn/item/66b3ac93d9c307b7e9d60046.jpg',
+    'https://pic.imgdb.cn/item/66b3abe6d9c307b7e9d577c7.jpg',
+    'https://pic.imgdb.cn/item/66b3918dd9c307b7e9957797.jpg' //default
 ]
 
 export function updateRoom(id: any) {
@@ -43,5 +44,17 @@ export const getAssetsFile = (id: any) => {
         return roomBgs[4]
     } else if (id == 6) {
         return roomBgs[5]
+    } else if (id == 7) {
+        return roomBgs[6];
+    } else if (id == 8) {
+        return roomBgs[7]
+    } else if (id == 9) {
+        return roomBgs[8]
+    } else if (id == 10) {
+        return roomBgs[9]
+    } else if (id == 11) {
+        return roomBgs[10]
+    } else if (id == 12) {
+        return roomBgs[11]
     }
 }

@@ -8,10 +8,13 @@ import Setting from '@/components/Aside/setting.vue';
 import backyes from '@/assets/img/aside/backyes.png';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
 import { useStatusInfo } from '@/stores/StatusInfo';
+import chatHistory from '@/components/Aside/chatHistory.vue';
 const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
-import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue';
 import router from '@/router';
+// import { useRoute } from 'vue-router';
+
 
 const drawer = ref(false);
 const drawer2 = ref(false);
@@ -20,7 +23,6 @@ const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
 const showPre3 = ref(false);
-
 const showDiv1 = ref(true);
 const showDiv2 = ref(false);
 const isLeaving = ref(false);
@@ -159,9 +161,10 @@ const formatDuration = (milliseconds: any) => {
             <Setting />
         </el-drawer>
         <!-- ---------------------------drawer2---------------- -->
-        <el-drawer v-model="drawer3" :with-header="false" direction="ltr" :before-close="handleClose" :size="0">
-            <!-- <Setting /> -->
-            1
+
+        <el-drawer style=" background-color: #f0f0f0; " v-model="drawer3" :with-header="false" direction="ltr"
+            :before-close="handleClose" :size="0">
+            <chatHistory />
         </el-drawer>
     </div>
 </template>
@@ -220,6 +223,7 @@ const formatDuration = (milliseconds: any) => {
     overflow: hidden;
     z-index: 200;
 }
+
 
 .showTag {
     justify-content: center
@@ -367,5 +371,16 @@ button:hover {
 button:active {
     transform: translate(0.05em, 0.05em);
     box-shadow: 0.05em 0.05em;
+}
+
+.message-container {
+    padding: 10px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.message {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 </style>

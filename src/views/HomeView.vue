@@ -11,7 +11,8 @@ import { updateRoom, getAssetsFile } from '@/utils/selector';
 import { useRoute } from 'vue-router';
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
-
+import { useChatUsersStore } from "@/stores/ChatUsers";
+const chatUsersStore = useChatUsersStore();
 
 const musicStore = useMusicInfoStore();
 const route = useRoute();
@@ -103,7 +104,7 @@ onMounted(() => {
   <Aside />
   <Usertemplate />
   <div class="bg">
-    <img :src="getAssetsFile(route.query.id)" />
+    <img id="bgImg" :src="getAssetsFile(route.query.id)" />
   </div>
   <!--  -->
   <div class="content" style="max-width: 100vw;">
@@ -116,7 +117,7 @@ onMounted(() => {
             color: #4b5969;
             font-size: .5em;
             transform: translateY(-100%);
-          ">1</span>
+          ">{{ chatUsersStore.userCount }}/8</span>
       </h1>
       <h3 class="title2" style="color: #4b5969; font-size: 1.5em; text-align: center;font-weight: 500;">
         {{ musicName }}<span style="color: #6c7f92; font-size: 0.5em"> - </span><span
@@ -163,6 +164,11 @@ onMounted(() => {
   height: inherit;
   object-fit: cover;
 
+}
+
+#bgImg {
+  background: url("../assets/img/bg/littleImg.jpg") no-repeat center center;
+  background-size: cover;
 }
 
 .content {

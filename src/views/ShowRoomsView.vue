@@ -23,6 +23,7 @@ const font = reactive({
   color: 'rgba(0, 0, 0, .15)',
 })
 import { onMounted, onUnmounted, reactive, ref, watch, watchEffect } from 'vue';
+// import { ElMessage } from "element-plus";
 const changesizeSpan = ref(11);
 const changesizeSpanOffset = ref(0);
 const screenWidth = window.screen.width;
@@ -45,6 +46,22 @@ function handleMobileScreen() {
     changesizeSpanOffset.value = 0;
   }
 }
+const joinRoom = (roomId: any) => {
+  const roomUsers = userStore.roomUsers[roomId] || [];
+  if (roomUsers.length >= 8) {
+    // 如果房间已满，显示提示消息或执行其他操作
+    ElMessage({
+      type: 'error',
+      customClass: 'msgInfo',
+      plain: true,
+      message: '🍥 房间已满~',
+    });
+    return;
+    return;
+  }
+  // 进入房间的逻辑
+  router.push(`/room?id=${roomId}`);
+};
 
 onMounted(() => {
   handleMobileScreen()
@@ -83,7 +100,7 @@ onUnmounted(() => {
 
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=1')">
+              <div class="common-layout" @click="joinRoom(1)">
                 <el-container>
                   <el-aside><img :src="bgImgs[0]" class="coverImg"></img></el-aside>
                   <el-main>
@@ -94,6 +111,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['1']">
                             <img loading="lazy" :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['1']">{{ userStore.roomUsers['1'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -115,6 +136,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['2']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['2']">{{ userStore.roomUsers['2'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -141,6 +166,10 @@ onUnmounted(() => {
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['3']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
                           </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['3']">{{ userStore.roomUsers['3'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -161,6 +190,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['4']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['4']">{{ userStore.roomUsers['4'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -187,6 +220,10 @@ onUnmounted(() => {
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['5']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
                           </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['5']">{{ userStore.roomUsers['5'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -207,6 +244,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['6']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['6']">{{ userStore.roomUsers['6'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -233,6 +274,10 @@ onUnmounted(() => {
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['7']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
                           </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['7']">{{ userStore.roomUsers['7'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -253,6 +298,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['8']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['8']">{{ userStore.roomUsers['8'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -279,6 +328,10 @@ onUnmounted(() => {
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['9']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
                           </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['9']">{{ userStore.roomUsers['9'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -299,6 +352,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['10']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['10']">{{ userStore.roomUsers['10'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -325,6 +382,10 @@ onUnmounted(() => {
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['11']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
                           </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['11']">{{ userStore.roomUsers['11'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -345,6 +406,10 @@ onUnmounted(() => {
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['12']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
+                          </div>
+                          <div class="currentUser">
+                            <p v-if="userStore.roomUsers['12']">{{ userStore.roomUsers['12'].length }} / 8</p>
+                            <p v-else>0 / 8 </p>
                           </div>
                         </div>
                       </div>
@@ -468,6 +533,17 @@ onUnmounted(() => {
   /* height: inherit; */
   border-radius: .6em;
 }
+
+.currentUser {
+
+  margin-left: auto;
+  margin-right: .5em;
+  font-size: 1.3em;
+  margin-top: 3em;
+  color: #efa55a;
+}
+
+.currentUser p {}
 
 .el-container {
   height: 8.5em;

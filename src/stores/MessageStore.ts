@@ -4,13 +4,23 @@ import { ref } from 'vue';
 export const useMessageStore = defineStore('message', () => {
 
     // 信息列表
-    let messages = ref([]);
+    let messages: any = ref({});
 
 
-
-    function setMessages(newMessages: any) {
-        messages.value = newMessages;
+    function addMessage(roomId: any, newMessage: any) {
+        if (!messages.value[roomId]) {
+            messages.value[roomId] = [];
+        }
+        messages.value[roomId].push(newMessage);
+    }
+    function clearMessagesForRoom() {
+        if (messages.value) {
+            messages.value = {};
+        }
+    }
+    function getMessages(roomId: any) {
+        return messages.value[roomId] || [];
     }
 
-    return { messages, setMessages };
+    return { messages, addMessage, getMessages, clearMessagesForRoom };
 });

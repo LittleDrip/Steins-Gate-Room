@@ -3,27 +3,41 @@ import { useChatUsersStore } from '@/stores/ChatUsers';
 import { getAvatarUrlById } from '@/utils/avatarUtils';
 import { useMessageStore } from '@/stores/MessageStore';
 import { useCurrentMessageStore } from '@/stores/CurrentMessageStore';
-import { watch, watchEffect } from 'vue';
+import { onMounted, watch, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import audioSrc from '@/assets/audio/didi.mp3';
+const route = useRoute();
 const MessageStore = useMessageStore();
 const chatUsersStore = useChatUsersStore();
 const CurrentMessageStore = useCurrentMessageStore();
-// watchEffect(() => {
-
-//     console.log(CurrentMessageStore.currentMessages);
-// })
-
+watch(
+    () => CurrentMessageStore.audioCount, (newValue, oldValue) => {
+        if (audio) {
+            audio.play().catch(error => {
+                console.error('Error playing audio:', error);
+            });
+        }
+    },
+    { deep: true }
+);
+const currentRoomId = String(route.query.id); // 获取当前房间 ID
+let audio: HTMLAudioElement;
+onMounted(() => {
+    // 初始化音频对象并设置音频文件路径
+    audio = new Audio(audioSrc);
+})
 </script>
 
 <template>
-
     <div class="UserAvatarList">
         <div class="UserContainer1">
             <div v-for="(user, index) in chatUsersStore.userList.slice(0, 2)" :key="index"
                 :class="{ 'AvatarDiv1': index === 1, 'AvatarDiv': index === 0, 'oneuser': chatUsersStore.userCount == 1 }">
                 <div class="relativeContent">
                     <transition name="slide-fade">
-                        <div v-if="CurrentMessageStore.currentMessages.has(user.username)" class="currentMessage">
-                            <p> {{ CurrentMessageStore.currentMessages.get(user.username).msg }}</p>
+                        <div v-if="CurrentMessageStore.messagesByRoom.get(currentRoomId)?.has(user.username)"
+                            class="currentMessage">
+                            <p>{{ CurrentMessageStore.messagesByRoom.get(currentRoomId)?.get(user.username)?.msg }}</p>
                         </div>
                     </transition>
                 </div>
@@ -37,13 +51,16 @@ const CurrentMessageStore = useCurrentMessageStore();
             <div v-for="(user, index) in chatUsersStore.userList.slice(2, 8)" :key="index" class="AvatarDivBottom">
                 <div class="relativeContent">
                     <transition name="slide-fade">
-                        <div v-if="CurrentMessageStore.currentMessages.has(user.username)" class="currentMessageBottom">
-                            <p> {{ CurrentMessageStore.currentMessages.get(user.username).msg }}</p>
+                        <div v-if="CurrentMessageStore.messagesByRoom.get(currentRoomId)?.has(user.username)"
+                            class="currentMessage">
+                            <p>{{ CurrentMessageStore.messagesByRoom.get(currentRoomId)?.get(user.username)?.msg }}</p>
                         </div>
                     </transition>
                 </div>
                 <img :src="getAvatarUrlById(user.avatar)" :alt="`User ${user.username}`">
-                <div class="avatarBoxNick avatarSmall">{{ user.username }} </div>
+                <div class="avatarBoxNick avatarSmall">
+                    <p>{{ user.username }} </p>
+                </div>
                 <!-- 显示用户的当前消息 -->
 
             </div>
@@ -72,6 +89,7 @@ const CurrentMessageStore = useCurrentMessageStore();
     display: grid;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .UserContainer2 {
@@ -88,6 +106,8 @@ const CurrentMessageStore = useCurrentMessageStore();
 }
 
 .AvatarDiv {
+    align-items: center;
+    justify-items: center;
     grid-area: left;
     justify-content: center;
 }
@@ -101,6 +121,9 @@ const CurrentMessageStore = useCurrentMessageStore();
 
 .AvatarDiv1 {
     grid-area: right;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
     height: 3em;
 }
 
@@ -111,32 +134,34 @@ const CurrentMessageStore = useCurrentMessageStore();
 }
 
 
+.AvatarDivBottom {
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
 
 .AvatarDivBottom img {
     width: 5em;
     height: 5em;
     border-radius: 50%;
-    margin-right: 1.6em;
-    justify-content: center;
-    align-items: center;
-
 }
 
 .avatarBoxNickBig {
-    margin-top: -.8em;
-    /* padding-top: 1em; */
+    margin-top: -1em;
     backdrop-filter: blur(3px);
+    max-width: 8em;
     width: 100%;
-    height: 1.2em;
+    height: 1.5em;
     color: #dfdbdb;
-    font-size: 1.1em;
+    font-size: .8em;
     background-color: rgba(88, 94, 87, .64);
-    /* line-height: 1.1em; */
     border-radius: 3px;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+
+    /* 确保是块级元素 */
 }
 
 .oneuser {

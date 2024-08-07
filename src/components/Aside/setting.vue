@@ -1,6 +1,5 @@
 // components/VolumeControl.vue
 <template>
-    <div class="mengban"></div>
     <div class="allcontent">
         <p style="text-align: center;margin-bottom: 0em;font-size: 1.5em;">设 置</p>
         <el-divider direction="horizontal" content-position="center"></el-divider>
@@ -9,49 +8,42 @@
                 <span class="demonstration">歌曲音量：</span>
                 <el-slider class="slider" v-model="volume" :step="10" @input="updateVolume" />
             </div>
+            <div class="LyricsSetting">
+                <span style="font-size: 1.3em;padding-right: 0;">开启歌词：</span>
+                <el-switch style="--el-switch-on-color: pink;transform: translateY(-.2em);" size="large"
+                    v-model="openLyrics" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useVolumeStore } from '@/stores/volume';
-
-const volumeStore = useVolumeStore();
+const openLyrics = ref(false);
+const toolsStore = useVolumeStore();
 const volume = computed({
-    get: () => volumeStore.volume,
-    set: (value) => volumeStore.setVolume(value)
+    get: () => toolsStore.volume,
+    set: (value) => toolsStore.setVolume(value)
 });
-
+watch(openLyrics, (newValue) => {
+    toolsStore.setopenLyrics(newValue);
+    console.log(newValue);
+})
 const updateVolume = (value) => {
-    volumeStore.setVolume(value);
+    toolsStore.setVolume(value);
 };
 </script>
 
 <style setup>
-/* 显示歌词的时候开启 */
-/* .mengban {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    opacity: 0.95;
-    z-index: -100;
-    overflow: hidden;
-    backdrop-filter: blur(3px);
-    background-color: hsla(0, 0%, 100%, .09);
-    z-index: -99;
-} */
-
 .allcontent {
     width: 22em;
 
 }
 
 .settingItem {
-    align-items: center;
-
-
+    display: flex;
+    flex-direction: column;
 }
 
 .slider-demo-block {
@@ -65,6 +57,11 @@ const updateVolume = (value) => {
 .demonstration {
     font-size: 1.2em;
     margin-bottom: 0.5em;
+}
+
+.LyricsSetting {
+    margin-top: 2em;
+
 }
 
 .slider {

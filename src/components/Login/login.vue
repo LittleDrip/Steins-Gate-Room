@@ -4,13 +4,38 @@ import { ref, watch } from 'vue';
 import { defineEmits } from 'vue';
 // import { useAuthStore } from '@/stores/authStore';
 import { useUserStore } from '@/stores/roomUsers';
+import { containsSensitiveWords } from '@/utils/sensitive';
 import { avatars, getAvatarUrlById } from '@/utils/avatarUtils';
+// import { ElMessage } from 'element-plus';
+
 const userStore = useUserStore();
 // const authStore = useAuthStore();
 const emit = defineEmits(['loginSuccess']);
 const handleLogin = () => {
-    if (nickname.value.trim() === '') {
+    const trimmedNickname = nickname.value.trim();
+    if (trimmedNickname === '') {
         isNicknameEmpty.value = true;
+        return;
+    }
+    if (containsSensitiveWords(trimmedNickname)) {
+        isNicknameEmpty.value = true;
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 含违禁词！',
+        });
+        return;
+    }
+
+    if (trimmedNickname.length > 10) {
+        isNicknameEmpty.value = true;
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 昵称超过10个字符',
+        });
         return;
     }
     const isNicknameTaken = userStore.totalUsers.some(user => user.username === nickname.value.trim());
@@ -21,7 +46,7 @@ const handleLogin = () => {
         ElMessage({
             type: 'info',
             plain: true,
-            message: '昵称已被占用~',
+            message: '🍥 昵称已被占用~',
             customClass: 'msgInfo',
         })
         return;
@@ -85,7 +110,6 @@ watch(nickname, (newVal) => {
     height: 100%;
     -webkit-transition: .2s;
     transition: .2s;
-
     backdrop-filter: blur(3px);
     z-index: 999;
 }

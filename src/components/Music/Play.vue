@@ -15,6 +15,7 @@ const volumeStore = useVolumeStore();
 const musicStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+// import { ElMessage } from "element-plus";
 const isPlaying = ref(false);
 const isChangePlaying = ref(false);
 let audio: any = null;
@@ -61,7 +62,7 @@ const handleClick = () => {
     ElMessage({
       type: 'info',
       plain: true,
-      message: '操作过于频繁，请稍后~',
+      message: '🍥操作过于频繁，请稍后~',
       customClass: 'msgInfo',
     })
     return;
@@ -82,7 +83,7 @@ const playNextSong = () => {
     ElMessage({
       type: 'info',
       plain: true,
-      message: '操作过于频繁，请稍后~',
+      message: '🍥操作过于频繁，请稍后~',
       customClass: 'msgInfo',
     })
     return;
@@ -114,7 +115,7 @@ const playPreviousSong = () => {
     ElMessage({
       type: 'info',
       plain: true,
-      message: '操作过于频繁，请稍后~',
+      message: '🍥操作过于频繁，请稍后~',
       customClass: 'msgInfo',
     })
     return;
@@ -230,7 +231,7 @@ const debounceClick = () => {
 
 <template>
 
-  <div class="mengban"></div>
+  <div :class="{ 'mengban': volumeStore.openLyrics }"></div>
 
   <div class="play" style="text-align: center">
     <transition name="fade">
@@ -255,11 +256,15 @@ const debounceClick = () => {
       @mouseleave="showPre2 = false" />
   </div>
   <!-- 其他代码 -->
-  <Lyrics :currentTime="currentTime" style="margin-top: 1em;" />
+  <Lyrics :class="{ 'isOpenLyrics': !volumeStore.openLyrics }" :currentTime="currentTime" style="margin-top: 1em;" />
 </template>
 
 <style scoped>
 /* 显示歌词的时候开启 */
+.isOpenLyrics {
+  display: none;
+}
+
 .mengban {
   position: absolute;
   width: 100%;
