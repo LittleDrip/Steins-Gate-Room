@@ -10,23 +10,27 @@ import { useVolumeStore } from '@/stores/volume';
 import Lyrics from '@/components/Music/Lyrics.vue';
 const currentTime = ref(0);
 // ----------------------------
-
 const volumeStore = useVolumeStore();
 const musicStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+// import { getWebSocket } from "@/utils/websocketService";
 // import { ElMessage } from "element-plus";
 const isPlaying = ref(false);
 const isChangePlaying = ref(false);
+const route = useRoute();
+
 let audio: any = null;
+// let socket: WebSocket;
 let currentSongIndex = ref(0);
+
+
 watch(() => StatusInfo.getSongIndex(), () => {
   const currentSongIndexRef = StatusInfo.getSongIndex();
   currentSongIndex.value = currentSongIndexRef;
   audio.src = musicStore.ListInfo[currentSongIndex.value].url;
   musicStore.setCurrentInfo(currentInfo.value);
-  console.log(currentSongIndex.value);
-  // ----------------
   if (isPlaying.value == true) {
     audio.src = musicStore.ListInfo[currentSongIndex.value].url;
     audio.play();
@@ -57,7 +61,19 @@ let currentInfo = computed(() => ({
   time: musicStore.ListInfo[currentSongIndex.value].time,
 }));
 
+
+
+
 const handleClick = () => {
+  if (audio.src === window.location.href || audio.currentSrc === '') {
+    ElMessage({
+      type: 'info',
+      plain: true,
+      message: '🍥音源加载中，请稍后~',
+      customClass: 'msgInfo',
+    })
+    return;
+  }
   if (!debounceClick()) {
     ElMessage({
       type: 'info',
@@ -67,6 +83,7 @@ const handleClick = () => {
     })
     return;
   }
+
   emits("FatherClick");
   if (isPlaying.value) {
     audio.pause();
@@ -74,10 +91,15 @@ const handleClick = () => {
     audio.play();
   }
   isPlaying.value = !isPlaying.value;
+  console.log("isPlay:" + isPlaying.value);
+
   if (isChangePlaying.value == true) {
     isChangePlaying.value = false;
   }
+
 };
+
+
 const playNextSong = () => {
   if (!debounceClick()) {
     ElMessage({
@@ -88,27 +110,29 @@ const playNextSong = () => {
     })
     return;
   }
-  if (isPlaying.value == true) {
-    currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
-    audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+  setTimeout(() => {
+    if (isPlaying.value == true) {
+      currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
+      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+      musicStore.setCurrentInfo(currentInfo.value);
+      StatusInfo.setSongIndex(currentSongIndex.value)
+      audio.currentTime = 0;
+      // console.log(currentInfo.value);
+      audio.play();
+    } else {
+      isPlaying.value = true;
+      currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
+      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+      musicStore.setCurrentInfo(currentInfo.value);
+      StatusInfo.setSongIndex(currentSongIndex.value)
+      audio.currentTime = 0;
+      // console.log(currentInfo.value);
+      audio.play();
+      emits("FatherClick");
+    }
+  }, 50);
 
-    musicStore.setCurrentInfo(currentInfo.value);
-    StatusInfo.setSongIndex(currentSongIndex.value)
-    // console.log(currentInfo.value);
-    audio.play();
-  } else {
-    isPlaying.value = true;
-    currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
-    audio.src = musicStore.ListInfo[currentSongIndex.value].url;
-    musicStore.setCurrentInfo(currentInfo.value);
-    StatusInfo.setSongIndex(currentSongIndex.value)
 
-    // console.log(currentInfo.value);
-    audio.play();
-    emits("FatherClick");
-  }
-  // isChangePlaying.value = true;
-  //
 };
 const playPreviousSong = () => {
   if (!debounceClick()) {
@@ -120,85 +144,71 @@ const playPreviousSong = () => {
     })
     return;
   }
-  if (isPlaying.value == true) {
-    currentSongIndex.value =
-      (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
-    audio.src = musicStore.ListInfo[currentSongIndex.value].url;
-    musicStore.setCurrentInfo(currentInfo.value);
-    StatusInfo.setSongIndex(currentSongIndex.value)
+  setTimeout(() => {
+    if (isPlaying.value == true) {
+      currentSongIndex.value =
+        (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
+      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+      musicStore.setCurrentInfo(currentInfo.value);
+      StatusInfo.setSongIndex(currentSongIndex.value)
+    } else {
+      isPlaying.value = true;
+      currentSongIndex.value =
+        (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
+      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+      musicStore.setCurrentInfo(currentInfo.value);
+      StatusInfo.setSongIndex(currentSongIndex.value)
+      audio.play();
+      emits("FatherClick");
+    }
+  }, 50);
 
-    audio.play();
-  } else {
-    isPlaying.value = true;
-    currentSongIndex.value =
-      (currentSongIndex.value - 1 + musicStore.ListInfo.length) % musicStore.ListInfo.length;
-    audio.src = musicStore.ListInfo[currentSongIndex.value].url;
-    musicStore.setCurrentInfo(currentInfo.value);
-    StatusInfo.setSongIndex(currentSongIndex.value)
 
-    audio.play();
-    emits("FatherClick");
-  }
 };
 
 const showPre = ref(false);
 const showPre1 = ref(false);
 const showPre2 = ref(false);
-watch(
-  () => musicStore.ListInfo, // 监听 musicStore.ListInfo 的变化
-  (newList) => {
-    if (newList.length > 0) { // 确保列表不为空
-      // 现在可以安全地访问 ListInfo 的 URL
 
-      audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
-      audio.volume = 0.4;
 
-      audio.addEventListener("ended", playNextSong);
-      // ----------------------
-      audio.addEventListener("timeupdate", () => {
-        currentTime.value = audio.currentTime;
-      });
-      // ---------------------
-    }
-  },
-  { immediate: true } // 立即执行一次，确保首次加载时也能够监听
-);
+
 
 
 onMounted(() => {
   // ------------------
+  isPlaying.value = false;
+  watch(
+    () => musicStore.ListInfo, // 监听 musicStore.ListInfo 的变化
+    (newList) => {
+      if (newList.length > 0) { // 确保列表不为空
+        // 现在可以安全地访问 ListInfo 的 URL
 
-  // ------------------
-  // musicStore.setCurrentInfo(currentInfo.value);
-  // console.log(currentInfo.value);
-  // console.log(musicStore.ListInfo[currentSongIndex.value].url);
-  // audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
-  // console.log(audio.volume);
-  // console.log(audio);
-  audio.addEventListener("ended", playNextSong); // 监听音频结束事件
-  // ----------------------
-  audio.addEventListener("timeupdate", () => {
-    currentTime.value = audio.currentTime;
-  });
-  // ---------------------
+        audio = new Audio(musicStore.ListInfo[currentSongIndex.value].url);
+        audio.volume = volumeStore.volume / 100;
+        audio.addEventListener("ended", () => { playNextSong(); });
+        audio.addEventListener("timeupdate", () => {
+          currentTime.value = audio.currentTime;
+        });
+      }
+    },
+    { immediate: true } // 立即执行一次，确保首次加载时也能够监听
+  );
+  // audio.addEventListener("ended", playNextSong()); // 监听音频结束事件
+
 });
 
 onUnmounted(() => {
   audio.pause();
-  audio.removeEventListener("ended", playNextSong); // 移除监听器
+  audio.removeEventListener("ended", playNextSong()); // 移除监听器
   audio.removeEventListener("timeupdate", () => {
     currentTime.value = audio.currentTime;
   });
   audio.src = ''; // 清理音频源
   audio = null;
-  /* 
-  const isPlaying = ref(false);
-  const isChangePlaying = ref(false);
-   */
   isPlaying.value = false;
   isChangePlaying.value = false;
   StatusInfo.setSongIndex(0);  //将高亮设置为第1个，之后可能会废除
-
+  StatusInfo.setcurrentSongTime(0);
 });
 const lastClickTime = ref(0);
 const clickCount = ref(0);

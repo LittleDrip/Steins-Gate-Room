@@ -18,11 +18,17 @@ const router = createRouter({
       path: '/hall',
       name: 'roomlist',
       component: () => import("@/views/ShowRoomsView.vue")
-    }
+    },
+    {
+      path: '/phone-view',
+      name: 'phone-view',
+      component: () => import("@/views/PhoneView.vue"),
+    },
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
+
   const { useAuthStore } = await import('@/stores/authStore');
   const authStore = useAuthStore();
   if (to.path === '/room' && !authStore.isLoggedIn) {

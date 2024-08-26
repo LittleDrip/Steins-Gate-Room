@@ -5,7 +5,11 @@ import { useMessageStore } from '@/stores/MessageStore';
 import { useCurrentMessageStore } from '@/stores/CurrentMessageStore';
 import { onMounted, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+import { useVolumeStore } from '@/stores/volume';
+const toolsStore = useVolumeStore();
 import audioSrc from '@/assets/audio/didi.mp3';
+import bo from '@/assets/audio/bo.mp3';
+
 const route = useRoute();
 const MessageStore = useMessageStore();
 const chatUsersStore = useChatUsersStore();
@@ -13,18 +17,37 @@ const CurrentMessageStore = useCurrentMessageStore();
 watch(
     () => CurrentMessageStore.audioCount, (newValue, oldValue) => {
         if (audio) {
-            audio.play().catch(error => {
-                console.error('Error playing audio:', error);
-            });
+            audio.play();
         }
     },
     { deep: true }
 );
+watch(
+    () => chatUsersStore.userCount, (newValue, oldValue) => {
+        if (audio2) {
+            audio2.play();
+        }
+    }
+);
 const currentRoomId = String(route.query.id); // 获取当前房间 ID
 let audio: HTMLAudioElement;
+let audio2: HTMLAudioElement;
+
 onMounted(() => {
     // 初始化音频对象并设置音频文件路径
-    audio = new Audio(audioSrc);
+    audio2 = new Audio(bo);
+
+    watch(() => toolsStore.openNotice, (newValue) => {
+        if (newValue == true) {
+            audio = new Audio(audioSrc);
+
+        } else {
+            audio = new Audio();
+            audio2 = new Audio();
+
+        }
+    }, { immediate: true })
+
 })
 </script>
 
@@ -52,7 +75,7 @@ onMounted(() => {
                 <div class="relativeContent">
                     <transition name="slide-fade">
                         <div v-if="CurrentMessageStore.messagesByRoom.get(currentRoomId)?.has(user.username)"
-                            class="currentMessage">
+                            class="currentMessage currentMessage2">
                             <p>{{ CurrentMessageStore.messagesByRoom.get(currentRoomId)?.get(user.username)?.msg }}</p>
                         </div>
                     </transition>
@@ -95,8 +118,10 @@ onMounted(() => {
 .UserContainer2 {
     position: absolute;
     display: flex;
-    margin-top: 25em;
-
+    margin-top: 24em;
+    flex-wrap: wrap;
+    max-width: 45em;
+    /* overflow: auto; */
 }
 
 .UserContainer2 div {
@@ -115,6 +140,7 @@ onMounted(() => {
 .AvatarDiv img {
     width: 6em;
     height: 6em;
+    border: .2em solid rgb(223, 218, 219);
     border-radius: 50%;
     /* margin-right: 8em; */
 }
@@ -130,6 +156,7 @@ onMounted(() => {
 .AvatarDiv1 img {
     width: 6em;
     height: 6em;
+    border: .2em pink;
     border-radius: 50%;
 }
 
@@ -141,8 +168,10 @@ onMounted(() => {
 }
 
 .AvatarDivBottom img {
-    width: 5em;
-    height: 5em;
+    width: 7em;
+    height: 7em;
+    padding: 1em;
+    border: .2em pink;
     border-radius: 50%;
 }
 
@@ -170,7 +199,7 @@ onMounted(() => {
 
 .avatarBoxNick {
 
-    margin-top: -.8em;
+    margin-top: -1.8em;
     backdrop-filter: blur(3px);
     /* width: 4.8em; */
     width: 75%;
@@ -199,12 +228,28 @@ onMounted(() => {
     position: absolute;
     margin: 0 auto;
     box-sizing: border-box;
-    top: -3em;
+    top: -3.2em;
     left: 0;
     right: 0;
-
-
     /* 确保在头像上方 */
+}
+
+.currentMessage::after {
+    content: '';
+    position: absolute;
+    bottom: -.7em;
+    /* Position the arrow below the box */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: .4em;
+    /* Size of the arrow */
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+    /* Arrow color */
+}
+
+.currentMessage2 {
+    top: -2em;
 }
 
 .currentMessageBottom {

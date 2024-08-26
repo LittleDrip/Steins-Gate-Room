@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Github from '@/assets/svg/Github.svg';
 import cola from '@/assets/img/aside/cola.png';
 import banana from '@/assets/img/aside/banana.png';
 import microwave from '@/assets/img/aside/microwave.png';
@@ -9,6 +10,7 @@ import backyes from '@/assets/img/aside/backyes.png';
 import { useMusicInfoStore } from '@/stores/MusicInfo';
 import { useStatusInfo } from '@/stores/StatusInfo';
 import chatHistory from '@/components/Aside/chatHistory.vue';
+import About from '@/components/Aside/About.vue';
 const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -25,8 +27,12 @@ const showPre2 = ref(false);
 const showPre3 = ref(false);
 const showDiv1 = ref(true);
 const showDiv2 = ref(false);
+const showPage1 = ref(true);
+const showPage2 = ref(false);
+const showPage3 = ref(false);
 const isLeaving = ref(false);
 const centerDialogVisible = ref(false)
+const centerDialogVisible2 = ref(false)
 
 
 const currentTab = ref('playlist');  // 默认选中的标签
@@ -39,7 +45,24 @@ const showlist = () => {
     showDiv1.value = true;
     showDiv2.value = false; // 点击展示1后，隐藏展示2
 };
+const fun_showPage1 = () => {
+    showPage1.value = true;
+    showPage2.value = false; // 点击展示1后，隐藏展示2
+    showPage3.value = false; // 点击展示1后，隐藏展示2
 
+};
+const fun_showPage2 = () => {
+    showPage1.value = false;
+    showPage3.value = false; // 点击展示1后，隐藏展示2
+    showPage2.value = true; // 点击展示1后，隐藏展示2
+
+};
+const fun_showPage3 = () => {
+    showPage1.value = false;
+    showPage3.value = true; // 点击展示1后，隐藏展示2
+    showPage2.value = false; // 点击展示1后，隐藏展示2
+
+};
 const showadd = () => {
     showDiv2.value = true;
     showDiv1.value = false; // 点击展示2后，隐藏展示1
@@ -60,6 +83,89 @@ const formatDuration = (milliseconds: any) => {
 </script>
 
 <template>
+
+    <el-dialog style="border-radius: 1.1em;margin-top:8em; width: 30em;min-height: 23em;--color: rgba(114, 114, 114, 0.3);
+  background-color: #f2f3f2;
+  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+  background-size: 55px 55px;" v-model="centerDialogVisible2" center title="" align-center>
+
+        <template #header style="display: inline-block;">
+            <div>
+                <Transition name="fade2">
+                    <h2 style="color: #333;" v-if="showPage1">关于本站</h2>
+                </Transition>
+                <Transition name="fade2">
+                    <h2 style="color: #333;" v-if="showPage2">关于作者</h2>
+                </Transition>
+                <Transition name="fade2">
+                    <h2 style="color: #333;" v-if="showPage3">常见问题</h2>
+                </Transition>
+
+            </div>
+
+        </template>
+
+        <div v-if="showPage1" style="color: #333;font-size: 1.2em;line-height: 1.8;padding: 0 1em;">
+            <p>呼哈哈哈哈哈，我是Drip，在介绍本站前先由衷感谢BlackCarDriver对此站界面UI提供和技术支持。 </p>
+            <p><strong
+                    style="color: #df6973;">为什么会有此站？</strong>最初是本人在无聊之时偶然发现一个极具特色的一个网站，主题和风格都特别讨喜，于是我就想着能不能做一个<strong>《命运石之门》</strong>主题的。说干就干！就开始慢慢写了~
+            </p>
+            <p>目前本站仍在完善中,如果有奇奇怪怪的bug或建议，都欢迎大家向我提供完善建议～</p>
+
+            <strong style="color: #df6973;">欢迎加入大家庭：</strong>
+            <span> Labmemの秘密基地：Q群-- <span style=" cursor: pointer;color:
+                #cb819f;">335463956</span></span>
+        </div>
+
+        <div v-if="showPage2" style="color: #333;font-size: 1.2em;line-height: 1.8;padding: 0 1em;">
+            <div style="display: flex; flex-direction: column; align-items: center;transform: translateX(-.8em);">
+                <el-avatar style="width: 8em;height: 8em;  border: .1em solid white; "
+                    src=" https://pic.imgdb.cn/item/66bb1bf0d9c307b7e9b2b2d8.jpg"></el-avatar>
+                <div class="avatarBoxNick avatarSmall">Drip </div>
+                <div style="font-size: .9em;margin-top: 1em;text-align: center">
+                    邮箱地址：<a style="color: palevioletred;" href="mailto:drippp0127@gmail.com">drippp0127@gmail.com</a>
+                    <p>Github: <a style="color: palevioletred;"
+                            href="https://github.com/LittleDrip/Steins-Gate-Room/">Steins-Gate-Room</a>
+                    </p>
+                    <p style="margin-top: 1em;">
+                        大家好，我是本站的作者Drip，欢迎大家来到石头门聊天室。欢迎大家交流各种问题，优化建议。大家可以讨论一切你感兴趣的话题。
+
+                        如果你有任何想法或反馈，请随时告诉我，我会尽力不断改进这个网站，提升大家的体验。</p>
+                </div>
+            </div>
+        </div>
+        <div v-if="showPage3" style="color: #333;font-size: 1.2em;line-height: 1.8;padding: 0 1em;">
+            <strong style="color: #df6973;">1. 手机版支持问题</strong>
+            <p style="color:gray;">目前对部分机型和浏览器的样式和功能支持不太完善，如部分机型只能使用系统音量来调节大小,如果有能力，建议大家尽可能使用电脑浏览。</p>
+            <br>
+            <strong style="color: #df6973;">2. 网页卡顿/加载慢？</strong>
+            <p style="color:gray">放心，不是你们的问题。是作者的荷包有限，买的服务器很烂，大家不要生气，如果本站人多的话会考虑升级配置的。最后，El Psy Kongroo~</p>
+
+
+        </div>
+
+
+        <template #footer>
+            <div>
+                <!-- ← →-->
+                <div style="text-align: right;display: block;">
+                    <span v-if="showPage1" style="font-size: 5em;cursor: pointer;" @click="fun_showPage2()">→</span>
+                </div>
+                <div style="display: flex; justify-content: space-between">
+                    <span v-if="showPage2" style="font-size: 5em;cursor: pointer;" @click="fun_showPage1()">←</span>
+                    <span v-if="showPage2" style="font-size: 5em;cursor: pointer;" @click="fun_showPage3()">→</span>
+                </div>
+
+                <span v-if="showPage3" style="font-size: 5em;cursor: pointer;" @click="fun_showPage2()">←</span>
+
+            </div>
+        </template>
+
+    </el-dialog>
+
+
+
     <div style="position: fixed;">
         <img class="backImg" @click="centerDialogVisible = true" :src="back"
             style="width: 6.5em;margin-top: 0.5em;margin-left: 0.2em;cursor: pointer; ">
@@ -99,7 +205,8 @@ const formatDuration = (milliseconds: any) => {
         <div class="fakeCircle3"></div>
 
         <el-image @dragstart.prevent :src="microwave" fit="cover" style="width: 6em;;margin-top: 1em;  cursor: pointer;"
-            @mouseover="showPre3 = true" @mouseleave=" showPre3 = false" @click="AboutMe()"></el-image>
+            @mouseover="showPre3 = true" @mouseleave=" showPre3 = false"
+            @click="centerDialogVisible2 = true"></el-image>
 
     </div>
     <div class="showTag">
@@ -117,7 +224,7 @@ const formatDuration = (milliseconds: any) => {
         </transition>
     </div>
 
-    <div class="drawer">
+    <div class="drawer ScrollDiv">
 
         <el-drawer v-model="drawer" :with-header="false" direction="rtl" :before-close="handleClose" :size="0">
             <div style="display: flex; text-align: center; font-weight: 600;">
@@ -133,9 +240,9 @@ const formatDuration = (milliseconds: any) => {
                 </div>
             </div>
             <div v-if="showDiv1" style="margin-top: 1.5em;">
-                <div class=" music-item" v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
+                <div class=" music-item " v-for="(item, index) in musicInfoStore.ListInfo" :key="index"
                     style="margin-top: 0.75em;" :class="{ 'highlight': index === StatusInfo.currentSongIndex }">
-                    <el-container @click="StatusInfo.setSongIndex(index);"
+                    <el-container @click="StatusInfo.setSongIndex(index); StatusInfo.changeSongIndex()"
                         style="height: 6.25em;width: auto;cursor: pointer;">
                         <el-aside width="6.875em" style="overflow: hidden;">
                             <img :src="item.picUrl" class="coverImg" loading="lazy"></img>
@@ -145,14 +252,20 @@ const formatDuration = (milliseconds: any) => {
                                 <div class="headTitle">{{ item.name }}</div>
                                 <div class="content">
                                     <p>{{ item.author }}</p>
-                                    <p style="margin: 1.375em 0 0 13pc">{{ formatDuration(item.time) }}</p>
+                                    <p style="margin: 1em 0 0 16em">{{ formatDuration(item.time) }}</p>
                                 </div>
                             </div>
                         </el-main>
                     </el-container>
                 </div>
             </div>
-            <div v-if="showDiv2">2</div>
+            <div v-if="showDiv2">
+                <div style="text-align: center;line-height: 2em;margin-top: 2em">
+                    <h2>此功能待开发</h2>
+                    <span>请等待更新🍥</span>
+                </div>
+
+            </div>
 
         </el-drawer>
 
@@ -326,6 +439,8 @@ const formatDuration = (milliseconds: any) => {
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
     font-size: 0.875em;
     margin-top: 1.25em;
     color: #999;
@@ -334,6 +449,13 @@ const formatDuration = (milliseconds: any) => {
 
 .music-item {
     border-radius: 0.375em;
+
+}
+
+.ScrollDiv {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #bac6cc #f2f3f2;
 }
 
 .music-item:hover {
@@ -382,5 +504,40 @@ button:active {
 .message {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+}
+
+.avatarBoxNick {
+    position: relative;
+    margin-top: -.5em;
+    text-align: center;
+    width: 4.2em;
+    /* height: 2em; */
+    color: #e2dede;
+    font-size: 1.4em;
+    background-color: rgba(88, 94, 87, .64);
+    line-height: 1.1em;
+    border-radius: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.avatarSmall {
+    background-color: rgba(0, 0, 0, .25);
+}
+
+.fade2-enter-active {
+    transition: all 0.1s ease-out;
+}
+
+.fade2-leave-active {
+    transition: all 0.05s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade2-enter-from,
+.fade2-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
 }
 </style>

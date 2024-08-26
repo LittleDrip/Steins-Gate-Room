@@ -29,6 +29,8 @@ let nickName = localStorage.getItem("nickName")
                 @click="loadMoreMessages">
                 查看更多
             </a>
+            <div v-if="visibleMessages.length === 0" style="color: #444;">暂无聊天记录，快来聊天吧~</div>
+
             <div class="user-message" v-for="(message, index) in visibleMessages" :key="index">
                 <div class="img">
                     <img class="user-img" loading="lazy" :src="getAvatarUrlById(message.avatar)" alt="">
@@ -81,7 +83,7 @@ let nickName = localStorage.getItem("nickName")
     position: absolute;
     left: .6em;
     /* Adjust position as needed */
-    top: 1.7em;
+    top: 1.3em;
     /* Adjust position as needed */
     width: 0;
     height: 0;
@@ -100,7 +102,8 @@ let nickName = localStorage.getItem("nickName")
     text-align: left;
     color: #fff !important;
     background-color: #8aa9d4;
-    padding: .5em 1em;
+    font-size: 1.2em;
+    padding: .6em 1em;
     border-radius: .3em;
 }
 
@@ -109,7 +112,7 @@ let nickName = localStorage.getItem("nickName")
     width: 3em;
     height: 3em;
     border-radius: 50%;
-    border: pink solid 1px;
+    border: rgb(255, 255, 255) solid 1px;
 }
 
 .user-text::before {

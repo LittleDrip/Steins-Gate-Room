@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from "vue";
-import zhenyouli from "@/assets/img/people/zhenyouli.png";
 import zhushou from '@/assets/img/people/zhushou.png';
-// import router from "@/router";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
@@ -22,11 +20,11 @@ const toPre = () => {
     </div>
     <div style="font-size: 1em; margin-top: .7em">El Psy Kongroo</div>
     <div style="margin-top: 1em"><img :src="zhushou" alt="" /></div>
-    <button style="margin-top: 2em;color: #000;" class="button" @click="toPre()">进 入</button>
+    <button style="margin-top: 2em;color: #000;" class="button" @click="toPre">进 入</button>
+    <div style="margin-top: 1.5em;font-weight: 500;">
+      历史访客 <span id="busuanzi_value_page_pv">Loading</span>
+    </div>
   </div>
-
-
-
 </template>
 
 <style scoped>
@@ -60,7 +58,8 @@ p {
   height: 3em;
   cursor: pointer;
   position: relative;
-  padding: 10px 24px;
+  /* padding: 10px 24px; */
+  padding: .8em 2em;
   font-size: 1.4em;
   color: white;
   border: 2px solid rgb(0, 0, 0);
@@ -71,19 +70,7 @@ p {
   overflow: hidden;
 }
 
-.button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 4em;
-  height: 100px;
-  border-radius: inherit;
-  scale: 0;
-  z-index: -1;
-  background-color: rgba(255, 248, 220, 0.585);
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
+
 
 .button:hover::before {
   scale: 3;
@@ -92,6 +79,7 @@ p {
 .button:hover {
   color: #000000;
   scale: 1.1;
+  background-color: #ecd8ae;
   /* box-shadow: 20 20px 20px rgba(0, 0, 0, 0.4); */
 }
 

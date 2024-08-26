@@ -23,9 +23,21 @@ export function updateRoom(id: any) {
     } else if (id == 4) {
         return "女仆咖啡厅"
     } else if (id == 5) {
-        return "轻音乐专区"
+        return "β世界线"
     } else if (id == 6) {
-        return "流行歌杂烩"
+        return "显像管工房"
+    } else if (id == 7) {
+        return "轻音乐专区"
+    } else if (id == 8) {
+        return "流行歌分享"
+    } else if (id == 9) {
+        return "欧美专区"
+    } else if (id == 10) {
+        return "粤语经典"
+    } else if (id == 11) {
+        return "国风民谣"
+    } else if (id == 12) {
+        return "杂烩属性大爆发"
     }
 }
 

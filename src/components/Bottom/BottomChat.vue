@@ -3,18 +3,20 @@ import sendImg from '@/assets/img/play/Mid2.png';
 import { useChatUsersStore } from '@/stores/ChatUsers';
 import { useMessageStore } from '@/stores/MessageStore';
 import { useCurrentMessageStore } from "@/stores/CurrentMessageStore";
+import { useStatusInfo } from '@/stores/StatusInfo';
+const statusStore = useStatusInfo();
 const CurrentMessageStore = useCurrentMessageStore();
 const MessageStore = useMessageStore();
 const chatUsersStore = useChatUsersStore();
 import router from "@/router";
-import { onActivated, ref, watch } from 'vue';
+import { onActivated, onDeactivated, onUnmounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRoute } from 'vue-router';
 const route = useRoute();
 
 let nickname = ref();
 let avatarId = ref<string | null>("");
-let prevUserList = ref([]);
 let socket: WebSocket;
+
 
 // 用户数量
 let userCount = ref(0);
@@ -41,12 +43,12 @@ watch(() => route.query.id, (newValue) => {
     room.value = newValue;
 }, { immediate: true })
 
-
 const lastExecuted = ref(0);
 const messageCount = ref(0);
 const isBlocked = ref(false); // 标志位，指示是否处于禁止状态
 const debounceTime = 5000; // 5秒
 const throttleTime = 10000; // 10秒
+
 
 const sendMessage = () => {
     const currentTime = Date.now();
@@ -85,7 +87,7 @@ const sendMessage = () => {
         return;
     }
 
-    if (text.value != null && text.value !== "" && nickname.value != null) {
+    if (text.value != null && text.value.trim() !== "" && nickname.value != null) {
         message.name = nickname.value;
         message.time = formatTime(new Date());
         message.avatar = localStorage.getItem("avatarId") || '0';
@@ -96,7 +98,7 @@ const sendMessage = () => {
     }
 }
 onActivated(() => {
-    console.log(room.value);
+    // console.log(room.value);
     nickname.value = localStorage.getItem("nickName")
     avatarId.value = localStorage.getItem("avatarId");
     if (nickname.value == null && avatarId.value == null) {
@@ -112,14 +114,13 @@ onActivated(() => {
     }
     // 开启 WebSocket 服务
     let socketHost = "localhost";
-    let socketPort = "8080";
+    let socketPort = "9090";
     let socketUrl =
         "ws://" + socketHost + ":" + socketPort + "/socket/" + room.value + '/' + nickname.value + '/' + avatarId.value;
-
     socket = new WebSocket(socketUrl);
     // 连接服务器
     socket.onopen = () => {
-        console.log("已连接至服务器");
+        // console.log("已连接至服务器");
     };
 
     // 浏览器接收服务端发送的消息
@@ -131,15 +132,7 @@ onActivated(() => {
             userCount.value = data.userlist.length;
             chatUsersStore.setUserList(userList.value);
             chatUsersStore.setUserCount(userCount.value);
-            console.log(userList.value);
-        } else if (data.type === 'musicInfo') {
-            // 接收音乐信息
-            console.log("------------------------");
-            console.log(data.data);
-            console.log("------------------------");
-
-            // musicInfo.value = data.data;
-
+            // console.log(userList.value);
         } else if (data.type === 'portalMsg') {
             // 接收音乐信息
             portalMsges.value.push(data);
@@ -148,33 +141,31 @@ onActivated(() => {
         } else {
             // 接收消息
             messages.value.push(data);
-            CurrentMessageStore.setCurrentMessage(room.value, data.name, data.time, data.msg)
+            CurrentMessageStore.setCurrentMessage(room.value, data.name, data.msg)
             MessageStore.addMessage(room.value, data);
-            // MessageStore.setMessages(messages.value);
-            // // 获取节点
-            // let chatHistory = document.getElementsByClassName("chat-message")[0];
-            // if (chatHistory.scrollHeight >= chatHistory.clientHeight) {
-            //     setTimeout(function () {
-            //         //设置滚动条到最底部
-            //         chatHistory.scrollTop = chatHistory.scrollHeight;
-            //     }, 0);
-            // }
         }
     };
     // 关闭服务
     socket.onclose = () => {
-        console.log("WebSocket 服务已关闭");
+        // console.log("WebSocket 服务已关闭");
     };
     // 错误事件
     socket.onerror = () => {
         console.log("WebSocket 服务发生错误");
     };
 })
+
 // 在组件卸载前关闭 WebSocket 连接
+onDeactivated(() => {
+    if (socket) {
+        // console.log("离开");
+        socket.close();
+    }
+})
 // 在路由离开前关闭 WebSocket 连接
 onBeforeRouteLeave((to, from, next) => {
     if (socket) {
-        console.log("离开");
+        // console.log("离开");
         socket.close();
     }
     next();

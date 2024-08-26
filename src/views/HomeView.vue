@@ -86,7 +86,7 @@ watch(
     if (newValue && !oldValue) {
       // newValue 为 true 且 oldValue 为 false
       // 执行你的操作
-      console.log("isPlay 刚变为 true，执行一些操作");
+      // console.log("isPlay 刚变为 true，执行一些操作");
     }
   },
   { deep: true, immediate: true } // 开启深度监听并立即执行
@@ -136,7 +136,10 @@ onMounted(() => {
       <img @dragstart.prevent :src="dish" alt="" style="width: 15.5em;margin-top: 3.5em;" />
     </div>
     <div style="margin-top: -6.5em">
-      <Play @FatherClick="FatherClick" />
+      <keep-alive>
+        <Play @FatherClick="FatherClick" />
+      </keep-alive>
+
     </div>
     <div style="position: absolute;bottom: 0;width: 100%;">
       <keep-alive>

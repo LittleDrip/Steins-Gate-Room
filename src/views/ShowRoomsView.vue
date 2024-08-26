@@ -47,6 +47,7 @@ function handleMobileScreen() {
   }
 }
 const joinRoom = (roomId: any) => {
+
   const roomUsers = userStore.roomUsers[roomId] || [];
   if (roomUsers.length >= 8) {
     // 如果房间已满，显示提示消息或执行其他操作
@@ -59,8 +60,10 @@ const joinRoom = (roomId: any) => {
     return;
     return;
   }
+  setTimeout(() => {
+    router.push(`/room?id=${roomId}`);
+  }, 200);
   // 进入房间的逻辑
-  router.push(`/room?id=${roomId}`);
 };
 
 onMounted(() => {
@@ -125,7 +128,7 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=2')">
+              <div class="common-layout" @click="joinRoom(2)">
                 <el-container>
                   <el-aside><img loading="lazy" :src="bgImgs[1]" class="coverImg"></img></el-aside>
                   <el-main>
@@ -154,14 +157,14 @@ onUnmounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=3')">
+              <div class="common-layout" @click="joinRoom(3)">
                 <el-container>
                   <el-aside><img loading="lazy" :src="bgImgs[2]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">电器街</div>
                       <div class="content">
-                        <p>不管在哪条世界线，你都不是一个人</p>
+                        <p>emmm,这里没有简介~</p>
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['3']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
@@ -179,7 +182,7 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=4')">
+              <div class="common-layout" @click="joinRoom(4)">
                 <el-container>
                   <el-aside><img loading="lazy" :src="bgImgs[3]" class="coverImg"></img></el-aside>
                   <el-main>
@@ -208,7 +211,7 @@ onUnmounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=5')">
+              <div class="common-layout" @click="joinRoom(5)">
                 <el-container>
                   <el-aside><img loading="lazy" :src="bgImgs[4]" class="coverImg"></img></el-aside>
                   <el-main>
@@ -233,14 +236,14 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=6')">
+              <div class="common-layout" @click="joinRoom(6)">
                 <el-container>
                   <el-aside><img loading="lazy" :src="bgImgs[5]" class="coverImg"></img></el-aside>
                   <el-main>
                     <div class="main">
                       <div class="headTitle">显像管工房</div>
                       <div class="content">
-                        <p>Okey dokey! </p>
+                        <p>Okey dokey！ </p>
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['6']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
@@ -262,7 +265,7 @@ onUnmounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=7')">
+              <div class="common-layout" @click="joinRoom(7)">
                 <el-container>
                   <el-aside><img :src="bgImgs[6]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -287,7 +290,7 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=8')">
+              <div class="common-layout" @click="joinRoom(8)">
                 <el-container>
                   <el-aside><img :src="bgImgs[7]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -316,7 +319,7 @@ onUnmounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=9')">
+              <div class="common-layout" @click="joinRoom(9)">
                 <el-container>
                   <el-aside><img :src="bgImgs[8]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -341,7 +344,7 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=10')">
+              <div class="common-layout" @click="joinRoom(10)">
                 <el-container>
                   <el-aside><img :src="bgImgs[9]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -370,7 +373,7 @@ onUnmounted(() => {
           <!-- -------------------------------------------- -->
           <el-row>
             <el-col :span="11" :xs="changesizeSpan" :offset="1" style="margin-right: 2em;">
-              <div class="common-layout" @click="router.push('/room?id=11')">
+              <div class="common-layout" @click="joinRoom(11)">
                 <el-container>
                   <el-aside><img :src="bgImgs[10]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
@@ -395,14 +398,14 @@ onUnmounted(() => {
             </el-col>
 
             <el-col :span="11" :xs="changesizeSpan" :offset="changesizeSpanOffset">
-              <div class="common-layout" @click="router.push('/room?id=12')">
+              <div class="common-layout" @click="joinRoom(12)">
                 <el-container>
                   <el-aside><img :src="bgImgs[11]" class="coverImg" loading="lazy"></img></el-aside>
                   <el-main>
                     <div class="main">
-                      <div class="headTitle">Jay</div>
+                      <div class="headTitle">杂烩属性大爆发</div>
                       <div class="content">
-                        <p>周杰伦歌单专场！ </p>
+                        <p>进来随便听听:D </p>
                         <div class="avatarContainer">
                           <div class="avatarInCard" v-for="(item, key) in userStore.roomUsers['12']">
                             <img :src="getAvatarUrlById(item.avatar)" alt="">
@@ -476,7 +479,7 @@ onUnmounted(() => {
   width: 3.2em;
   height: 3.2em;
   border-radius: 50%;
-  border: .2em solid rgba(229, 131, 147, 0.4);
+  border: .1em solid pink;
 
 }
 

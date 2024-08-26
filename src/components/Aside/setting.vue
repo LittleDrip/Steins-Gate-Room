@@ -9,9 +9,14 @@
                 <el-slider class="slider" v-model="volume" :step="10" @input="updateVolume" />
             </div>
             <div class="LyricsSetting">
-                <span style="font-size: 1.3em;padding-right: 0;">开启歌词：</span>
+                <span style="font-size: 1.2em;padding-right: 0;">开启歌词：</span>
                 <el-switch style="--el-switch-on-color: pink;transform: translateY(-.2em);" size="large"
-                    v-model="openLyrics" />
+                    v-model="toolsStore.openLyrics" />
+            </div>
+            <div class="noticeSetting" style="margin-top: 1.2em">
+                <span style="font-size: 1.2em;padding-right: 0;">开启通知：</span>
+                <el-switch style="--el-switch-on-color: pink;transform: translateY(-.2em);" size="large"
+                    v-model="toolsStore.openNotice" />
             </div>
         </div>
     </div>
@@ -20,16 +25,13 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { useVolumeStore } from '@/stores/volume';
-const openLyrics = ref(false);
 const toolsStore = useVolumeStore();
 const volume = computed({
     get: () => toolsStore.volume,
     set: (value) => toolsStore.setVolume(value)
 });
-watch(openLyrics, (newValue) => {
-    toolsStore.setopenLyrics(newValue);
-    console.log(newValue);
-})
+
+
 const updateVolume = (value) => {
     toolsStore.setVolume(value);
 };

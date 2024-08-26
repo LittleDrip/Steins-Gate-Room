@@ -22,7 +22,7 @@ const getList = async () => {
     url: "" // 初始值为空
   }));
   ids = songInfo.map((item: any) => item.id); // 使用 map 方法提取所有 idconsole.log(ids);
-  console.log(ids);
+  // console.log(ids);
   const res2 = await getMoreMusicDetail(ids);
 
   // 使用 Promise.all 来并行获取每首歌的 URL
