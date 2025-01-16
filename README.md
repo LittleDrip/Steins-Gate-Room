@@ -1,34 +1,24 @@
-# Steins
+# 石之门聊天室
 
-This template should help get you started developing with Vue 3 in Vite.
+目前还在缓慢更新中...
 
-## Recommended IDE Setup
+想合作开发麻烦联系我 :D
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+![](https://pic1.imgdb.cn/item/67893e69d0e0a243d4f4f9d8.png)
 
-## Type Support for `.vue` Imports in TS
+![](https://pic1.imgdb.cn/item/67893e8dd0e0a243d4f4f9da.png)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+![img](https://files.superbed.cc/store/images/f9/de/67893ec0d0e0a243d4f4f9de.png)
 
-## Customize configuration
+![](https://pic1.imgdb.cn/item/67893ee9d0e0a243d4f4f9e4.png)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+![](https://pic1.imgdb.cn/item/678940c8d0e0a243d4f4f9ee.png)
 
-## Project Setup
+![](https://pic1.imgdb.cn/item/67893f1ed0e0a243d4f4f9e6.png)
 
-```sh
-npm install
-```
+![](https://pic1.imgdb.cn/item/67893f5cd0e0a243d4f4f9e8.png)
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
 
-```sh
-npm run build
-```
-# Steins-Gate-Room
+
