@@ -51,6 +51,9 @@ export const getMoreMusicDetail = (ids: number[]) => {
     return request.get(`/song/url/?id=${idParam}&br=120000`, { params: { cookie: cookie } })
     // http://localhost:3000/song/url/?id=33894312,405998841,2025337662,139764,1973046704&br=120000
 }
+export const getMusicSearchResults = (keywords: string) => {
+    return request.get(`/cloudsearch?keywords=${encodeURIComponent(keywords)}`);
+};
 
 
 

@@ -11,6 +11,7 @@ import { useMusicInfoStore } from '@/stores/MusicInfo';
 import { useStatusInfo } from '@/stores/StatusInfo';
 import chatHistory from '@/components/Aside/chatHistory.vue';
 import About from '@/components/Aside/About.vue';
+import { getMusicSearchResults, getMusicDetail } from '@/api/music';
 const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -33,10 +34,30 @@ const showPage3 = ref(false);
 const isLeaving = ref(false);
 const centerDialogVisible = ref(false)
 const centerDialogVisible2 = ref(false)
+const popoverVisible = ref<{ [key: string]: boolean }>({});
 
 
 const currentTab = ref('playlist');  // 默认选中的标签
 
+const searchKeyword = ref(''); // 新增搜索关键词
+const searchResults = ref([]); // 新增搜索结果
+
+const searchMusic = async () => {
+    if (searchKeyword.value.trim() !== '') {
+        try {
+            const response = await getMusicSearchResults(searchKeyword.value);
+            searchResults.value = response.result.songs.map((song: any) => ({
+                id: song.id,
+                name: song.name,
+                artists: song.ar,
+                album: song.al,
+                duration: song.dt
+            }));
+        } catch (error) {
+            console.error('搜索失败:', error);
+        }
+    }
+};
 
 const setActive = (tab: any) => {
     currentTab.value = tab;
@@ -74,12 +95,71 @@ const AboutMe = () => {
 const handleClose = (done: () => void) => {
     done()
 }
-const formatDuration = (milliseconds: any) => {
+const formatDuration = (milliseconds: number) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = (totalSeconds % 60).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
 }
+
+const addSongToPlaylist = async (song: any) => {
+    try {
+        const response = await getMusicDetail(song.id);
+        const songUrl = response.data[0].url;
+
+        const songInfo = {
+            id: song.id,
+            name: song.name,
+            picUrl: song.album.picUrl || '',
+            author: song.artists[0].name,
+            time: song.duration,
+            url: songUrl
+        };
+        musicInfoStore.addSongToList(songInfo);
+        popoverVisible.value[song.id] = false;
+    } catch (error) {
+        console.error('获取歌曲详细信息失败:', error);
+    }
+};
+
+interface Song {
+    id: number;
+    name: string;
+    album: { picUrl: string };
+    artists: { name: string }[];
+    duration: number;
+}
+
+interface SongInfo {
+    id: number;
+    name: string;
+    picUrl: string;
+    author: string;
+    time: number;
+    url: string;
+}
+
+const playNext = async (song: Song) => {
+    try {
+        const response = await getMusicDetail(song.id);
+        const songUrl = response.data[0].url;
+
+        const songInfo: SongInfo = {
+            id: song.id,
+            name: song.name,
+            picUrl: song.album.picUrl || '',
+            author: song.artists[0].name,
+            time: song.duration,
+            url: songUrl
+        };
+
+        const currentIndex = StatusInfo.currentSongIndex;
+        musicInfoStore.ListInfo.splice(currentIndex + 1, 0, songInfo);
+        popoverVisible.value[song.id] = false;
+    } catch (error) {
+        console.error('获取歌曲详细信息失败:', error);
+    }
+};
 </script>
 
 <template>
@@ -260,11 +340,50 @@ const formatDuration = (milliseconds: any) => {
                 </div>
             </div>
             <div v-if="showDiv2">
-                <div style="text-align: center;line-height: 2em;margin-top: 2em">
-                    <h2>此功能待开发</h2>
-                    <span>请等待更新🍥</span>
-                </div>
+                <div style="text-align: center; line-height: 2em; margin-top: 2em; max-width: 30em;">
+                    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1em;">
+                        <input v-model="searchKeyword" placeholder="输入关键词搜索歌曲" @keyup.enter="searchMusic"
+                            style="padding: 0.5em; border-radius: 0.5em; border: 1px solid #ccc; width: 60%;" />
+                        <button @click="searchMusic"
+                            style="margin-left: 0.5em; padding: 0.5em 1em; border-radius: 0.5em; background-color: #fbca1f; border: none; cursor: pointer;">
+                            搜索
+                        </button>
+                    </div>
+                    <div v-if="searchResults.length > 0">
+                        <ul style="list-style: none; padding: 0;">
+                            <li v-for="song in searchResults" :key="song.id"
+                                style="border-bottom: 1px solid #ddd; padding-bottom: .3em; text-align: left;">
 
+                                <el-popover placement="right" width="auto" trigger="click"
+                                    v-model:visible="popoverVisible[song.id]">
+                                    <template #reference>
+                                        <div style="cursor: pointer;">
+                                            <p style="font-weight: bold;">{{ song.name }}</p>
+                                            <p style="color: #666;">{{ song.artists[0].name }}</p>
+                                            <p style="color: #999; text-align: right;">{{ formatDuration(song.duration)
+                                                }}</p>
+                                        </div>
+                                    </template>
+                                    <div style="display: flex; flex-direction: column; align-items: stretch;">
+                                        <h3 @click="addSongToPlaylist(song)"
+                                            style="   color: black; cursor: pointer;justify-content: center;align-items: center;text-align: center;    ">
+                                            加入播放列表
+                                        </h3>
+                                        <hr style="margin: 1em; border: none; border-top: 1px solid #ddd;">
+                                        <h3 @click="playNext(song)"
+                                            style="   color: black; cursor: pointer;justify-content: center;align-items: center;text-align: center;    ">
+                                            下一首播放
+                                        </h3>
+                                    </div>
+                                </el-popover>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else>
+                        <p>未找到相关歌曲</p>
+                    </div>
+                </div>
             </div>
 
         </el-drawer>

@@ -24,5 +24,10 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
             name: "", picUrl: "", author: "", url: "", time: ""
         };
     }
-    return { ListInfo, currentInfo, setListInfo, removeAll, setCurrentInfo, getCurrentInfo }
+
+    function addSongToList(song: any) {
+        ListInfo.value.push(song);
+    }
+
+    return { ListInfo, currentInfo, setListInfo, removeAll, setCurrentInfo, getCurrentInfo, addSongToList }
 })
