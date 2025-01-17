@@ -4,6 +4,7 @@ import { getMusicDetail } from "@/api/music";
 import { onMounted, ref } from "vue";
 import { useMusicInfoStore } from "@/stores/MusicInfo";
 import { useRoute } from "vue-router";
+import { cacheMusicList, getCachedMusicList } from "@/api/userlist";
 const musicStore = useMusicInfoStore();
 const route = useRoute();
 
@@ -12,29 +13,51 @@ let ids: any = null;
 
 
 const getList = async () => {
+  try {
+    // 先尝试从缓存获取
+    const cachedList = await getCachedMusicList(route.query.id);
+    if (cachedList) {
+
+      ListInfo.value = cachedList;
+      if (ListInfo.value.length > 0) {
+        musicStore.setCurrentInfo(ListInfo.value[0]);
+      }
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  // 缓存不存在,从网易云获取
   let res: any = await getMusicList(route.query.id);
   const songInfo = res.songs.map((song: any) => ({
     id: song.id,
     name: song.name,
     picUrl: song.al.picUrl,
-    author: song.ar[0].name, // 假设作者信息在 ar[0] 中
+    author: song.ar[0].name,
     time: song.dt,
-    url: "" // 初始值为空
+    url: ""
   }));
-  ids = songInfo.map((item: any) => item.id); // 使用 map 方法提取所有 idconsole.log(ids);
-  // console.log(ids);
+
+  ids = songInfo.map((item: any) => item.id);
   const res2 = await getMoreMusicDetail(ids);
 
-  // 使用 Promise.all 来并行获取每首歌的 URL
   const songInfoWithUrl = await Promise.all(
     songInfo.map(async (song: any, index: number) => {
       return { ...song, url: res2.data[index].url };
     })
   );
 
-  ListInfo.value = songInfoWithUrl; // 将处理后的数据赋值给 ref
+  ListInfo.value = songInfoWithUrl;
+  try {
+    // 缓存到后端
+    await cacheMusicList(route.query.id, songInfoWithUrl);
+  } catch (error) {
+    console.error('缓存保存失败:', error);
+  }
+
   if (ListInfo.value.length > 0) {
-    musicStore.setCurrentInfo(ListInfo.value[0]); //第一个歌曲为当前歌曲
+    musicStore.setCurrentInfo(ListInfo.value[0]);
   }
 
 };

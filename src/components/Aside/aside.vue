@@ -16,7 +16,10 @@ const musicInfoStore = useMusicInfoStore();
 const StatusInfo = useStatusInfo();
 import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue';
 import router from '@/router';
+import { useRoute } from 'vue-router';
+import { cacheMusicList } from '@/api/userlist';
 // import { useRoute } from 'vue-router';
+const route = useRoute();
 
 
 const drawer = ref(false);
@@ -116,6 +119,17 @@ const addSongToPlaylist = async (song: any) => {
             url: songUrl
         };
         musicInfoStore.addSongToList(songInfo);
+
+        // 获取当前房间ID
+
+
+        // 更新缓存
+        try {
+            await cacheMusicList(route.query.id, musicInfoStore.ListInfo);
+        } catch (error) {
+            console.error('缓存更新失败:', error);
+        }
+
         popoverVisible.value[song.id] = false;
     } catch (error) {
         console.error('获取歌曲详细信息失败:', error);
@@ -154,7 +168,15 @@ const playNext = async (song: Song) => {
         };
 
         const currentIndex = StatusInfo.currentSongIndex;
+
+
         musicInfoStore.ListInfo.splice(currentIndex + 1, 0, songInfo);
+        // 更新缓存
+        try {
+            await cacheMusicList(route.query.id, musicInfoStore.ListInfo);
+        } catch (error) {
+            console.error('缓存更新失败:', error);
+        }
         popoverVisible.value[song.id] = false;
     } catch (error) {
         console.error('获取歌曲详细信息失败:', error);
