@@ -16,8 +16,24 @@ const route = useRoute();
 let nickname = ref();
 let avatarId = ref<string | null>("");
 let socket: WebSocket;
+let heartbeatInterval: number; // 心跳定时器ID
+const heartbeatTime = 5000; // 心跳间隔时间（30秒）
+const startHeartbeat = () => {
+    // 清除上一个定时器（如果有）
+    clearInterval(heartbeatInterval);
 
+    // 定时发送心跳
+    heartbeatInterval = setInterval(() => {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ type: 'heartbeat', msg: 'ping' }));
+        }
 
+    }, heartbeatTime);
+};
+
+const stopHeartbeat = () => {
+    clearInterval(heartbeatInterval);
+};
 // 用户数量
 let userCount = ref(0);
 
@@ -121,12 +137,16 @@ onActivated(() => {
     // 连接服务器
     socket.onopen = () => {
         // console.log("已连接至服务器");
+        startHeartbeat(); // 启动心跳
     };
 
     // 浏览器接收服务端发送的消息
     socket.onmessage = (msg) => {
         let data = JSON.parse(msg.data);
-        if (data.userlist) {
+        if (data.type === 'heartbeat' && data.msg === 'pong') {
+            console.log("Heartbeat response received.");
+        }
+        else if (data.userlist) {
             // 接收用户列表消息
             userList.value = data.userlist;
             userCount.value = data.userlist.length;
@@ -148,10 +168,12 @@ onActivated(() => {
     // 关闭服务
     socket.onclose = () => {
         // console.log("WebSocket 服务已关闭");
+        stopHeartbeat();
     };
     // 错误事件
     socket.onerror = () => {
         console.log("WebSocket 服务发生错误");
+        stopHeartbeat();
     };
 })
 
@@ -159,8 +181,11 @@ onActivated(() => {
 onDeactivated(() => {
     if (socket) {
         // console.log("离开");
+
         socket.close();
     }
+    stopHeartbeat(); // 停止心跳
+
 })
 // 在路由离开前关闭 WebSocket 连接
 onBeforeRouteLeave((to, from, next) => {
@@ -168,6 +193,8 @@ onBeforeRouteLeave((to, from, next) => {
         // console.log("离开");
         socket.close();
     }
+    stopHeartbeat(); // 停止心跳
+
     next();
 })
 // 日期转换

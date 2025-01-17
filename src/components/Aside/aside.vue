@@ -105,8 +105,28 @@ const formatDuration = (milliseconds: number) => {
     return `${minutes}:${seconds}`;
 }
 
-const addSongToPlaylist = async (song: any) => {
+const addSongToPlaylist = async (song: Song) => {
+    // 检查是否正在处理该歌曲
+    if (isProcessing.value[song.id]) {
+        return;
+    }
+
+    // 检查歌曲是否已存在
+    const isDuplicate = musicInfoStore.ListInfo.some(item => item.name === song.name);
+    console.log(musicInfoStore.ListInfo)
+    if (isDuplicate) {
+        ElMessage({
+            type: 'warning',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 该歌曲已在播放列表中~'
+        });
+        popoverVisible.value[song.id] = false;
+        return;
+    }
     try {
+        // 设置处理标志
+        isProcessing.value[song.id] = true;
         const response = await getMusicDetail(song.id);
         const songUrl = response.data[0].url;
 
@@ -120,9 +140,6 @@ const addSongToPlaylist = async (song: any) => {
         };
         musicInfoStore.addSongToList(songInfo);
 
-        // 获取当前房间ID
-
-
         // 更新缓存
         try {
             await cacheMusicList(route.query.id, musicInfoStore.ListInfo);
@@ -131,8 +148,24 @@ const addSongToPlaylist = async (song: any) => {
         }
 
         popoverVisible.value[song.id] = false;
+        // 添加成功提示
+        ElMessage({
+            type: 'success',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 已添加到播放列表~'
+        });
     } catch (error) {
         console.error('获取歌曲详细信息失败:', error);
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 添加失败，请稍后重试~'
+        });
+    } finally {
+        // 清除处理标志
+        isProcessing.value[song.id] = false;
     }
 };
 
@@ -153,8 +186,32 @@ interface SongInfo {
     url: string;
 }
 
+// 添加防抖控制
+const isProcessing = ref<{ [key: number]: boolean }>({});
+
 const playNext = async (song: Song) => {
+    // 检查是否正在处理该歌曲
+    if (isProcessing.value[song.id]) {
+        return;
+    }
+
+    // 检查歌曲是否已存在
+    const isDuplicate = musicInfoStore.ListInfo.some(item => item.id === song.id);
+
+    if (isDuplicate) {
+        ElMessage({
+            type: 'warning',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 该歌曲已在播放列表中~'
+        });
+        popoverVisible.value[song.id] = false;
+        return;
+    }
+
     try {
+        // 设置处理标志
+        isProcessing.value[song.id] = true;
         const response = await getMusicDetail(song.id);
         const songUrl = response.data[0].url;
 
@@ -178,8 +235,24 @@ const playNext = async (song: Song) => {
             console.error('缓存更新失败:', error);
         }
         popoverVisible.value[song.id] = false;
+        // 添加成功提示
+        ElMessage({
+            type: 'success',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 已添加到下一首播放~'
+        });
     } catch (error) {
         console.error('获取歌曲详细信息失败:', error);
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 添加失败，请稍后重试~'
+        });
+    } finally {
+        // 清除处理标志
+        isProcessing.value[song.id] = false;
     }
 };
 </script>
@@ -333,12 +406,12 @@ const playNext = async (song: Song) => {
                 <div :class="{ active: currentTab === 'playlist' }" @click="showlist(); setActive('playlist')"
                     style="width: 12.5em;">
                     <span :class="{ 'active-border': currentTab === 'playlist' }"
-                        style="font-size: 1.25em; color: #666;">播放列表</span>
+                        style="font-size: 1.25em; color: #666;cursor: pointer;">播放列表</span>
                 </div>
                 <div :class="{ active: currentTab === 'addsong' }" @click="showadd(); setActive('addsong')"
                     style=" margin-left: 1.25em; width: 12.5em;">
                     <span :class="{ 'active-border': currentTab === 'addsong' }"
-                        style="font-size: 1.25em; color: #666;">添加歌曲</span>
+                        style="font-size: 1.25em; color: #666; cursor: pointer;">添加歌曲</span>
                 </div>
             </div>
             <div v-if="showDiv1" style="margin-top: 1.5em;">
