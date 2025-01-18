@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useMusicInfoStore = defineStore('musicInfo', () => {
 
     let ListInfo: any = ref([{ id: "", name: "", picUrl: "", author: "", time: "", url: "" }]);
+    let RequestList: any = ref([]);
     let currentInfo: any = ref({
         id: "", name: "", picUrl: "", author: "", url: "", time: ""
     })
@@ -20,6 +21,7 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
 
     function removeAll() {
         ListInfo.value = [{ id: "", name: "", picUrl: "", author: "", time: "", url: "" }];
+        RequestList.value = [];
         currentInfo.value = {
             name: "", picUrl: "", author: "", url: "", time: ""
         };
@@ -29,5 +31,40 @@ export const useMusicInfoStore = defineStore('musicInfo', () => {
         ListInfo.value.push(song);
     }
 
-    return { ListInfo, currentInfo, setListInfo, removeAll, setCurrentInfo, getCurrentInfo, addSongToList }
+    function addSongToRequestList(song: any) {
+        RequestList.value.push(song);
+    }
+
+    function removeFirstFromRequestList() {
+        if (RequestList.value.length > 0) {
+            return RequestList.value.shift();
+        }
+        return null;
+    }
+
+    function getFirstFromRequestList() {
+        if (RequestList.value.length > 0) {
+            return RequestList.value[0];
+        }
+        return null;
+    }
+
+    function isRequestListEmpty() {
+        return RequestList.value.length === 0;
+    }
+
+    return {
+        ListInfo,
+        RequestList,
+        currentInfo,
+        setListInfo,
+        removeAll,
+        setCurrentInfo,
+        getCurrentInfo,
+        addSongToList,
+        addSongToRequestList,
+        removeFirstFromRequestList,
+        getFirstFromRequestList,
+        isRequestListEmpty
+    }
 })

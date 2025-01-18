@@ -255,6 +255,62 @@ const playNext = async (song: Song) => {
         isProcessing.value[song.id] = false;
     }
 };
+
+const requestSong = async (song: Song) => {
+    // 检查是否正在处理该歌曲
+    if (isProcessing.value[song.id]) {
+        return;
+    }
+
+    try {
+        // 设置处理标志
+        isProcessing.value[song.id] = true;
+        const response = await getMusicDetail(song.id);
+        const songUrl = response.data[0].url;
+
+        const songInfo: SongInfo = {
+            id: song.id,
+            name: song.name,
+            picUrl: song.album.picUrl || '',
+            author: song.artists[0].name,
+            time: song.duration,
+            url: songUrl
+        };
+
+        // 添加到点歌列表
+        musicInfoStore.addSongToRequestList(songInfo);
+
+        // 发送点歌消息到WebSocket
+        const socket = (window as any).chatSocket;
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                type: 'requestSong',
+                song: songInfo,
+                requester: localStorage.getItem("nickName")
+            }));
+        }
+
+        popoverVisible.value[song.id] = false;
+        // 添加成功提示
+        ElMessage({
+            type: 'success',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 点歌成功，将在下一首播放~'
+        });
+    } catch (error) {
+        console.error('获取歌曲详细信息失败:', error);
+        ElMessage({
+            type: 'error',
+            customClass: 'msgInfo',
+            plain: true,
+            message: '🍥 点歌失败，请稍后重试~'
+        });
+    } finally {
+        // 清除处理标志
+        isProcessing.value[song.id] = false;
+    }
+};
 </script>
 
 <template>
@@ -406,12 +462,12 @@ const playNext = async (song: Song) => {
                 <div :class="{ active: currentTab === 'playlist' }" @click="showlist(); setActive('playlist')"
                     style="width: 12.5em;">
                     <span :class="{ 'active-border': currentTab === 'playlist' }"
-                        style="font-size: 1.25em; color: #666;cursor: pointer;">播放列表</span>
+                        style="font-size: 1.25em; color: #666;">播放列表</span>
                 </div>
                 <div :class="{ active: currentTab === 'addsong' }" @click="showadd(); setActive('addsong')"
                     style=" margin-left: 1.25em; width: 12.5em;">
                     <span :class="{ 'active-border': currentTab === 'addsong' }"
-                        style="font-size: 1.25em; color: #666; cursor: pointer;">添加歌曲</span>
+                        style="font-size: 1.25em; color: #666;">添加歌曲</span>
                 </div>
             </div>
             <div v-if="showDiv1" style="margin-top: 1.5em;">
@@ -468,6 +524,11 @@ const playNext = async (song: Song) => {
                                         <h3 @click="playNext(song)"
                                             style="   color: black; cursor: pointer;justify-content: center;align-items: center;text-align: center;    ">
                                             下一首播放
+                                        </h3>
+                                        <hr style="margin: 1em; border: none; border-top: 1px solid #ddd;">
+                                        <h3 @click="requestSong(song)"
+                                            style="   color: black; cursor: pointer;justify-content: center;align-items: center;text-align: center;    ">
+                                            点歌
                                         </h3>
                                     </div>
                                 </el-popover>

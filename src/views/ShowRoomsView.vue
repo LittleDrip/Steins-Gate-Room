@@ -58,7 +58,7 @@ const joinRoom = (roomId: any) => {
       message: '🍥 房间已满~',
     });
     return;
-    return;
+
   }
   setTimeout(() => {
     router.push(`/room?id=${roomId}`);

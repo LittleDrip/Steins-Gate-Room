@@ -3,17 +3,61 @@ import { useChatUsersStore } from '@/stores/ChatUsers';
 import { getAvatarUrlById } from '@/utils/avatarUtils';
 import { useMessageStore } from '@/stores/MessageStore';
 import { useCurrentMessageStore } from '@/stores/CurrentMessageStore';
-import { onMounted, watch, watchEffect } from 'vue';
+import { onMounted, watch, watchEffect, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useVolumeStore } from '@/stores/volume';
-const toolsStore = useVolumeStore();
 import audioSrc from '@/assets/audio/didi.mp3';
 import bo from '@/assets/audio/bo.mp3';
 
+
+interface User {
+    username: string;
+    avatar: string;
+}
+
+const toolsStore = useVolumeStore();
 const route = useRoute();
 const MessageStore = useMessageStore();
 const chatUsersStore = useChatUsersStore();
 const CurrentMessageStore = useCurrentMessageStore();
+
+const selectedUser = ref<User | null>(null);
+const showKickOption = ref(false);
+const kickOptionPosition = ref({ x: 0, y: 0 });
+
+const handleUserClick = (user: User, event: MouseEvent) => {
+    // 只有第一个用户(房主)可以踢人,且不能踢自己
+    if (chatUsersStore.userList[0]?.username === localStorage.getItem("nickName") &&
+        user.username !== localStorage.getItem("nickName")) {
+        selectedUser.value = user;
+        showKickOption.value = true;
+        kickOptionPosition.value = {
+            x: event.clientX,
+            y: event.clientY
+        };
+    }
+};
+
+const handleKickUser = () => {
+    if (selectedUser.value) {
+        // 发送踢人消息
+        const socket = (window as any).chatSocket;
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                type: 'kick',
+                kickedUser: selectedUser.value.username,
+                room: route.query.id
+            }));
+        }
+        showKickOption.value = false;
+    }
+};
+
+// 点击其他地方关闭踢人选项
+const closeKickOption = () => {
+    showKickOption.value = false;
+};
+
 watch(
     () => CurrentMessageStore.audioCount, (newValue, oldValue) => {
         if (audio) {
@@ -52,7 +96,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="UserAvatarList">
+    <div class="UserAvatarList" @click="closeKickOption">
         <div class="UserContainer1">
             <div v-for="(user, index) in chatUsersStore.userList.slice(0, 2)" :key="index"
                 :class="{ 'AvatarDiv1': index === 1, 'AvatarDiv': index === 0, 'oneuser': chatUsersStore.userCount == 1 }">
@@ -64,10 +108,9 @@ onMounted(() => {
                         </div>
                     </transition>
                 </div>
-                <img :src="getAvatarUrlById(user.avatar)" :alt="`User ${user.username}`">
-                <div class="avatarBoxNickBig avatarSmall">{{ user.username }} </div>
-                <!-- 显示用户的当前消息 -->
-
+                <img :src="getAvatarUrlById(user.avatar)" :alt="`User ${user.username}`"
+                    @click.stop="handleUserClick(user, $event)">
+                <div class="avatarBoxNickBig avatarSmall">{{ user.username }}</div>
             </div>
         </div>
         <div class="UserContainer2">
@@ -80,13 +123,18 @@ onMounted(() => {
                         </div>
                     </transition>
                 </div>
-                <img :src="getAvatarUrlById(user.avatar)" :alt="`User ${user.username}`">
+                <img :src="getAvatarUrlById(user.avatar)" :alt="`User ${user.username}`"
+                    @click.stop="handleUserClick(user, $event)">
                 <div class="avatarBoxNick avatarSmall">
-                    <p>{{ user.username }} </p>
+                    <p>{{ user.username }}</p>
                 </div>
-                <!-- 显示用户的当前消息 -->
-
             </div>
+        </div>
+
+        <!-- 踢人选项弹窗 -->
+        <div v-if="showKickOption" class="kick-option"
+            :style="{ left: kickOptionPosition.x + 'px', top: kickOptionPosition.y + 'px' }" @click.stop>
+            <div class="kick-button" @click="handleKickUser">踢出房间</div>
         </div>
     </div>
 </template>
@@ -303,5 +351,26 @@ onMounted(() => {
 .slide-fade-leave-to {
     transform: translateY(20px);
     opacity: 0;
+}
+
+.kick-option {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    padding: 8px;
+    z-index: 1000;
+    transform: translate(-50%, -100%);
+}
+
+.kick-button {
+    color: #fff;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.kick-button:hover {
+    color: #ff4d4f;
 }
 </style>

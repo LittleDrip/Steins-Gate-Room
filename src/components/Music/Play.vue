@@ -111,28 +111,46 @@ const playNextSong = () => {
     return;
   }
   setTimeout(() => {
-    if (isPlaying.value == true) {
-      currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
-      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
-      musicStore.setCurrentInfo(currentInfo.value);
-      StatusInfo.setSongIndex(currentSongIndex.value)
-      audio.currentTime = 0;
-      // console.log(currentInfo.value);
-      audio.play();
+    // 检查点歌列表是否有歌曲
+    const nextRequestSong = musicStore.getFirstFromRequestList();
+    if (nextRequestSong) {
+      // 播放点歌列表中的歌曲
+      if (isPlaying.value == true) {
+        musicStore.removeFirstFromRequestList(); // 从点歌列表中移除
+        audio.src = nextRequestSong.url;
+        musicStore.setCurrentInfo(nextRequestSong);
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        isPlaying.value = true;
+        musicStore.removeFirstFromRequestList(); // 从点歌列表中移除
+        audio.src = nextRequestSong.url;
+        musicStore.setCurrentInfo(nextRequestSong);
+        audio.currentTime = 0;
+        audio.play();
+        emits("FatherClick");
+      }
     } else {
-      isPlaying.value = true;
-      currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
-      audio.src = musicStore.ListInfo[currentSongIndex.value].url;
-      musicStore.setCurrentInfo(currentInfo.value);
-      StatusInfo.setSongIndex(currentSongIndex.value)
-      audio.currentTime = 0;
-      // console.log(currentInfo.value);
-      audio.play();
-      emits("FatherClick");
+      // 点歌列表为空，播放普通播放列表
+      if (isPlaying.value == true) {
+        currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
+        audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+        musicStore.setCurrentInfo(currentInfo.value);
+        StatusInfo.setSongIndex(currentSongIndex.value)
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        isPlaying.value = true;
+        currentSongIndex.value = (currentSongIndex.value + 1) % musicStore.ListInfo.length; // 循环播放
+        audio.src = musicStore.ListInfo[currentSongIndex.value].url;
+        musicStore.setCurrentInfo(currentInfo.value);
+        StatusInfo.setSongIndex(currentSongIndex.value)
+        audio.currentTime = 0;
+        audio.play();
+        emits("FatherClick");
+      }
     }
   }, 50);
-
-
 };
 const playPreviousSong = () => {
   if (!debounceClick()) {
